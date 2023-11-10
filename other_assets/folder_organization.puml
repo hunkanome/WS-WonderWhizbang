@@ -1,0 +1,16 @@
+@startuml
+
+folder WhonderWhizbang
+folder scripts
+folder assets
+
+WhonderWhizbang -- scripts
+WhonderWhizbang -- assets
+
+file index.html
+file logo.png
+
+WhonderWhizbang -- index.html
+assets -- logo.png
+
+@enduml
