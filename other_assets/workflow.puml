@@ -1,0 +1,10 @@
+@startuml
+partition HTML #LightGreen {
+  (*) --> "Recherche d un monument"
+  "Requete AJAX" --> "Affichage du monument"
+}
+
+partition JavaScript #LightSkyBlue {
+  "Recherche d un monument" --> "Requete AJAX"
+}
+@enduml
