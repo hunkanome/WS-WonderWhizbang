@@ -2,13 +2,14 @@
     --button: #000000;
     --header: #ffffff;
     --background: #eeeeee;
-    --article: #d28c60;
+    --article: #faecb7;
     --titre: #d7ebb7;
 }
 
 header {
-    background-color: var(--header);
+    background-color: blue;
     border-bottom: 1px solid lightgray !important;
+    filter: drop-shadow(0 2px 1px gray);
 }
 
 
@@ -19,23 +20,28 @@ header img {
 }
 
 body {
-    background-color: var(--background) !important;
+    background-color: red !important;
 }
 
 /* Bouton "Rechercher" */
 nav button {
-    background-color: var(--button) !important;
+    background-color: green !important;
 }
 
-article {
-    border-radius: 1em;
-    padding: 1em;
-    background-color: var(--article);
-}
-
-article h2 {
+main h2 {
     border-radius: 0.5em;
     padding: 0.1em 0.7em;
-    background-color: var(--titre);
+    background-color: purple;
     width: fit-content;
+    filter: drop-shadow(0 2px 1px gray);
+}
+
+main img {
+    height: 90vh;
+    overflow: hidden;
+}
+
+h2, p {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: yellow;
 }
