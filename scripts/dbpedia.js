@@ -12,10 +12,9 @@
  *  */
 
 async function requestDBpedia(query) {
-    const url = new URL('https://dbpedia.org/sparql');
-    url.searchParams.append('default-graph-uri', 'http://dbpedia.org');
-    url.searchParams.append('format', 'application/sparql-results+json');
-    url.searchParams.append('query', query);
+    const url_base = 'https://dbpedia.org/sparql';
+
+    url = url_base + '?format=json&query=' + encodeURIComponent(query)
 
     const response = await fetch(url);
     const data = await response.json();

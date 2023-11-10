@@ -13,11 +13,13 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="scripts/europeana.js"></script>
+    <script src="scripts/dbpedia.js"></script>
+    <script src="scripts/utils.js"></script>
 </head>
 
 <body>
     <h1>WonderWhizbang</h1>
-    <p> Moteur de recherche dédié au patrimoine mondial de l'UNESCO</p>
+    <p>Moteur de recherche dédié au patrimoine mondial de l'UNESCO</p>
     <input type="text" name="search" class="form-control" placeholder="Rechercher...">
     <button type="button" class="btn btn-primary">Rechercher</button>
 
@@ -35,30 +37,55 @@
     </div>
 
     <script>
-        // Get monument from API using requestSparql
-        // Define the SPARQL query
-        let query = `
-            PREFIX edm: <http://www.europeana.eu/schemas/edm/>
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX ore: <http://www.openarchives.org/ore/terms/>
+        // Get a monument list from DBpedia
+        var query = `
+            PREFIX dbo: <http://dbpedia.org/ontology/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-            SELECT ?item ?title WHERE {
-            ?item edm:object <http://data.europeana.eu/concept/base/48> ;  # 48 is the concept id for 'monument'
-                    dc:title ?title .
-            } 
-            ORDER BY RAND()
-            LIMIT 1
-            `;
+            SELECT ?monument ?monumentLabel WHERE {
+            ?monument a dbo:Monument .
+            ?monument rdfs:label ?monumentLabel .
+            FILTER (lang(?monumentLabel) = "fr")
+            }
+            LIMIT 1000
+        `;
+
 
         // Send the query to the SPARQL endpoint
-        requestSparql(query)
+        requestDBpedia(query)
         .then(data => {
-            // Display the results in the console
+            data = formatResult(data);
             console.log(data);
-            // Display the results in the HTML page
-            // document.querySelector('h2').innerHTML = data.results.bindings[0].title.value;
-        })
-        .catch(error => console.error('Error:', error));
+            // Select randomly a monument from the list and gather a picture and a description
+            var randomMonument = data[Math.floor(Math.random() * data.length)];
+            // var randomMonument = data[1];
+            var monumentURI = randomMonument.monument.value;
+            var monumentName = randomMonument.monumentLabel.value;
+
+            // Get a picture from DBpedia
+            var query = `
+                PREFIX dbo: <http://dbpedia.org/ontology/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+                SELECT ?desc ?picture WHERE {
+                <${monumentURI}> foaf:depiction ?picture .
+                <${monumentURI}> dbo:abstract ?desc .
+                FILTER (lang(?desc) = "fr")
+                }
+                LIMIT 1
+            `;
+
+            requestDBpedia(query)
+            .then(data => {
+                data = formatResult(data);
+                console.log(data);
+                var picture = data[0].picture.value;
+                document.querySelector(".card-img-top").src = picture;
+                document.querySelector(".card-title").innerHTML = monumentName;
+                document.querySelector(".card-text").innerHTML = data[0].desc.value;
+            });
+        });
     </script>
 </body>
 
