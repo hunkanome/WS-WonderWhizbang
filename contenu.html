@@ -6,24 +6,42 @@
     <meta name="description" content="Moteur de recherche dédié au patrimoine mondial de l'UNESCO">
     <meta name="keywords" content="UNESCO, patrimoine, culture">
     <meta name="author" content="Hunkanome">
+    <link rel="stylesheet" href="static/css/styles.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
-        <header class="d-flex p-2 mt-3">
-            <h1 class="me-4">WonderWhizbang</h1>
-            <nav class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Rechercher...">
-                <button type="button" class="btn btn-primary">Rechercher</button>
-            </nav>
-        </header>
-        <main>
-            <p> Moteur de recherche dédié au patrimoine mondial de l'UNESCO</p>
-        </main>
-        <footer>
-            
-        </footer>
-    </div>
+    <header class="container-fluid mb-3">
+        <div class="d-flex py-3 row">
+            <div class="col-4 d-flex">
+                <img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
+                <h1 class="ms-3 mb-0">WonderWhizbang</h1>
+            </div>
+            <div class="offset-4 col-4 d-flex">
+                <nav class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Rechercher...">
+                    <button type="button" class="btn btn-primary">Rechercher</button>
+                </nav>
+            </div>
+        </div>  
+    </header>
+    <main class="container">
+        <div class="row">
+            <article class="col-8 offset-2 row">
+                <div class="col-6">
+                    <h2>Tour Eiffel</h2>
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse venenatis semper efficitur. Morbi sed congue risus. Aliquam non maximus turpis. Curabitur tristique in nunc vitae convallis. Pellentesque elementum nisi ipsum, vel placerat sapien egestas sit amet. Mauris luctus quam justo, a rutrum diam rutrum non. Sed fermentum erat et velit pretium, tincidunt bibendum magna maximus. Sed ac accumsan justo, vitae fermentum erat.
+
+                        Fusce tincidunt, nisi sed porttitor condimentum, felis ligula porta risus, nec auctor mi sem eu felis. Donec at sagittis metus, sed suscipit ex. Maecenas lacus magna, posuere eu posuere vitae, luctus sit amet velit. Ut interdum sollicitudin pellentesque. Morbi vitae auctor tellus. Duis varius libero ultrices odio mattis venenatis. Suspendisse lacus augue, tempor id augue eget, dictum rutrum tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; </p>
+                </div>
+                <div class="col-6 row">
+                    <img src="static/img/tour_eiffel.jpg">
+                </div>
+            </article>
+        </div>
+    </main>
+    <footer>
+        
+    </footer>
 </body>
