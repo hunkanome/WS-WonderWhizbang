@@ -20,4 +20,46 @@
     <p> Moteur de recherche dédié au patrimoine mondial de l'UNESCO</p>
     <input type="text" name="search" class="form-control" placeholder="Rechercher...">
     <button type="button" class="btn btn-primary">Rechercher</button>
+
+    <!-- Random monument each time you refresh the page -->
+    <div> 
+        <h2>Discover This !</h2>
+        <div class="card" style="width: 18rem;">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Monument Name</h5>
+                <p class="card-text">Monument Description</p>
+                <a href="#" class="btn btn-primary">More</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get monument from API using requestSparql
+        // Define the SPARQL query
+        let query = `
+            PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX ore: <http://www.openarchives.org/ore/terms/>
+
+            SELECT ?item ?title WHERE {
+            ?item edm:object <http://data.europeana.eu/concept/base/48> ;  # 48 is the concept id for 'monument'
+                    dc:title ?title .
+            } 
+            ORDER BY RAND()
+            LIMIT 1
+            `;
+
+        // Send the query to the SPARQL endpoint
+        requestSparql(query)
+        .then(data => {
+            // Display the results in the console
+            console.log(data);
+            // Display the results in the HTML page
+            // document.querySelector('h2').innerHTML = data.results.bindings[0].title.value;
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
 </body>
+
+</html>
