@@ -15,6 +15,7 @@
     <script src="scripts/europeana.js"></script>
     <script src="scripts/dbpedia.js"></script>
     <script src="scripts/utils.js"></script>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 
 <body>
@@ -24,17 +25,19 @@
     <button type="button" class="btn btn-primary">Rechercher</button>
 
     <!-- Random monument each time you refresh the page -->
-    <div> 
-        <h2>Discover This !</h2>
-        <div class="card" style="width: 18rem;">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Monument Name</h5>
-                <p class="card-text">Monument Description</p>
-                <a href="#" class="btn btn-primary">More</a>
-            </div>
+    <main class="container">
+        <div class="row">
+            <article class="col-8 offset-2 row">
+                <div class="col-6">
+                    <h2 id="title">Title</h2>
+                    <p id="description">Description</p>
+                </div>
+                <div class="col-6 row">
+                    <img id="picture" src="https://via.placeholder.com/150">
+                </div>
+            </article>
         </div>
-    </div>
+    </main>
 
     <script>
         // Get a monument list from DBpedia
@@ -43,7 +46,7 @@
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
             SELECT ?monumentLabel ?picture ?desc WHERE {
-            ?monument a dbo:Monument .
+            ?monument a dbo:WorldHeritageSite .
             ?monument rdfs:label ?monumentLabel .
             ?monument dbo:abstract ?desc .
             ?monument foaf:depiction ?picture .
@@ -51,7 +54,7 @@
             FILTER (lang(?desc) = "fr") 
             }
             LIMIT 1
-            OFFSET ${Math.floor(Math.random() * 100)}
+            OFFSET ${Math.floor(Math.random() * 1000)}
         `;
 
         // Send the query to the SPARQL endpoint
@@ -59,15 +62,12 @@
         .then(data => {
             data = formatResult(data);
             var monument = data[0];
-            console.log(monument);
             var monumentName = monument.monumentLabel.value;
-            console.log(monumentName);
-
             var picture = data[0].picture.value;
-            document.querySelector(".card-img-top").src = picture;
-            document.querySelector(".card-title").innerHTML = monumentName;
-            document.querySelector(".card-text").innerHTML = data[0].desc.value;
 
+            document.getElementById("picture").src = picture;
+            document.getElementById("title").innerHTML = monumentName;
+            document.getElementById("description").innerHTML = data[0].desc.value;
         });
     </script>
 </body>
