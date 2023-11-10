@@ -42,49 +42,32 @@
             PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-            SELECT ?monument ?monumentLabel WHERE {
+            SELECT ?monumentLabel ?picture ?desc WHERE {
             ?monument a dbo:Monument .
             ?monument rdfs:label ?monumentLabel .
+            ?monument dbo:abstract ?desc .
+            ?monument foaf:depiction ?picture .
             FILTER (lang(?monumentLabel) = "fr")
+            FILTER (lang(?desc) = "fr") 
             }
-            LIMIT 1000
+            LIMIT 1
+            OFFSET ${Math.floor(Math.random() * 100)}
         `;
-
 
         // Send the query to the SPARQL endpoint
         requestDBpedia(query)
         .then(data => {
             data = formatResult(data);
-            console.log(data);
-            // Select randomly a monument from the list and gather a picture and a description
-            var randomMonument = data[Math.floor(Math.random() * data.length)];
-            // var randomMonument = data[1];
-            var monumentURI = randomMonument.monument.value;
-            var monumentName = randomMonument.monumentLabel.value;
+            var monument = data[0];
+            console.log(monument);
+            var monumentName = monument.monumentLabel.value;
+            console.log(monumentName);
 
-            // Get a picture from DBpedia
-            var query = `
-                PREFIX dbo: <http://dbpedia.org/ontology/>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            var picture = data[0].picture.value;
+            document.querySelector(".card-img-top").src = picture;
+            document.querySelector(".card-title").innerHTML = monumentName;
+            document.querySelector(".card-text").innerHTML = data[0].desc.value;
 
-                SELECT ?desc ?picture WHERE {
-                <${monumentURI}> foaf:depiction ?picture .
-                <${monumentURI}> dbo:abstract ?desc .
-                FILTER (lang(?desc) = "fr")
-                }
-                LIMIT 1
-            `;
-
-            requestDBpedia(query)
-            .then(data => {
-                data = formatResult(data);
-                console.log(data);
-                var picture = data[0].picture.value;
-                document.querySelector(".card-img-top").src = picture;
-                document.querySelector(".card-title").innerHTML = monumentName;
-                document.querySelector(".card-text").innerHTML = data[0].desc.value;
-            });
         });
     </script>
 </body>
