@@ -1,17 +1,19 @@
+/* Couleurs */
 :root {
-    --button: #000000;
-    --header: #ffffff;
-    --background: #eeeeee;
-    --article: #faecb7;
+    --button: #000000; /* Bouton "Rechercher" header */
+    --header: #ffffff; /* Fond header */ 
+    --background: #eeeeee; /* Fond page */
+    --article: #faecb7; 
     --titre: #d7ebb7;
 }
 
+/* === HEADER === */
+
 header {
-    background-color: blue;
+    background-color: var(--header);
     border-bottom: 1px solid lightgray !important;
     filter: drop-shadow(0 2px 1px gray);
 }
-
 
 /* Logo */
 header img {
@@ -20,28 +22,60 @@ header img {
 }
 
 body {
-    background-color: red !important;
+    background-color: var(--background) !important;
 }
 
 /* Bouton "Rechercher" */
 nav button {
-    background-color: green !important;
+    background-color: var(--button) !important;
 }
 
+/* === MAIN === */
+
 main h2 {
-    border-radius: 0.5em;
-    padding: 0.1em 0.7em;
-    background-color: purple;
-    width: fit-content;
-    filter: drop-shadow(0 2px 1px gray);
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    /* width: fit-content; */
+}
+
+figure {
+    min-width: 20%;
 }
 
 main img {
-    height: 90vh;
-    overflow: hidden;
+    max-height: 100%;
 }
 
-h2, p {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: yellow;
+article {
+    max-height: 80vh;
+    /* height: 90vh; */
+}
+
+/* === POLICES === */
+
+@font-face {
+    font-family: 'Amagro';
+    src: url("../fonts/Amagro.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'HeptaSlab';
+    src: url("../fonts/HeptaSlab.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url("../fonts/Rubik.woff2") format("woff2");
+}
+
+h1 {
+    font-family: 'Amagro', ' Georgia', 'Times New Roman', Times, serif !important;
+}
+
+h2 {
+    font-family: 'HeptaSlab', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+html * {
+    font-family: 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
