@@ -3,8 +3,10 @@
     --button: #000000; /* Bouton "Rechercher" header */
     --header: #ffffff; /* Fond header */ 
     --background: #eeeeee; /* Fond page */
-    --article: #faecb7; 
-    --titre: #d7ebb7;
+}
+
+body {
+    background-color: var(--background) !important;
 }
 
 /* === HEADER === */
@@ -21,12 +23,22 @@ header img {
     width: 50px;
 }
 
-body {
-    background-color: var(--background) !important;
+
+header nav a {
+    color: black;
+    text-decoration: none;
+
+    font-size: 1.5em;
+    font-family: 'HeptaSlab', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+
+    border-left: 2px solid black;
+    padding: 0 0.5em;;
+    height: fit-content;
+    
 }
 
 /* Bouton "Rechercher" */
-nav button {
+header .input-group button {
     background-color: var(--button) !important;
 }
 
@@ -46,9 +58,8 @@ main img {
     max-height: 100%;
 }
 
-article {
+.bloc-detail {
     max-height: 80vh;
-    /* height: 90vh; */
 }
 
 /* === POLICES === */

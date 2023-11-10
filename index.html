@@ -19,23 +19,35 @@
 </head>
 
 <body>
-    <h1>WonderWhizbang</h1>
-    <p>Moteur de recherche dédié au patrimoine mondial de l'UNESCO</p>
-    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher...">
-    <button type="button" onclick="searchMonument()" class="btn btn-primary">Rechercher</button>
+    <header class="container-fluid sticky-top mb-3">
+        <div class="d-flex py-3 row">
+            <div class="col-4 d-flex">
+                <img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
+                <h1 class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
+            </div>
+            <nav class="col-4 d-flex align-items-center">
+                <a href="index.html">Accueil</a>
+                <a href="contenu.html">Contenu</a>
+            </nav>
+            <div class="col-4 d-flex">
+                <div class="input-group">
+                    <input type="text" id="searchInput" name="search" class="form-control" placeholder="Rechercher...">
+                    <button type="button" onclick=searchMonument() class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+        </div> 
+    </header>
 
     <!-- Resultat -->
     <main class="container">
-        <div class="row">
-            <article class="col-8 offset-2 row">
-                <div class="col-6">
-                    <h2 id="title">Title</h2>
-                    <p id="description">Description</p>
-                </div>
-                <div class="col-6 row">
-                    <img id="picture" src="https://via.placeholder.com/150">
-                </div>
-            </article>
+        <div class="bloc-detail d-flex">
+            <div class="ps-3 pt-3">
+                <h2 id="title">Titre</h2>
+                <p id="description"> Description</p>
+            </div>
+            <figure class="ms-3 pe-0">
+                <img id="picture" src="https://via.placeholder.com/150">
+            </figure>
         </div>
     </main>
 
