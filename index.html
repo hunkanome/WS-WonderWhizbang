@@ -15,6 +15,7 @@
     <script src="scripts/europeana.js"></script>
     <script src="scripts/dbpedia.js"></script>
     <script src="scripts/utils.js"></script>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 
 <body>
@@ -24,17 +25,19 @@
     <button type="button" class="btn btn-primary">Rechercher</button>
 
     <!-- Random monument each time you refresh the page -->
-    <div> 
-        <h2>Discover This !</h2>
-        <div class="card" style="width: 18rem;">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Monument Name</h5>
-                <p class="card-text">Monument Description</p>
-                <a href="#" class="btn btn-primary">More</a>
-            </div>
+    <main class="container">
+        <div class="row">
+            <article class="col-8 offset-2 row">
+                <div class="col-6">
+                    <h2 id="title">Title</h2>
+                    <p id="description">Description</p>
+                </div>
+                <div class="col-6 row">
+                    <img id="picture" src="https://via.placeholder.com/150">
+                </div>
+            </article>
         </div>
-    </div>
+    </main>
 
     <script>
         // Get a monument list from DBpedia
@@ -42,49 +45,29 @@
             PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-            SELECT ?monument ?monumentLabel WHERE {
-            ?monument a dbo:Monument .
+            SELECT ?monumentLabel ?picture ?desc WHERE {
+            ?monument a dbo:WorldHeritageSite .
             ?monument rdfs:label ?monumentLabel .
+            ?monument dbo:abstract ?desc .
+            ?monument foaf:depiction ?picture .
             FILTER (lang(?monumentLabel) = "fr")
+            FILTER (lang(?desc) = "fr") 
             }
-            LIMIT 1000
+            LIMIT 1
+            OFFSET ${Math.floor(Math.random() * 1000)}
         `;
-
 
         // Send the query to the SPARQL endpoint
         requestDBpedia(query)
         .then(data => {
             data = formatResult(data);
-            console.log(data);
-            // Select randomly a monument from the list and gather a picture and a description
-            var randomMonument = data[Math.floor(Math.random() * data.length)];
-            // var randomMonument = data[1];
-            var monumentURI = randomMonument.monument.value;
-            var monumentName = randomMonument.monumentLabel.value;
+            var monument = data[0];
+            var monumentName = monument.monumentLabel.value;
+            var picture = data[0].picture.value;
 
-            // Get a picture from DBpedia
-            var query = `
-                PREFIX dbo: <http://dbpedia.org/ontology/>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
-                SELECT ?desc ?picture WHERE {
-                <${monumentURI}> foaf:depiction ?picture .
-                <${monumentURI}> dbo:abstract ?desc .
-                FILTER (lang(?desc) = "fr")
-                }
-                LIMIT 1
-            `;
-
-            requestDBpedia(query)
-            .then(data => {
-                data = formatResult(data);
-                console.log(data);
-                var picture = data[0].picture.value;
-                document.querySelector(".card-img-top").src = picture;
-                document.querySelector(".card-title").innerHTML = monumentName;
-                document.querySelector(".card-text").innerHTML = data[0].desc.value;
-            });
+            document.getElementById("picture").src = picture;
+            document.getElementById("title").innerHTML = monumentName;
+            document.getElementById("description").innerHTML = data[0].desc.value;
         });
     </script>
 </body>
