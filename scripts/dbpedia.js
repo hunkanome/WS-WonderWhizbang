@@ -1,18 +1,19 @@
 /**
- * Queries the Sparql endpoint of Europeana and returns the results
- * 
+ * Queries the Sparql endpoint of DBpedia and returns the results
  * @param {string} query 
  * @returns 
  * 
  * @example
- * requestEuropeana('select distinct ?Concept where {[] a ?Concept} LIMIT 1')
+ * requestDBpedia('select distinct ?Concept where {[] a ?Concept} LIMIT 1')
  *    .then(data => {
  *       console.log(data);
  *   });
- */
-async function requestEuropeana(query) {
-    const url = new URL('https://sparql.europeana.eu/');
-    url.searchParams.append('default-graph-uri', 'http://data.europeana.eu/');
+ * 
+ *  */
+
+async function requestDBpedia(query) {
+    const url = new URL('https://dbpedia.org/sparql');
+    url.searchParams.append('default-graph-uri', 'http://dbpedia.org');
     url.searchParams.append('format', 'application/sparql-results+json');
     url.searchParams.append('query', query);
 
