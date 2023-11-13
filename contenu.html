@@ -7,6 +7,9 @@
     <meta name="keywords" content="UNESCO, patrimoine, culture">
     <meta name="author" content="Hunkanome">
     <link rel="stylesheet" href="static/css/styles.css"> 
+    <script defer src="scripts/dbpedia.js"></script>
+    <script defer src="static/js/contenu.js"></script>
+    <script defer src="static/js/barreRecherche.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
@@ -24,23 +27,24 @@
             </nav>
             <div class="col-auto d-flex ms-auto ps-0">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Rechercher...">
-                    <button type="button" class="btn">Rechercher</button>
+                    <input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher...">
+                    <button id="searchButton" type="button" class="btn">Rechercher</button>
                 </div>
             </div>
         </div>  
     </header>
 
     <main class="container">
-        <div id="bloc-detail" class="row">
-            <div class="ps-3 pt-3">
-                <h2 id="title">Tour Eiffel</h2>
-                <p id="description"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse venenatis semper efficitur. Morbi sed congue risus. Aliquam non maximus turpis. Curabitur tristique in nunc vitae convallis. Pellentesque elementum nisi ipsum, vel placerat sapien egestas sit amet. Mauris luctus quam justo, a rutrum diam rutrum non. Sed fermentum erat et velit pretium, tincidunt bibendum magna maximus. Sed ac accumsan justo, vitae fermentum erat. Fusce tincidunt, nisi sed porttitor condimentum, felis ligula porta risus, nec auctor mi sem eu felis. Donec at sagittis metus, sed suscipit ex. Maecenas lacus magna, posuere eu posuere vitae, luctus sit amet velit. Ut interdum sollicitudin pellentesque. Morbi vitae auctor tellus. Duis varius libero ultrices odio mattis venenatis. Suspendisse lacus augue, tempor id augue eget, dictum rutrum tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; </p>
+        <article id="bloc-detail" class="row horizontal">
+            <div class="col-6 ps-3 pt-3">
+                <h2 id="title">Titre</h2>
+                <p id="description"> Description</p>
             </div>
-            <figure class="ps-3 pe-0">
-                <img id="picture" src="static/img/tour_eiffel.jpg">
+            <figure class="col-6 ps-3 pe-0">
+                <img id="picture" src="https://via.placeholder.com/150" width="100%">
             </figure>
-        </div>
+        </article>
+    </main>
     <footer>
         
     </footer>
