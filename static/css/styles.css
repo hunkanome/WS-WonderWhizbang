@@ -54,22 +54,34 @@ header .input-group input {
 
 /* === MAIN === */
 
-main h2 {
+#bloc-detail h2 {
     padding-bottom: 5px;
     border-bottom: 1px solid black;
     /* width: fit-content; */
 }
 
-figure {
-    min-width: 20%;
-}
-
-main img {
-    max-height: 100%;
-}
-
 #bloc-detail {
     max-height: 80vh;
+}
+
+section {
+    margin-bottom: 1em;
+}
+
+/* Bouton "Bien aléatoire" */
+#hasard {
+    background-color: var(--button);
+    border-radius: 2em;
+}
+
+#hasard img {
+    width: 3em;
+    filter: invert(99%) sepia(5%) saturate(1143%) hue-rotate(198deg) brightness(118%) contrast(87%);
+}
+
+#hasard span {
+    font-size: 1.5em;
+    color: var(--background);
 }
 
 /* === POLICES === */

@@ -40,15 +40,21 @@
 
     <!-- Resultat -->
     <main class="container">
-        <div id="bloc-detail" class="row">
-            <div class="ps-3 pt-3">
+        <section id="bloc-detail" class="row horizontal">
+            <div class="col-6 ps-3 pt-3">
                 <h2 id="title">Titre</h2>
                 <p id="description"> Description</p>
             </div>
-            <figure class="ps-3 pe-0">
+            <figure class="col-6 ps-3 pe-0">
                 <img id="picture" src="https://via.placeholder.com/150" width="100%">
             </figure>
-        </div>
+        </section>
+        <section class="d-flex">
+            <button id="hasard" class="px-3 py-2 d-flex align-items-center">
+                <span>Bien aléatoire</span>
+                <img class="ps-2" src="static/img/dice.svg">
+            </button>
+        </section>
     </main>
     <script src="scripts/recherche.js"></script>
 </body>
