@@ -1,5 +1,6 @@
 /**
  * Queries the Sparql endpoint of DBpedia and returns the results
+ * 
  * @param {string} query 
  * @returns 
  * 
@@ -8,13 +9,11 @@
  *    .then(data => {
  *       console.log(data);
  *   });
- * 
  *  */
-
 async function requestDBpedia(query) {
-    const url_base = 'https://dbpedia.org/sparql';
-
-    url = url_base + '?format=json&query=' + encodeURIComponent(query)
+    const url = new URL('https://dbpedia.org/sparql');
+    url.searchParams.append('format', 'json')
+    url.searchParams.append('query', query)
 
     const response = await fetch(url);
     const data = await response.json();
