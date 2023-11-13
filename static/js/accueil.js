@@ -1,4 +1,6 @@
 function loadMonument(data) {
+    document.getElementById("duck").style.display = "";
+
     data = formatResult(data);
     var monument = data[0];
     var monumentName = monument.monumentLabel.value;
@@ -10,7 +12,7 @@ function loadMonument(data) {
     titre.innerHTML = monumentName;
     document.getElementById("description").innerHTML = data[0].desc.value;
     var blocDetail = document.getElementById("bloc-detail");
-    
+
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
@@ -21,5 +23,6 @@ function loadMonument(data) {
             titre.parentNode.className = "col-9 ps-3 pe-0";
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
+        document.getElementById("duck").style.display = "none";
     });
 }
