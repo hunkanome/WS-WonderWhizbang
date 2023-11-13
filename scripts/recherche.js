@@ -60,27 +60,4 @@ function searchMonument() {
         });
 }
 
-function loadMonument(data) {
-    data = formatResult(data);
-    var monument = data[0];
-    var monumentName = monument.monumentLabel.value;
-    var picture = data[0].picture.value;
-
-    var img = document.getElementById("picture")
-    img.src = picture;
-    document.getElementById("title").innerHTML = monumentName;
-    document.getElementById("description").innerHTML = data[0].desc.value;
-    var blocDetail = document.getElementById("bloc-detail");
-    
-    img.addEventListener("load", (event) => {
-        if (img.clientWidth > img.clientHeight) {
-            blocDetail.className = "d-flex horizontal";
-            console.log("horizontal");
-        } else {
-            blocDetail.className = "d-flex vertical";
-            console.log("vertical");
-        }
-    });
-}
-
 document.getElementById("searchButton").addEventListener("click", searchMonument); 
