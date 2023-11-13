@@ -11,6 +11,35 @@ SELECT (count(?site) as ?count) WHERE {
 }
 ```
 
+Récupérer les informations d'un site
+/!\ peut être long à charger à cause du foaf:isPrimaryTopicOf je crois
+```sparql
+SELECT * WHERE {
+<http://dbpedia.org/resource/Calanques_de_Piana> a dbo:WorldHeritageSite;
+    rdfs:label ?label.
+
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbo:abstract ?abstract}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> rdfs:comment ?comment}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbo:thumbnail ?thumbnail}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbp:imagecaption ?imagecaption}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> foaf:depiction ?picture}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> geo:lat ?latitude}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> geo:long ?longitude}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> foaf:homepage ?homepage}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbp:website ?homepageAlt}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbp:location ?location}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbp:locmapin ?locationAlt}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> foaf:isPrimaryTopicOf ?wikiPage}.
+OPTIONAL {<http://dbpedia.org/resource/Calanques_de_Piana> dbp:year ?year}.
+
+
+FILTER (lang(?label) = "fr")
+FILTER (lang(?abstract) = "fr")
+FILTER (lang(?comment) = "fr")
+FILTER (lang(?imagecaption) = "fr")
+}
+```
+
 Liste des sites
 ```sparql
 SELECT ?site WHERE {
