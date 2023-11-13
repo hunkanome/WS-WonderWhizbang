@@ -1,4 +1,32 @@
 
+/**
+ * Get the number of World Heritage Sites  subjects in DBPedia
+ * 
+ * @returns {Promise<int|null>} count
+ */
+async function getMonumentCount() {
+    const query = `
+        PREFIX dbo: <http://dbpedia.org/ontology/>
+
+        SELECT (count(?site) as ?count) WHERE {
+            ?site a dbo:WorldHeritageSite .
+        }
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return data.results.bindings[0].count.value;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return null;
+        });
+
+    return result;
+}
+
+
+
 // Get a random monument to initialize the page
 // Define the SPARQL query with the user input
 
@@ -63,6 +91,3 @@ function searchMonument() {
         });
 }
 
-document.getElementById("searchButton").addEventListener("click", searchMonument); 
-document.getElementById("hasard").addEventListener("click", randomMonument); 
-randomMonument();

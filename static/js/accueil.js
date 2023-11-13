@@ -26,3 +26,25 @@ function loadMonument(data) {
         document.getElementById("duck").style.display = "none";
     });
 }
+
+/**
+ * Hydrate the page with the statistics and a random monument
+ * Also set the event listeners
+ * 
+ * @returns {void}
+ */
+function hydratePage() {
+    getMonumentCount().then(count => {
+        document.getElementById("monumentCount").innerText = count;
+    });
+    document.getElementById("searchButton").addEventListener("click", searchMonument);
+    document.getElementById("hasard").addEventListener("click", randomMonument);
+    randomMonument();
+}
+
+// Hydrate the page or prepare the hydration
+if (document.readyState === "complete") {
+    hydratePage();
+} else {
+    window.addEventListener("load", hydratePage);
+}
