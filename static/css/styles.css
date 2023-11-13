@@ -43,7 +43,13 @@ header nav a:hover {
 
 /* Bouton "Rechercher" */
 header .input-group button {
+    border: 2px solid var(--button) !important;
     background-color: var(--button) !important;
+    color: white !important;
+}
+
+header .input-group input {
+    border: 2px solid var(--button) !important;
 }
 
 /* === MAIN === */
