@@ -1,0 +1,6 @@
+{
+    "include": [
+        "scripts/**/*.js",
+        "static/js/**/*.js"
+    ]
+}
