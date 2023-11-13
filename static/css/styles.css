@@ -37,6 +37,10 @@ header nav a {
     
 }
 
+header nav a:hover {
+    font-weight: 500;
+}
+
 /* Bouton "Rechercher" */
 header .input-group button {
     background-color: var(--button) !important;
