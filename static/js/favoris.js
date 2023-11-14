@@ -21,34 +21,6 @@ let messageField = document.getElementById("messageField");
 let clearButton = document.getElementById("btnClearFavorites");
 
 /**
- * Transforme réponse en une liste de monuments chacun ayant une liste d'images
- * @param {Array.<JSON>} response la réponse de la requête SPARQL à DBpedia
- * @returns {Array.<JSON>} la liste des monuments
- */
-function formatResult(response) {
-    let data = response.results.bindings;
-    let header = response.head.vars;
-    let result = [];
-
-    data.forEach(element => {
-        let obj = {};
-        const lastIndex = result.length - 1;
-        if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
-            result[lastIndex].picture.push(element.picture.value);
-        } else {
-            header.forEach(key => {
-                obj[key] = element[key];
-            });
-            obj.picture = [obj.picture.value];
-            result.push(obj);
-        }
-    });
-
-    return result;
-}
-
-
-/**
  * Hydrates the page with information about the favorites
  * Also set the event listeners
  * 
