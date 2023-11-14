@@ -107,14 +107,14 @@ function addOrDeleteFavorite() {
     const texteToast = document.getElementById("texte-toast-favoris");
 
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
-    if (favorites.includes(monument.label)) {
-        favorites.splice(favorites.indexOf(monument.label), 1);
+    if (favorites.includes(monument.uri)) {
+        favorites.splice(favorites.indexOf(monument.uri), 1);
         coeur.src = "static/img/heart-empty.svg";
 
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
     } else {
-        favorites.push(monument.label);
+        favorites.push(monument.uri);
         coeur.src = "static/img/heart-full.svg";
 
         texteToast.innerText = "Monument ajouté aux favoris !";
