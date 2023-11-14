@@ -66,7 +66,9 @@ async function getMonumentByURI(uri) {
     const result = await requestDBpedia(query)
         .then(data => {
             if (data.results.bindings.length > 0) {
-                return formatMonument(data);
+                const monument = formatMonument(data);
+                monument.uri = uri;
+                return monument;
             } else {
                 return null;
             }
@@ -99,6 +101,39 @@ async function getMonumentsByCountry(countryUri) {
             FILTER (lang(?label) = "fr")
         } ORDER BY ?uri
     `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return formatMonuments(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return [];
+        });
+
+    return result;
+}
+
+/**
+ * Search all the monuments with the given text in their label
+ * 
+ * @param {string} text the text to search
+ * @returns {array} monuments
+ */
+async function searchMonumentsByText(text) {
+    const query = `
+        SELECT ?uri ?label ?abstract ?thumbnail ?picture WHERE {
+            ?uri a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            OPTIONAL {?uri dbo:abstract ?abstract}.
+            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+            OPTIONAL {?uri foaf:depiction ?picture}.
+         
+            FILTER (lang(?abstract) = "fr")
+            FILTER (lang(?label) = "fr")
+            FILTER regex(?label, "${text}", "i")
+        } ORDER BY ?label
+        `;
 
     const result = await requestDBpedia(query)
         .then(data => {

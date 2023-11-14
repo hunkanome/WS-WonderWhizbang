@@ -103,7 +103,6 @@ function formatMonuments(queryResult) {
 
     // to avoid duplicate monuments, format each monument individually.
     const monuments = sliceMonumentsArray(data);
-    console.log(monuments);
     monuments.forEach(element => {
         result.push(formatMonument({ results: { bindings: element } }));
     });
