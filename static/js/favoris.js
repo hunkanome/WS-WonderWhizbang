@@ -16,6 +16,11 @@ let resultContainer = document.getElementById("resultContainer");
 let messageField = document.getElementById("messageField");
 
 /**
+ * Bouton d'effacement des favoris
+ */
+let clearButton = document.getElementById("btnClearFavorites");
+
+/**
  * Transforme réponse en une liste de monuments chacun ayant une liste d'images
  * @param {Array.<JSON>} response la réponse de la requête SPARQL à DBpedia
  * @returns {Array.<JSON>} la liste des monuments
@@ -156,8 +161,17 @@ if (favorites) {
                 researchStats.innerHTML = "Une erreur est survenue : " + error;
                 console.error('Error:', error);
             });
-    });s
+    });
 } else {
     console.log("Aucun favori enregistré");
     messageField.innerHTML = "Aucun favori enregistré";
 }
+
+/**
+ * 
+ */
+clearButton.addEventListener("click", () => {
+    localStorage.removeItem("favorites");
+    resultContainer.innerHTML = "";
+    messageField.innerHTML = "Aucun favori enregistré";
+});
