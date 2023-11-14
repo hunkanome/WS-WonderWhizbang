@@ -130,6 +130,7 @@ function createCard(imgSrc, title, description) {
     let goal = window.location.href.split("/");
     goal.pop()
     goal.push("contenu.html?monumentName=" + title.replace(/ /g, "_"));
+
     /**
      * URL de la page du monument
      * @type {string}
