@@ -187,13 +187,13 @@ function searchAllMonument() {
             let result = formatResult(data);
             console.log(result);
             result.forEach( element => {
-                fetch(element.thumbnail[0], {mode: "no-cors"})
+                fetch(element.thumbnail[0], {method: "HEAD", mode: "no-cors"})
                 .then(response => {
                     if (response.ok) {
                     console.log('Thumbnail URL is valid');
                     resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
                     } else {
-                        console.log('Thumbnail URL is INvalid');
+                        console.log('Thumbnail URL is INvalid for : ' + element.monumentLabel.value);
                         resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
                     }
                 })
