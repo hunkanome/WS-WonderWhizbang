@@ -69,17 +69,17 @@ section {
 }
 
 /* Bouton "Bien aléatoire" */
-#hasard {
+#random-btn {
     background-color: var(--button);
     border-radius: 2em;
 }
 
-#hasard img {
+#random-btn img {
     width: 3em;
     filter: invert(99%) sepia(5%) saturate(1143%) hue-rotate(198deg) brightness(118%) contrast(87%);
 }
 
-#hasard span {
+#random-btn span {
     font-size: 1.5em;
     color: var(--background);
 }

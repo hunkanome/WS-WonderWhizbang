@@ -1,39 +1,78 @@
-function loadMonument(data) {
-    data = formatResult(data);
-    var monument = data[0];
-    var monumentName = monument.monumentLabel.value;
-    var picture = data[0].picture.value;
+/**
+ * Event listener for resizing the image when loaded
+ * 
+ * @param {Event} event 
+ */
+function resizeImage(event) {
+    const image = event.target;
+    const blocDetail = document.getElementById("bloc-detail");
+    const titre = document.getElementById("title");
 
-    document.getElementById("duck").style.display = "";
-    var atw = new Audio("static/audio/aroundtheworld-long.mp3");
+    image.style.display = "";
+    if (image.clientWidth > image.clientHeight) {
+        blocDetail.className = "row horizontal";
+        titre.parentNode.className = "col-6 ps-3 pe-0";
+        image.parentNode.className = "col-6 ps-3 pt-3";
+    } else {
+        blocDetail.className = "row vertical";
+        titre.parentNode.className = "col-9 ps-3 pe-0";
+        image.parentNode.className = "col-3 ps-3 pt-3";
+    }
 
-    var img = document.getElementById("picture");
-    img.src = picture;
-    img.style.display = "none";
-    var titre = document.getElementById("title");
-    titre.innerHTML = monumentName;
-    document.getElementById("description").innerHTML = data[0].desc.value;
-    var blocDetail = document.getElementById("bloc-detail");
+    const loadingGif = document.getElementById("loading-gif");
+    loadingGif.style.display = "none";
+}
 
-    img.addEventListener("load", (event) => {
-        img.style.display = "";
-        if (img.clientWidth > img.clientHeight) {
-            blocDetail.className = "row horizontal";
-            titre.parentNode.className = "col-6 ps-3 pe-0";
-            img.parentNode.className = "col-6 ps-3 pt-3";
-        } else {
-            blocDetail.className = "row vertical";
-            titre.parentNode.className = "col-9 ps-3 pe-0";
-            img.parentNode.className = "col-3 ps-3 pt-3";
-        }
-        document.getElementById("duck").style.display = "none";
-        atw.pause()
-    });
+/**
+ * Event listener for setting the default image when the image is not loaded
+ * 
+ * @param {Event} event 
+ */
+function loadDefaultImage(event) {
+    const image = event.target;
+    image.src = "static/img/unesco.png";
+    image.style.display = "";
 
-    img.addEventListener("error", (event) => {
-        atw.volume = 0.1;
-        atw.play();
-    });
+    const loadingGif = document.getElementById("loading-gif");
+    loadingGif.style.display = "none";
+}
+
+/**
+ * Display the choosen random monument in the page
+ * 
+ * @param {object} monument 
+ */
+function displayRandomMonument(monument) {
+    const loadingGif = document.getElementById("loading-gif");
+    loadingGif.style.display = "";
+
+    const image = document.getElementById("picture");
+    image.src = monument.thumbnail;
+    image.style.display = "none";
+
+    const title = document.getElementById("title");
+    title.innerText = monument.label;
+
+    const description = document.getElementById("description");
+    description.innerText = monument.abstract;
+
+    const blocDetail = document.getElementById("bloc-detail");
+    image.addEventListener("load", resizeImage);
+    image.addEventListener("error", loadDefaultImage);
+}
+
+/**
+ * Update the page with a random monument
+ */
+function changeRandomMonument() {
+    getRandomMonument()
+        .then(data => {
+            displayRandomMonument(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Une erreur est survenue lors de la récupération du monument aléatoire");
+        });
 }
 
 /**
@@ -44,11 +83,14 @@ function loadMonument(data) {
  */
 function hydratePage() {
     getMonumentCount().then(count => {
-        document.getElementById("monumentCount").innerText = count;
+        const countElement = document.getElementById("monumentCount");
+        countElement.innerText = count;
     });
-    document.getElementById("searchButton").addEventListener("click", searchMonument);
-    document.getElementById("hasard").addEventListener("click", randomMonument);
-    randomMonument();
+    const searchButton = document.getElementById("searchButton");
+    searchButton.addEventListener("click", searchMonument);
+    const randomButton = document.getElementById("random-btn");
+    randomButton.addEventListener("click", changeRandomMonument);
+    changeRandomMonument();
 }
 
 // Hydrate the page or prepare the hydration

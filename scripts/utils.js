@@ -83,7 +83,7 @@ function formatMonument(queryResult) {
         result.homepage = getValue(data[0].homepageAlt);
     }
 
-    result.location = getValuesArray(data, 'location');
+    result.locations = getValuesArray(data, 'location');
     result.year = getValue(data[0].year);
     result.wikiPage = getValue(data[0].wikiPage);
 
