@@ -11,12 +11,12 @@
  * Ligne de la grille Bootstrap contenant les cartes
  * @type {HTMLDivElement}
  */
-let resultContainer = document.getElementById("resultContainer");
+const resultContainer = document.getElementById("resultContainer");
 
 /**
  * Élément contenant des statistiques sur la recherche
  */
-let statsRecherche = document.getElementById("stats");
+const statsRecherche = document.getElementById("stats");
 
 /**
  * Parametres de l'url
@@ -36,15 +36,6 @@ const champRecherche = document.getElementById('searchInput');
  */
 let texteRecherche = urlParameters.get('recherche');
 
-
-
-if (texteRecherche) {
-    texteRecherche = texteRecherche.replace(/_/g, " ");
-    champRecherche.value = texteRecherche;
-    searchAllMonument();
-} else {
-    console.log("Aucun texte de recherche renseigné");
-}
 
 /**
  * Transforme réponse en une liste de monuments chacun ayant une liste d'images
@@ -74,88 +65,88 @@ function formatResult(response) {
     return result;
 }
 
-/**
- * Prend des informations sur un monument et crée sa carte Bootstrap
- * @param {string} imgSrc le lien vers l'image du monument
- * @param {string} title le nom du monument
- * @param {string} description la description du monument
- * @returns {HTMLDivElement} la carte du monument
- */
-function createCard(imgSrc, title, description) {
-    /**
-     * Colonne de la grille Bootstrap contenant la carte
-     * @type {HTMLDivElement}
-     */
-    const col = document.createElement("div");
-    col.className = "col";
+// /**
+//  * Prend des informations sur un monument et crée sa carte Bootstrap
+//  * @param {string} imgSrc le lien vers l'image du monument
+//  * @param {string} title le nom du monument
+//  * @param {string} description la description du monument
+//  * @returns {HTMLDivElement} la carte du monument
+//  */
+// function createCard(imgSrc, title, description) {
+//     /**
+//      * Colonne de la grille Bootstrap contenant la carte
+//      * @type {HTMLDivElement}
+//      */
+//     const col = document.createElement("div");
+//     col.className = "col";
 
-    /**
-     * Carte du monument
-     * @type {HTMLDivElement}
-     */
-    const card = document.createElement("div");
-    card.className = "card shadow-sm";
+//     /**
+//      * Carte du monument
+//      * @type {HTMLDivElement}
+//      */
+//     const card = document.createElement("div");
+//     card.className = "card shadow-sm";
 
-    /**
-     * Image du monument
-     * @type {HTMLImageElement}
-     */
-    let img = document.createElement("img");
-    img.className = "card-img-top";
-    img.src = imgSrc;
-    img.alt = title;
+//     /**
+//      * Image du monument
+//      * @type {HTMLImageElement}
+//      */
+//     let img = document.createElement("img");
+//     img.className = "card-img-top";
+//     img.src = imgSrc;
+//     img.alt = title;
 
-    /**
-     * Corps de la carte
-     * @type {HTMLDivElement}
-     */
-    let cardBody = document.createElement("div");
-    cardBody.className = "card-body";
+//     /**
+//      * Corps de la carte
+//      * @type {HTMLDivElement}
+//      */
+//     let cardBody = document.createElement("div");
+//     cardBody.className = "card-body";
 
-    /**
-     * Nom du monument
-     * @type {HTMLHeadingElement}
-     */
-    let cardTitle = document.createElement("h5");
-    cardTitle.className = "card-title";
-    cardTitle.innerHTML = title;
+//     /**
+//      * Nom du monument
+//      * @type {HTMLHeadingElement}
+//      */
+//     let cardTitle = document.createElement("h5");
+//     cardTitle.className = "card-title";
+//     cardTitle.innerHTML = title;
 
-    /** 
-     * Description du monument
-     * @type {HTMLParagraphElement}
-     */
-    let cardText = document.createElement("p");
-    cardText.className = "card-text";
-    cardText.innerHTML = description;
+//     /** 
+//      * Description du monument
+//      * @type {HTMLParagraphElement}
+//      */
+//     let cardText = document.createElement("p");
+//     cardText.className = "card-text";
+//     cardText.innerHTML = description;
 
-    let goal = window.location.href.split("/");
-    goal.pop()
-    goal.push("contenu.html?monumentName=" + title.replace(/ /g, "_"));
+//     let goal = window.location.href.split("/");
+//     goal.pop()
+//     goal.push("contenu.html?monumentName=" + title.replace(/ /g, "_"));
 
-    /**
-     * URL de la page du monument
-     * @type {string}
-     */
-    const monumentUrl = goal.join("/");
+//     /**
+//      * URL de la page du monument
+//      * @type {string}
+//      */
+//     const monumentUrl = goal.join("/");
 
-    /**
-     * Lien vers la page du monument
-     * @type {HTMLAnchorElement}
-     */
-    let cardLink = document.createElement("a");
-    cardLink.className = "stretched-link";
-    cardLink.target = "_blank";
-    cardLink.href = monumentUrl;
+//     /**
+//      * Lien vers la page du monument
+//      * @type {HTMLAnchorElement}
+//      */
+//     let cardLink = document.createElement("a");
+//     cardLink.className = "stretched-link";
+//     cardLink.target = "_blank";
+//     cardLink.href = monumentUrl;
 
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardText);
-    card.appendChild(img);
-    card.appendChild(cardBody);
-    card.appendChild(cardLink);
-    col.appendChild(card);
+//     cardBody.appendChild(cardTitle);
+//     cardBody.appendChild(cardText);
+//     card.appendChild(img);
+//     card.appendChild(cardBody);
+//     card.appendChild(cardLink);
+//     col.appendChild(card);
 
-    return col;
-}
+//     return col;
+// }
 
 /**
  * Envoie une requête SPARQL à DBpedia pour obtenir tous les monuments correspondant à la recherche
@@ -234,3 +225,111 @@ function checkIfImageExists(url, callback) {
     console.log(callback)
 }
 
+/**
+ * Create a new card element for a monument and return it
+ * 
+ * @param {object} monument the monument to add to the page
+ * @returns {HTMLElement} the card element
+ */
+function createCard(monument) {
+    const colElement = document.createElement("div");
+    colElement.className = "col";
+
+    const cardElement = document.createElement("div");
+    cardElement.className = "card shadow-sm";
+    colElement.appendChild(cardElement);
+
+    const imageElement = document.createElement("img");
+    imageElement.className = "card-img-top";
+    let imageSrc = monument.thumbnail;
+    if (imageSrc === undefined || imageSrc === null) {
+        if (monument.pictures.length > 0) {
+            imageSrc = monument.pictures[0];
+        } else {
+            imageSrc = "static/img/unesco.png";
+        }
+    }
+    // TODO : en cas d'erreur au chargement (onload), mettre l'image par défaut UNESCO
+    imageElement.src = imageSrc;
+    imageElement.alt = monument.label;
+    cardElement.appendChild(imageElement);
+
+    const cardBodyElement = document.createElement("div");
+    cardBodyElement.className = "card-body";
+    cardElement.appendChild(cardBodyElement);
+
+    const cardTitleElement = document.createElement("h5");
+    cardTitleElement.className = "card-title";
+    cardTitleElement.innerText = monument.label;
+    cardBodyElement.appendChild(cardTitleElement);
+
+    const cardDescriptionElement = document.createElement("p");
+    cardDescriptionElement.className = "card-text";
+    cardDescriptionElement.innerText = monument.abstract;
+    cardBodyElement.appendChild(cardDescriptionElement);
+
+    const contentPageUrl = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
+
+    const cardLinkElement = document.createElement("a");
+    cardLinkElement.className = "stretched-link";
+    cardLinkElement.href = contentPageUrl;
+    cardElement.appendChild(cardLinkElement);
+
+    return colElement;
+}
+
+/**
+ * Add the card to the page, in the result container
+ * 
+ * @param {HTMLElement} card the card to add to the page
+ * @returns {void}
+ */
+function addCard(card) {
+    const container = document.getElementById("resultContainer");
+    container.appendChild(card);
+}
+
+/**
+ * Hydrate the page with the statistics and a random monument
+ * Also set the event listeners
+ * 
+ * @returns {void}
+ */
+function hydratePage() {
+    const params = new URLSearchParams(document.location.search);
+    const searchTerm = params.get("search");
+    if (searchTerm === null || searchTerm === "") {
+        alert("Aucun terme de recherche n'a été spécifié");
+        // TODO : afficher une erreur sur la page
+    }
+    const searchInput = document.getElementById("searchInput");
+    searchInput.value = searchTerm;
+
+    const startTime = new Date().getTime();
+    searchMonumentsByTerm(searchTerm)
+        .then(monuments => {
+            console.log(monuments);
+            monuments.forEach(monument => {
+                const card = createCard(monument);
+                addCard(card);
+            });
+
+            const statsElement = document.getElementById("stats");
+            const timespan = new Date().getTime() - startTime;
+            if (monuments.length === 0) {
+                statsElement.innerText = `Aucun résultat pour "${searchTerm}"`;
+            } else {
+                statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${searchTerm}" en ${timespan} ms`;
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+// Hydrate the page or prepare the hydration
+if (document.readyState === "complete") {
+    hydratePage();
+} else {
+    window.addEventListener("load", hydratePage);
+}

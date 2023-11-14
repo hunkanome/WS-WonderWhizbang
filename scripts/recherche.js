@@ -115,12 +115,12 @@ async function getMonumentsByCountry(countryUri) {
 }
 
 /**
- * Search all the monuments with the given text in their label
+ * Search all the monuments with the given term in their label
  * 
- * @param {string} text the text to search
+ * @param {string} term the term to search
  * @returns {array} monuments
  */
-async function searchMonumentsByText(text) {
+async function searchMonumentsByTerm(term) {
     const query = `
         SELECT ?uri ?label ?abstract ?thumbnail ?picture WHERE {
             ?uri a dbo:WorldHeritageSite;
@@ -131,7 +131,7 @@ async function searchMonumentsByText(text) {
          
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
-            FILTER regex(?label, "${text}", "i")
+            FILTER regex(?label, "${term}", "i")
         } ORDER BY ?label
         `;
 
