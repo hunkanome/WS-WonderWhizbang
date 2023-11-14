@@ -64,9 +64,6 @@ if (monumentName) {
 function searchMonument() {
     // Define the SPARQL query with the user input
     var query = `
-                PREFIX dbo: <http://dbpedia.org/ontology/>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
                 SELECT ?monumentLabel ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
@@ -100,7 +97,7 @@ function loadMonument(data) {
 
     titre.innerHTML = monument.monumentLabel.value;
     description.innerHTML = monument.desc.value;
-    
+
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";

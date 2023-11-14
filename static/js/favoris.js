@@ -32,7 +32,7 @@ function formatResult(response) {
 
     data.forEach(element => {
         let obj = {};
-        const lastIndex = result.length -1;
+        const lastIndex = result.length - 1;
         if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
             result[lastIndex].picture.push(element.picture.value);
         } else {
@@ -137,9 +137,7 @@ resultContainer.innerHTML = "";
 let favorites = JSON.parse(localStorage.getItem("favorites"));
 if (favorites) {
     favorites.forEach(element => {
-        let query = `PREFIX dbo: <http://dbpedia.org/ontology/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
+        let query = `
                     SELECT ?monumentLabel ?picture ?desc WHERE {
                     ?monument a dbo:WorldHeritageSite .
                     ?monument rdfs:label ?monumentLabel .
@@ -153,7 +151,7 @@ if (favorites) {
             .then(data => {
                 console.log(data);
                 let k = formatResult(data);
-                k.forEach( element => {
+                k.forEach(element => {
                     resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
                 })
             })
