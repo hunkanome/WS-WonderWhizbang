@@ -63,10 +63,20 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  * @param {JSON} data 
  */
 function loadMonument(monument) {
+    console.log(monument);
     img.src = monument.pictures[0];
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
+    let active = true;
+    monument.pictures.forEach(image => {
+        if(active) {
+            carousel.innerHTML += "<div class='carousel-item active'><img src=" + image + " class=d-block></div>";
+            active = false;
+        } else {
+            carousel.innerHTML += "<div class=carousel-item><img src=" + image + " class=d-block></div>";
+        }
+    })
 
     /**
      * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
