@@ -57,10 +57,29 @@ if (monumentName) {
     titre.className = "bg-danger";
 }
 
+
+/**
+ * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
+ */
+
+let favorites = localStorage.getItem("favorites");
+if (favorites) {
+    favorites = JSON.parse(favorites);
+} else {
+    favorites = [];
+}
+let coeur = document.getElementById("coeur");
+
+if (favorites.includes(monumentName)) {
+    coeur.src = "static/img/heart-full.svg";
+} else {
+    coeur.src = "static/img/heart-empty.svg";
+}
+
 /**
  * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
  */
-boutonFavorites.addEventListener("click", addFavorite);
+boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 
 /**
  * Envoie une requête SPARQL à DBpedia pour récupérer les informations d'un monument
@@ -116,12 +135,10 @@ function loadMonument(data) {
     });
 }
 
-/**
- * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
- * 
+/** 
+ * Ajoute un article aux favoris ou le supprime quand on appuie sur le bouton coeur
  */
-function addFavorite() {
-    console.log("addFavorite");
+function addOrDeleteFavorite() {
     let favorites = localStorage.getItem("favorites");
     if (favorites) {
         favorites = JSON.parse(favorites);
@@ -130,35 +147,13 @@ function addFavorite() {
     }
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
     if (favorites.includes(monumentName)) {
-        alert("Ce monument est déjà dans vos favoris !");
-        return;
-    } else {
-        favorites.push(monumentName);
-        alert("Monument ajouté aux favoris !");
-    }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-}
-
-/**
- * Supprime un article des favoris quand on appuie sur le bouton deleteFavorite
- * @param {string} name
- */
-function deleteFavorite(name) {
-    console.log("deleteFavorite");
-    let favorites = localStorage.getItem("favorites");
-    if (favorites) {
-        favorites = JSON.parse(favorites);
-    } else {
-        favorites = [];
-        return;
-    }
-    // Si le monument est dans les favoris, on le supprime
-    if (favorites.includes(name)) {
-        favorites.slice(favorites.indexOf(name), 1);
+        favorites.splice(favorites.indexOf(monumentName), 1);
+        coeur.src = "static/img/heart-empty.svg";
         alert("Monument supprimé des favoris !");
     } else {
-        alert("Ce monument n'est pas dans vos favoris !");
-        return;
+        favorites.push(monumentName);
+        coeur.src = "static/img/heart-full.svg";
+        alert("Monument ajouté aux favoris !");
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
