@@ -1,19 +1,22 @@
 function loadMonument(data) {
-    document.getElementById("duck").style.display = "";
-
     data = formatResult(data);
     var monument = data[0];
     var monumentName = monument.monumentLabel.value;
     var picture = data[0].picture.value;
 
+    document.getElementById("duck").style.display = "";
+    var atw = new Audio("static/audio/aroundtheworld-long.mp3");
+
     var img = document.getElementById("picture");
     img.src = picture;
+    img.style.display = "none";
     var titre = document.getElementById("title");
     titre.innerHTML = monumentName;
     document.getElementById("description").innerHTML = data[0].desc.value;
     var blocDetail = document.getElementById("bloc-detail");
 
     img.addEventListener("load", (event) => {
+        img.style.display = "";
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
             titre.parentNode.className = "col-6 ps-3 pe-0";
@@ -24,6 +27,12 @@ function loadMonument(data) {
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
         document.getElementById("duck").style.display = "none";
+        atw.pause()
+    });
+
+    img.addEventListener("error", (event) => {
+        atw.volume = 0.1;
+        atw.play();
     });
 }
 
