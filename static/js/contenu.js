@@ -134,5 +134,29 @@ function addFavorite() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
+/**
+ * Supprime un article des favoris quand on appuie sur le bouton deleteFavorite
+ * @param {string} name
+ */
+function deleteFavorite(name) {
+    console.log("deleteFavorite");
+    let favorites = localStorage.getItem("favorites");
+    if (favorites) {
+        favorites = JSON.parse(favorites);
+    } else {
+        favorites = [];
+        return;
+    }
+    // Si le monument est dans les favoris, on le supprime
+    if (favorites.includes(name)) {
+        favorites.splice(favorites.indexOf(name), 1);
+        alert("Monument supprimé des favoris !");
+    } else {
+        alert("Ce monument n'est pas dans vos favoris !");
+        return;
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
 // Si l'utilisateur clique sur le bouton de favoris, on appelle la fonction addFavorite
 boutonFavorites.addEventListener("click", addFavorite);
