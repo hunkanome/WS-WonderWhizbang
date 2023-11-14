@@ -7,7 +7,9 @@
 async function getMonumentCount() {
     const query = `
         SELECT (count(?site) as ?count) WHERE {
-            ?site a dbo:WorldHeritageSite .
+            ?site a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            FILTER (lang(?label) = "fr")
         }
     `;
 
@@ -94,6 +96,7 @@ async function getMonumentsByCountry(countryUri) {
             OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
          
             FILTER (lang(?abstract) = "fr")
+            FILTER (lang(?label) = "fr")
         } ORDER BY ?uri
     `;
 
@@ -104,6 +107,40 @@ async function getMonumentsByCountry(countryUri) {
         .catch(error => {
             console.error('Error:', error);
             return [];
+        });
+
+    return result;
+}
+
+/**
+ * Retrieve a random monument from DBpedia
+ * 
+ * @returns {object|null} monument
+ */
+async function getRandomMonument() {
+    const count = await getMonumentCount();
+    const offset = Math.floor(Math.random() * count);
+    const query = `
+        SELECT ?uri ?label ?abstract ?thumbnail WHERE {
+            ?uri a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            OPTIONAL {?uri dbo:abstract ?abstract}.
+            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+         
+            FILTER (lang(?abstract) = "fr")
+            FILTER (lang(?label) = "fr")
+        } ORDER BY ?uri
+        LIMIT 1
+        OFFSET ${offset}
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return formatMonument(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return null;
         });
 
     return result;
