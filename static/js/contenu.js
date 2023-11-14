@@ -86,16 +86,19 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 function searchMonument() {
     // Define the SPARQL query with the user input
     var query = `
-                SELECT ?monumentLabel ?picture ?desc WHERE {
+                SELECT ?monumentLabel ?picture ?desc ?latitude ?longitude WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
                 ?monument dbo:abstract ?desc .
                 ?monument foaf:depiction ?picture .
+                OPTIONAL {?monument geo:lat ?latitude}.
+                OPTIONAL {?monument geo:long ?longitude}.
                 FILTER (lang(?monumentLabel) = "fr")
                 FILTER (lang(?desc) = "fr") 
                 FILTER regex(?monumentLabel, "${monumentName}", "i")
                 }
                 LIMIT 1
+                
             `;
     console.log(query);
     // Send the query to the SPARQL endpoint
@@ -117,8 +120,12 @@ function loadMonument(data) {
     const monument = data[0];
     img.src = monument.picture.value;
 
+    console.log(monument);
+
     titre.innerHTML = monument.monumentLabel.value;
     description.innerHTML = monument.desc.value;
+
+    createMap([monument.latitude.value, monument.longitude.value]);
 
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
@@ -154,4 +161,14 @@ function addOrDeleteFavorite() {
         alert("Monument ajouté aux favoris !");
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function createMap(coords) {
+    var map = L.map('map').setView(coords, 5);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    let marker = L.marker(coords).addTo(map);
+    marker.bindPopup(monumentName).openPopup();
 }

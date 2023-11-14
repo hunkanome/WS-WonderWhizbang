@@ -131,6 +131,11 @@ section {
     margin-right: 1em;
 }
 
+/* Carte */
+#map {
+    height: 50vh;
+}
+
 
 /* === POLICES === */
 
