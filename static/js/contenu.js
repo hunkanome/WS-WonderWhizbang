@@ -72,8 +72,6 @@ let coeur = document.getElementById("coeur");
 
 if (favorites.includes(monumentName)) {
     coeur.src = "static/img/heart-full.svg";
-} else {
-    coeur.src = "static/img/heart-empty.svg";
 }
 
 /**
