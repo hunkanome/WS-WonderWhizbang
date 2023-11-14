@@ -58,6 +58,11 @@ if (monumentName) {
 }
 
 /**
+ * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
+ */
+boutonFavorites.addEventListener("click", addFavorite);
+
+/**
  * Envoie une requête SPARQL à DBpedia pour récupérer les informations d'un monument
  * Ensuite appelle une fonction pour afficher le monument
  */
@@ -157,6 +162,3 @@ function deleteFavorite(name) {
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-
-// Si l'utilisateur clique sur le bouton de favoris, on appelle la fonction addFavorite
-boutonFavorites.addEventListener("click", addFavorite);
