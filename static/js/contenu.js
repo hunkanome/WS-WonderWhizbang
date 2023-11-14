@@ -150,15 +150,25 @@ function addOrDeleteFavorite() {
     } else {
         favorites = [];
     }
+
+
+    const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast-favoris"));
+    const texteToast = document.getElementById("texte-toast-favoris");
+
+
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
     if (favorites.includes(monumentName)) {
         favorites.splice(favorites.indexOf(monumentName), 1);
         coeur.src = "static/img/heart-empty.svg";
-        alert("Monument supprimé des favoris !");
+
+        texteToast.innerText = "Monument supprimé des favoris !";
+        toast.show();
     } else {
         favorites.push(monumentName);
         coeur.src = "static/img/heart-full.svg";
-        alert("Monument ajouté aux favoris !");
+
+        texteToast.innerText = "Monument ajouté aux favoris !";
+        toast.show();
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
