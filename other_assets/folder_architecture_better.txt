@@ -1,0 +1,30 @@
+WhonderWhizbang/
+|-- scripts/
+|   |-- dbpedia.js
+|   |-- recherche.js
+|   |-- utils.js
+|-- static/
+|   |-- audio/
+|   |   |-- aroundtheworld_long.mp3
+|   |   |-- aroundtheworld.mp3
+|   |-- css/
+|   |   |-- resultats.css
+|   |   |-- styles.css
+|   |-- fonts/
+|   |   |-- Amagro.woff2
+|   |   |-- HeptaSlab.woff2
+|   |   |-- Rubik.woff2
+|   |-- img/
+|   |   |-- dice.svg
+|   |   |-- logo.png
+|   |-- js/
+|   |   |-- accueil.js
+|   |   |-- favoris.js
+|   |   |-- resultats.js
+|   |   |-- contenu.js
+|   |   |-- barreRecherche.js
+|-- index.html
+|-- favoris.html
+|-- resultats.html
+|-- contenu.html
+|-- favicon.ico

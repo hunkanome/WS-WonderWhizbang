@@ -77,6 +77,38 @@ async function getMonumentByURI(uri) {
     return result;
 }
 
+/**
+ * Search all the monuments in a country
+ * 
+ * @param {string} countryUri
+ * @returns {array} monuments
+ * 
+ */
+async function getMonumentsByCountry(countryUri) {
+    const query = `
+        SELECT ?uri ?label ?abstract ?thumbnail WHERE {
+            ?uri dbp:location <${countryUri}>;
+                a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            OPTIONAL {?uri dbo:abstract ?abstract}.
+            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+         
+            FILTER (lang(?abstract) = "fr")
+        } ORDER BY ?uri
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return formatMonuments(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return [];
+        });
+
+    return result;
+}
+
 
 
 // Get a random monument to initialize the page
