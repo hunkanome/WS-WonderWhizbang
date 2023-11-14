@@ -165,9 +165,6 @@ function searchAllMonument() {
     const userInput = champRecherche.value;
     // Define the SPARQL query with the user input
     let query = `
-                PREFIX dbo: <http://dbpedia.org/ontology/>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
                 SELECT ?monumentLabel ?thumbnail ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .

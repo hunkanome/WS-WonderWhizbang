@@ -6,8 +6,6 @@
  */
 async function getMonumentCount() {
     const query = `
-        PREFIX dbo: <http://dbpedia.org/ontology/>
-
         SELECT (count(?site) as ?count) WHERE {
             ?site a dbo:WorldHeritageSite .
         }
@@ -37,17 +35,6 @@ async function getMonumentCount() {
  */
 async function getMonumentByURI(uri) {
     const query = `
-        PREFIX owl: <http://www.w3.org/2002/07/owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX dc: <http://purl.org/dc/elements/1.1/>
-        PREFIX : <http://dbpedia.org/resource/>
-        PREFIX dbpedia2: <http://dbpedia.org/property/>
-        PREFIX dbpedia: <http://dbpedia.org/>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-
         SELECT * WHERE {
             <${uri}> a dbo:WorldHeritageSite;
                 rdfs:label ?label.
@@ -97,9 +84,6 @@ async function getMonumentByURI(uri) {
 
 function randomMonument() {
     var query = `
-        PREFIX dbo: <http://dbpedia.org/ontology/>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
         SELECT ?monumentLabel ?picture ?desc WHERE {
         ?monument a dbo:WorldHeritageSite .
         ?monument rdfs:label ?monumentLabel .
@@ -129,9 +113,6 @@ function searchMonument() {
     let userInput = document.getElementById('searchInput').value;
     // Define the SPARQL query with the user input
     var query = `
-                PREFIX dbo: <http://dbpedia.org/ontology/>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
                 SELECT ?monumentLabel ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
