@@ -61,12 +61,15 @@ function formatResult(response) {
         const lastIndex = result.length - 1;
         if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
             result[lastIndex].thumbnail.push(element.thumbnail.value);
+            //result[lastIndex].picture.push(element.picture.value);
         } else {
             header.forEach(key => {
                 obj[key] = element[key];
             });
             obj.thumbnail = [obj.thumbnail.value];
+            //obj.picture = [obj.picture.value];
             result.push(obj);
+            //console.log(obj);
         }
     });
 
@@ -185,20 +188,33 @@ function searchAllMonument() {
             statsRecherche.innerHTML = `Recherche de ${userInput} en cours`;
             console.log(data);
             let k = formatResult(data);
-            k.forEach(element => {
-                let i = 0;
+            k.forEach( element => {
                 let exists = false;
-                while (i < element.picture.length && !exists) {
-                    checkIfImageExists(element.picture[i], (exists) => {
-                        if (exists) {
-                            console.log('Image exists. ')
-                        } else {
+                checkIfImageExists(element.thumbnail[0], (exists) => {
+                    if (exists) {
+                        console.log('Thumbnail exists.')
+                        resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
+                    } else {
+                        console.log('Thumbnail does not exists.')
+                    }
+                });
+                console.log(exists)
+                if (exists === false){
+                    let i = 0;
+                    console.log(element.picture.length)
+                    while (i < element.picture.length && !exists) {
+                        checkIfImageExists(element.picture[i], (exists) => {
+                            if (exists) {
+                            console.log('Image exists.');
+                            resultContainer.innerHTML += createCard(element.picture[i], element.monumentLabel.value, element.desc.value).outerHTML;
+                            } else {
                             console.error('Image does not exists.')
                             i++;
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
-                resultContainer.innerHTML += createCard(element.picture[i], element.monumentLabel.value, element.desc.value).outerHTML;
+
             })
             const timeTaken = new Date().getTime() - start;
             statsRecherche.innerHTML = `${k.length} résultat${k.length > 1 ? 's' : ''} pour "${userInput}" en ${timeTaken}ms`;
@@ -242,3 +258,25 @@ champRecherche.addEventListener("keyup", function (event) {
         searchAllMonument();
     }
 });
+
+/**
+ * Check si une image existe bien à l'URL donnée
+ * @param {URL} url l'URL de l'image
+ * @param {function} callback la fonction à appeler après avoir vérifié si l'image existe
+ */
+function checkIfImageExists(url, callback) {
+    const img = new Image();
+    img.src = url;
+    
+    if (img.complete) {
+      callback(true);
+    } else {
+      img.onload = () => {
+        callback(true);
+      };
+      
+      img.onerror = () => {
+        callback(false);
+      };
+    }
+}
