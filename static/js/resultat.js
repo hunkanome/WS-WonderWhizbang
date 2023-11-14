@@ -185,6 +185,7 @@ function searchAllMonument() {
     // Effectue la requête SPARQL à DBpedia
     requestDBpedia(query)
         .then(data => {
+            statsRecherche.innerHTML = `Recherche de ${userInput} en cours`;
             console.log(data);
             let k = formatResult(data);
             k.forEach(element => {
