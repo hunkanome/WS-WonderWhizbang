@@ -58,7 +58,7 @@ function formatResult(response) {
 
     data.forEach(element => {
         let obj = {};
-        const lastIndex = result.length -1;
+        const lastIndex = result.length - 1;
         if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
             result[lastIndex].thumbnail.push(element.thumbnail.value);
         } else {
@@ -179,31 +179,31 @@ function searchAllMonument() {
                 FILTER regex(?monumentLabel, "${userInput}", "i")
                 }
             `;
-    
+
     const start = new Date().getTime();
-    
+
     // Effectue la requête SPARQL à DBpedia
     requestDBpedia(query)
         .then(data => {
             console.log(data);
             let k = formatResult(data);
-            k.forEach( element => {
+            k.forEach(element => {
                 let i = 0;
                 let exists = false;
                 while (i < element.picture.length && !exists) {
                     checkIfImageExists(element.picture[i], (exists) => {
                         if (exists) {
-                        console.log('Image exists. ')
+                            console.log('Image exists. ')
                         } else {
-                        console.error('Image does not exists.')
-                        i++;
+                            console.error('Image does not exists.')
+                            i++;
                         }
                     });
                 }
                 resultContainer.innerHTML += createCard(element.picture[i], element.monumentLabel.value, element.desc.value).outerHTML;
             })
             const timeTaken = new Date().getTime() - start;
-            statsRecherche.innerHTML = `${k.length} résultats pour "${userInput}" en ${timeTaken}ms`;
+            statsRecherche.innerHTML = `${k.length} résultat${k.length > 1 ? 's' : ''} pour "${userInput}" en ${timeTaken}ms`;
         })
         .catch(error => {
             researchStats.innerHTML = "Une erreur est survenue : " + error;
@@ -219,26 +219,26 @@ function searchAllMonument() {
 function checkIfImageExists(url, callback) {
     const img = new Image();
     img.src = url;
-    
+
     if (img.complete) {
-      callback(true);
-    } else {
-      img.onload = () => {
         callback(true);
-      };
-      
-      img.onerror = () => {
-        callback(false);
-      };
+    } else {
+        img.onload = () => {
+            callback(true);
+        };
+
+        img.onerror = () => {
+            callback(false);
+        };
     }
-  }
+}
 
 
 
 // Si l'utilisateur clique sur le bouton de recherche, on lance la recherche
 document.getElementById("searchButton").addEventListener("click", searchAllMonument);
 // Si l'utilisateur appuie sur la touche "Entrée" dans le champ de recherche, on lance la recherche
-champRecherche.addEventListener("keyup", function(event) {
+champRecherche.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         searchAllMonument();
