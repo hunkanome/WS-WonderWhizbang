@@ -72,14 +72,6 @@ header .input-group input {
 
 }
 
-#btnAddFavorite.favorite img {
-    width: 3em;
-    filter: invert(60%) sepia(32%) saturate(1013%) hue-rotate(314deg) brightness(105%) contrast(88%);
-    border-radius: 5em;
-    padding: 0.5em 0.4em 0.3em;
-}
-
-
 /* Description */
 #bloc-detail p {
     border-top: 1px solid black;
