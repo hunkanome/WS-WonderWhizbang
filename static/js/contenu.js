@@ -182,3 +182,35 @@ function createMap(coords) {
     let marker = L.marker(coords).addTo(map);
     marker.bindPopup(monumentName).openPopup();
 }
+
+
+/**
+ * Hydrate the page with the statistics and a random monument
+ * Also set the event listeners
+ * 
+ * @returns {void}
+ */
+function hydratePage() {
+    const params = new URLSearchParams(document.location.search);
+    const monumentUri = params.get("monument");
+
+    getMonumentByURI(monumentUri)
+        .then(monument => {
+            console.log(monument);
+            // loadMonument(monument);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    // TODO : mettre à jour le contenu de la page
+    // TODO : mettre à jour le bouton favoris
+}
+
+
+// Hydrate the page or prepare the hydration
+if (document.readyState === "complete") {
+    hydratePage();
+} else {
+    window.addEventListener("load", hydratePage);
+}
