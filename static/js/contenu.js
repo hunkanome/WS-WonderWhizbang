@@ -106,11 +106,11 @@ function loadMonument(data) {
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
-            titre.parentNode.parentNode.className = "col-6 ps-3 pe-0";
+            titre.parentNode.parentNode.parentNode.parentNode.className = "col-6 ps-3 pe-0";
             img.parentNode.className = "col-6 ps-3 pt-3";
         } else {
             blocDetail.className = "row vertical";
-            titre.parentNode.parentNode.className = "col-9 ps-3 pe-0";
+            titre.parentNode.parentNode.parentNode.parentNode.className = "col-9 ps-3 pe-0";
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
     });
@@ -154,7 +154,7 @@ function deleteFavorite(name) {
     }
     // Si le monument est dans les favoris, on le supprime
     if (favorites.includes(name)) {
-        favorites.splice(favorites.indexOf(name), 1);
+        favorites.slice(favorites.indexOf(name), 1);
         alert("Monument supprimé des favoris !");
     } else {
         alert("Ce monument n'est pas dans vos favoris !");
