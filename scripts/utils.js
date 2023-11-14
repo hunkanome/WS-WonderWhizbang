@@ -3,7 +3,7 @@ function formatResult(data) {
 }
 
 /**
- * Retrieve the value of the proerty if it exists
+ * Retrieve the value of the property if it exists
  * 
  * @param {object} data a field of a SPARQL query result
  * @returns {string|null} value
@@ -17,7 +17,7 @@ function getValue(data) {
 }
 
 /**
- * Retrieve the float value of the proerty if it exists
+ * Retrieve the float value of the property if it exists
  * 
  * @param {object} data a field of a SPARQL query result
  * @returns {float|null} value
@@ -26,6 +26,28 @@ function getFloatValue(data) {
     const value = getValue(data);
     if (value !== null) {
         return parseFloat(value);
+    }
+    return null;
+}
+
+/**
+ * Retrieve the values of the property if it exists
+ * 
+ * @param {object} data a SPARQL query result
+ * @param {string} key the key to aggregate
+ * @returns {array} values
+ */
+function getValuesArray(data, key) {
+    const values = [];
+    data.forEach(element => {
+        const value = getValue(element[key]);
+        if (value !== null) {
+            values.push(value);
+        }
+    });
+    if (values.length > 0) {
+        // delete duplicates
+        return [...new Set(values)];
     }
     return null;
 }
@@ -46,12 +68,7 @@ function formatMonument(queryResult) {
     result.comment = getValue(data[0].comment);
     result.thumbnail = getValue(data[0].thumbnail);
     result.imagecaption = getValue(data[0].imagecaption);
-    result.pictures = [];
-    data.forEach(element => {
-        result.pictures.push(getValue(element.picture));
-    });
-    // delete duplicate pictures
-    result.pictures = [...new Set(result.pictures)];
+    result.pictures = getValuesArray(data, 'picture');
 
     result.position = {
         latitude: getFloatValue(data[0].latitude),
@@ -66,16 +83,60 @@ function formatMonument(queryResult) {
         result.homepage = getValue(data[0].homepageAlt);
     }
 
-    result.location = [];
-    data.forEach(element => {
-        result.location.push(getValue(element.location));
-    });
-    // delete duplicate locations
-    result.location = [...new Set(result.location)];
-
+    result.location = getValuesArray(data, 'location');
     result.year = getValue(data[0].year);
-
     result.wikiPage = getValue(data[0].wikiPage);
+
+    return result;
+}
+
+
+/**
+ * Format the result of a SPARQL query to a list of monument objects
+ * 
+ * @param {string} queryResult 
+ * @returns {array} monuments
+ */
+function formatMonuments(queryResult) {
+    const data = queryResult.results.bindings;
+    const result = [];
+
+    // to avoid duplicate monuments, format each monument individually.
+    const monuments = sliceMonumentsArray(data);
+    console.log(monuments);
+    monuments.forEach(element => {
+        result.push(formatMonument({ results: { bindings: element } }));
+    });
+
+    return result;
+}
+
+/**
+ * Slice the monuments array by separting each monument in a subarray.
+ * 
+ * For example, if the array contains 10 monuments on 30 lines, the result will be an array of 10 subarrays.
+ * Each subarray will contain the data related to only one monument.
+ * 
+ * The monuments must be sorted by uri.
+ * 
+ * @param {array} monuments 
+ * @returns {array<array>} monuments
+ */
+function sliceMonumentsArray(monuments) {
+    const result = [];
+
+    let monument = [];
+    monuments.forEach(element => {
+        if (monument.length === 0 || getValue(monument[0].uri) === getValue(element.uri)) {
+            monument.push(element);
+        } else {
+            result.push(monument);
+            monument = [element];
+        }
+    });
+    if (monument.length > 0) {
+        result.push(monument);
+    }
 
     return result;
 }
