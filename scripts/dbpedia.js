@@ -14,8 +14,6 @@
  *   });
  *  */
 async function requestDBpedia(query) {
-    console.debug(query);
-
     query = `
         PREFIX owl: <http://www.w3.org/2002/07/owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
