@@ -38,41 +38,15 @@ let description = document.getElementById("description");
 const boutonFavorites = document.getElementById('btnAddFavorite');
 
 /**
- * Parametres de l'url
- * @type {URLSearchParams}
+ * Logo coeur
  */
-const urlParameters = new URLSearchParams(window.location.search);
-
-/**
- * Nom du monument recherché
- * @type {string}
- */
-let monumentName = urlParameters.get('monumentName');
-
-// if (monumentName) {
-//     monumentName = monumentName.replace(/_/g, " ");
-//     searchMonument();
-// } else {
-//     titre.innerHTML = "Aucun monument renseigné";
-//     titre.className = "bg-danger";
-// }
-
-
-/**
- * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
- */
-
-let favorites = localStorage.getItem("favorites");
-if (favorites) {
-    favorites = JSON.parse(favorites);
-} else {
-    favorites = [];
-}
 let coeur = document.getElementById("coeur");
 
-if (favorites.includes(monumentName)) {
-    coeur.src = "static/img/heart-full.svg";
-}
+/**
+ * Monument
+ */
+let monument;
+
 
 /**
  * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
@@ -84,12 +58,24 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  * @param {JSON} data 
  */
 function loadMonument(monument) {
-    console.log(monument);
-
     img.src = monument.pictures[0];
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
+
+    /**
+     * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
+     */
+    let favorites = localStorage.getItem("favorites");
+    if (favorites) {
+        favorites = JSON.parse(favorites);
+    } else {
+        favorites = [];
+    }
+
+    if (favorites.includes(monument.label)) {
+        coeur.src = "static/img/heart-full.svg";
+    }
 
     createMap([monument.position.latitude, monument.position.longitude], monument.label);
 
@@ -121,14 +107,14 @@ function addOrDeleteFavorite() {
     const texteToast = document.getElementById("texte-toast-favoris");
 
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
-    if (favorites.includes(monumentName)) {
-        favorites.splice(favorites.indexOf(monumentName), 1);
+    if (favorites.includes(monument.label)) {
+        favorites.splice(favorites.indexOf(monument.label), 1);
         coeur.src = "static/img/heart-empty.svg";
 
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
     } else {
-        favorites.push(monumentName);
+        favorites.push(monument.label);
         coeur.src = "static/img/heart-full.svg";
 
         texteToast.innerText = "Monument ajouté aux favoris !";
@@ -159,9 +145,9 @@ function hydratePage() {
     const monumentUri = params.get("monument");
 
     getMonumentByURI(monumentUri)
-        .then(monument => {
-            console.log(monument);
-            loadMonument(monument);
+        .then(monumentJson => {
+            monument = monumentJson;
+            loadMonument(monumentJson);
         })
         .catch(error => {
             console.error('Error:', error);
