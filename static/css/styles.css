@@ -28,7 +28,7 @@ header img {
 
 
 header nav a {
-    color: black!important;
+    color: black !important;
     text-decoration: none;
 
     font-size: 1.5em;
@@ -83,6 +83,32 @@ section {
     font-size: 1.5em;
     color: var(--background);
 }
+
+/* Carousel */
+#conteneurCarousel {
+    height: 30vh;
+}
+
+#carouselImages,
+#carouselImages .carousel-inner,
+#carouselImages .carousel-item {
+    height: 100%;
+}
+
+#carouselImages img {
+    object-fit: cover;
+    width: 100%;
+}
+
+#bloc-tags span {
+    background-color: var(--button);
+    border-radius: 2em;
+    font-size: 1em;
+    color: var(--background);
+    padding: 0.3em 0.5em;
+    margin-right: 1em;
+}
+
 
 /* === POLICES === */
 
