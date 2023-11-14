@@ -58,6 +58,11 @@ if (monumentName) {
 }
 
 /**
+ * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
+ */
+boutonFavorites.addEventListener("click", addFavorite);
+
+/**
  * Envoie une requête SPARQL à DBpedia pour récupérer les informations d'un monument
  * Ensuite appelle une fonction pour afficher le monument
  */
@@ -101,11 +106,11 @@ function loadMonument(data) {
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
-            titre.parentNode.className = "col-6 ps-3 pe-0";
+            titre.parentNode.parentNode.className = "col-6 ps-3 pe-0";
             img.parentNode.className = "col-6 ps-3 pt-3";
         } else {
             blocDetail.className = "row vertical";
-            titre.parentNode.className = "col-9 ps-3 pe-0";
+            titre.parentNode.parentNode.className = "col-9 ps-3 pe-0";
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
     });
@@ -134,5 +139,26 @@ function addFavorite() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
-// Si l'utilisateur clique sur le bouton de favoris, on appelle la fonction addFavorite
-boutonFavorites.addEventListener("click", addFavorite);
+/**
+ * Supprime un article des favoris quand on appuie sur le bouton deleteFavorite
+ * @param {string} name
+ */
+function deleteFavorite(name) {
+    console.log("deleteFavorite");
+    let favorites = localStorage.getItem("favorites");
+    if (favorites) {
+        favorites = JSON.parse(favorites);
+    } else {
+        favorites = [];
+        return;
+    }
+    // Si le monument est dans les favoris, on le supprime
+    if (favorites.includes(name)) {
+        favorites.splice(favorites.indexOf(name), 1);
+        alert("Monument supprimé des favoris !");
+    } else {
+        alert("Ce monument n'est pas dans vos favoris !");
+        return;
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
