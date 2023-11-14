@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<title>WonderWhizbang</title>
-		<link rel="icon" type="image/x-icon" href="favicon.ico">
-		<meta charset="utf-8">
-		<meta name="description" content="Moteur de recherche dédié au patrimoine mondial de l'UNESCO">
-		<meta name="keywords" content="UNESCO, patrimoine, culture">
-		<meta name="author" content="Hunkanome">
-		<link rel="stylesheet" href="static/css/styles.css">
-		<link rel="stylesheet" href="static/css/resultats.css">
-		<script defer src="scripts/dbpedia.js"></script>
-		<script defer src="static/js/resultat.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-		<script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-	</head>
 
-	<body>
-		<header class="container-fluid sticky-top mb-3">
-			<div class="d-flex py-3 row">
-				<div class="col-auto d-flex">
-					<a href="index.html" class="text-decoration-none" >
-						<img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
-					</a>
-					<a href="index.html" class="text-decoration-none link-dark">
-						<h1 class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
-					</a>
-				</div>
-				<nav class="col-auto d-flex align-items-center pe-0">
-					<a href="favoris.html">Mes favoris</a>
-				</nav>
-				<div class="col-auto d-flex ms-auto ps-0">
-					<div class="input-group">
-						<input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher...">
-						<button id="searchButton" type="button" class="btn">Rechercher</button>
-					</div>
-				</div>
-			</div>  
-		</header>
-			
-		<main class="container">
-			<div class="row">
-				<div class="col">
-					<h6 id="stats">Pas de recherche effectuée</h6>
-				</div>
+<head>
+	<title>WonderWhizbang</title>
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="description" content="Moteur de recherche dédié au patrimoine mondial de l'UNESCO">
+	<meta name="keywords" content="UNESCO, patrimoine, culture">
+	<meta name="author" content="Hunkanome">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+
+	<script defer src="scripts/dbpedia.js"></script>
+	<script defer src="static/js/resultat.js"></script>
+	<link rel="stylesheet" href="static/css/styles.css">
+	<link rel="stylesheet" href="static/css/resultats.css">
+</head>
+
+<body>
+	<header class="container-fluid sticky-top mb-3">
+		<div class="d-flex py-3 row">
+			<div class="col-auto d-flex">
+				<a href="index.html" class="text-decoration-none">
+					<img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
+				</a>
+				<a href="index.html" class="text-decoration-none link-dark">
+					<h1 class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
+				</a>
 			</div>
-			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="resultContainer">
-
-				<!-- This is where the cards will be displayed when someone is searching for a monument. -->
-
+			<nav class="col-auto d-flex align-items-center pe-0">
+				<a href="favoris.html">Mes favoris</a>
+			</nav>
+			<div class="col-auto d-flex ms-auto ps-0">
+				<form class="input-group" method="get" action="resultats.html">
+					<input id="searchInput" type="text" name="search" class="form-control"
+						placeholder="Rechercher..." />
+					<input id="searchButton" type="submit" class="btn" value="Rechercher" />
+				</form>
 			</div>
-		</main>
-	</body>
+		</div>
+	</header>
+
+	<main class="container">
+		<div class="row">
+			<div class="col">
+				<h6 id="stats">Pas de recherche effectuée</h6>
+			</div>
+		</div>
+		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="resultContainer">
+
+			<!-- This is where the cards will be displayed when someone is searching for a monument. -->
+
+		</div>
+	</main>
+</body>
+
 </html>

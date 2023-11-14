@@ -38,7 +38,6 @@ file accueil.js
 file favoris.js
 file resultats.js
 file contenu.js
-file barreRecherche.js
 
 file index.html
 file favoris.html
@@ -69,7 +68,6 @@ js -- accueil.js
 js -- favoris.js
 js -- resultats.js
 js -- contenu.js
-js -- barreRecherche.js
 
 scripts -- dbpedia.js
 scripts -- recherche.js

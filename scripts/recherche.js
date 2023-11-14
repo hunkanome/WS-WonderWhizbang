@@ -147,35 +147,6 @@ async function getRandomMonument() {
 }
 
 
-
-// Get a random monument to initialize the page
-// Define the SPARQL query with the user input
-
-function randomMonument() {
-    var query = `
-        SELECT ?monumentLabel ?picture ?desc WHERE {
-        ?monument a dbo:WorldHeritageSite .
-        ?monument rdfs:label ?monumentLabel .
-        ?monument dbo:abstract ?desc .
-        ?monument foaf:depiction ?picture .
-        FILTER (lang(?monumentLabel) = "fr")
-        FILTER (lang(?desc) = "fr") 
-        }
-        LIMIT 1
-        OFFSET ${Math.floor(Math.random() * 1000)}`;
-
-    //Display in console the query
-    console.log(query);
-    // Send the query to the SPARQL endpoint
-    requestDBpedia(query)
-        .then(data => {
-            loadMonument(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
 // Get a monument based on user input
 function searchMonument() {
     // Get the user input from the search bar

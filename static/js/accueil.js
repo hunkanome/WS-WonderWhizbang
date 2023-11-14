@@ -86,11 +86,10 @@ function hydratePage() {
         const countElement = document.getElementById("monumentCount");
         countElement.innerText = count;
     });
-    const searchButton = document.getElementById("searchButton");
-    searchButton.addEventListener("click", searchMonument);
+    changeRandomMonument();
+
     const randomButton = document.getElementById("random-btn");
     randomButton.addEventListener("click", changeRandomMonument);
-    changeRandomMonument();
 }
 
 // Hydrate the page or prepare the hydration

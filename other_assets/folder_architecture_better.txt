@@ -22,7 +22,6 @@ WhonderWhizbang/
 |   |   |-- favoris.js
 |   |   |-- resultats.js
 |   |   |-- contenu.js
-|   |   |-- barreRecherche.js
 |-- index.html
 |-- favoris.html
 |-- resultats.html

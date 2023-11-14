@@ -186,20 +186,20 @@ function searchAllMonument() {
             statsRecherche.innerHTML = `Recherche de ${userInput} en cours`;
             let result = formatResult(data);
             console.log(result);
-            result.forEach( element => {
-                fetch(element.thumbnail[0], {method: "HEAD", mode: "no-cors"})
-                .then(response => {
-                    if (response.ok) {
-                    console.log('Thumbnail URL is valid');
-                    resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
-                    } else {
-                        console.log('Thumbnail URL is INvalid for : ' + element.monumentLabel.value);
-                        resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error validating thumbnail URL:', error);
-                });
+            result.forEach(element => {
+                fetch(element.thumbnail[0], { method: "HEAD", mode: "no-cors" })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Thumbnail URL is valid');
+                            resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
+                        } else {
+                            console.log('Thumbnail URL is INvalid for : ' + element.monumentLabel.value);
+                            resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error validating thumbnail URL:', error);
+                    });
             })
             const timeTaken = new Date().getTime() - start;
             statsRecherche.innerHTML = `${result.length} résultat${result.length > 1 ? 's' : ''} pour "${userInput}" en ${timeTaken}ms`;
@@ -234,14 +234,3 @@ function checkIfImageExists(url, callback) {
     console.log(callback)
 }
 
-
-
-// Si l'utilisateur clique sur le bouton de recherche, on lance la recherche
-document.getElementById("searchButton").addEventListener("click", searchAllMonument);
-// Si l'utilisateur appuie sur la touche "Entrée" dans le champ de recherche, on lance la recherche
-champRecherche.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchAllMonument();
-    }
-});
