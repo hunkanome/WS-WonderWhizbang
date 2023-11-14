@@ -101,11 +101,11 @@ function loadMonument(data) {
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
-            titre.parentNode.className = "col-6 ps-3 pe-0";
+            titre.parentNode.parentNode.className = "col-6 ps-3 pe-0";
             img.parentNode.className = "col-6 ps-3 pt-3";
         } else {
             blocDetail.className = "row vertical";
-            titre.parentNode.className = "col-9 ps-3 pe-0";
+            titre.parentNode.parentNode.className = "col-9 ps-3 pe-0";
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
     });
