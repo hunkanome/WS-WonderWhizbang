@@ -49,13 +49,13 @@ const urlParameters = new URLSearchParams(window.location.search);
  */
 let monumentName = urlParameters.get('monumentName');
 
-if (monumentName) {
-    monumentName = monumentName.replace(/_/g, " ");
-    searchMonument();
-} else {
-    titre.innerHTML = "Aucun monument renseigné";
-    titre.className = "bg-danger";
-}
+// if (monumentName) {
+//     monumentName = monumentName.replace(/_/g, " ");
+//     searchMonument();
+// } else {
+//     titre.innerHTML = "Aucun monument renseigné";
+//     titre.className = "bg-danger";
+// }
 
 
 /**
@@ -80,52 +80,18 @@ if (favorites.includes(monumentName)) {
 boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 
 /**
- * Envoie une requête SPARQL à DBpedia pour récupérer les informations d'un monument
- * Ensuite appelle une fonction pour afficher le monument
- */
-function searchMonument() {
-    // Define the SPARQL query with the user input
-    var query = `
-                SELECT ?monumentLabel ?picture ?desc ?latitude ?longitude WHERE {
-                ?monument a dbo:WorldHeritageSite .
-                ?monument rdfs:label ?monumentLabel .
-                ?monument dbo:abstract ?desc .
-                ?monument foaf:depiction ?picture .
-                OPTIONAL {?monument geo:lat ?latitude}.
-                OPTIONAL {?monument geo:long ?longitude}.
-                FILTER (lang(?monumentLabel) = "fr")
-                FILTER (lang(?desc) = "fr") 
-                FILTER regex(?monumentLabel, "${monumentName}", "i")
-                }
-                LIMIT 1
-                
-            `;
-    console.log(query);
-    // Send the query to the SPARQL endpoint
-    requestDBpedia(query)
-        .then(data => {
-            loadMonument(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
-/**
  * Affiche les informations d'un monument sur la page
  * @param {JSON} data 
  */
-function loadMonument(data) {
-    data = data.results.bindings;
-    const monument = data[0];
-    img.src = monument.picture.value;
-
+function loadMonument(monument) {
     console.log(monument);
 
-    titre.innerHTML = monument.monumentLabel.value;
-    description.innerHTML = monument.desc.value;
+    img.src = monument.pictures[0];
 
-    createMap([monument.latitude.value, monument.longitude.value]);
+    titre.innerHTML = monument.label;
+    description.innerHTML = monument.abstract;
+
+    createMap([monument.position.latitude, monument.position.longitude], monument.label);
 
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
@@ -151,10 +117,8 @@ function addOrDeleteFavorite() {
         favorites = [];
     }
 
-
     const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast-favoris"));
     const texteToast = document.getElementById("texte-toast-favoris");
-
 
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
     if (favorites.includes(monumentName)) {
@@ -173,14 +137,14 @@ function addOrDeleteFavorite() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
-function createMap(coords) {
+function createMap(coords, name) {
     var map = L.map('map').setView(coords, 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     let marker = L.marker(coords).addTo(map);
-    marker.bindPopup(monumentName).openPopup();
+    marker.bindPopup(name).openPopup();
 }
 
 
@@ -197,7 +161,7 @@ function hydratePage() {
     getMonumentByURI(monumentUri)
         .then(monument => {
             console.log(monument);
-            // loadMonument(monument);
+            loadMonument(monument);
         })
         .catch(error => {
             console.error('Error:', error);
