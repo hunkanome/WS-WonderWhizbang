@@ -64,10 +64,6 @@ header .input-group input {
     /* width: fit-content; */
 }
 
-#bloc-detail {
-    max-height: 80vh;
-}
-
 section {
     margin-bottom: 1em;
 }
