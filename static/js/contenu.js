@@ -63,7 +63,6 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  * @param {JSON} data 
  */
 function loadMonument(monument) {
-    console.log(monument);
     img.src = monument.pictures[0];
 
     titre.innerHTML = monument.label;
