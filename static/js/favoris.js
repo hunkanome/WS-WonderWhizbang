@@ -55,7 +55,6 @@ if (document.readyState === "complete") {
 }
 
 
-
 /**
  * Bouton d'effacement des favoris
  */

@@ -87,7 +87,7 @@ function loadMonument(monument) {
         favorites = [];
     }
 
-    if (favorites.includes(monument.label)) {
+    if (favorites.includes(monument.uri)) {
         coeur.src = "static/img/heart-full.svg";
     }
 
@@ -120,11 +120,10 @@ function addOrDeleteFavorite() {
     const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast-favoris"));
     const texteToast = document.getElementById("texte-toast-favoris");
 
-    // Si le monument n'est pas déjà dans les favoris, on l'ajoute
+    // Si le monument est dans les favoris, on l'enlève
     if (favorites.includes(monument.uri)) {
         favorites.splice(favorites.indexOf(monument.uri), 1);
         coeur.src = "static/img/heart-empty.svg";
-
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
     } else {
@@ -146,7 +145,6 @@ function createMap(coords, name) {
     let marker = L.marker(coords).addTo(map);
     marker.bindPopup(name).openPopup();
 }
-
 
 /**
  * Hydrate the page with the statistics and a random monument
