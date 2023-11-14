@@ -60,12 +60,12 @@ function formatResult(response) {
         let obj = {};
         const lastIndex = result.length -1;
         if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
-            result[lastIndex].picture.push(element.picture.value);
+            result[lastIndex].thumbnail.push(element.thumbnail.value);
         } else {
             header.forEach(key => {
                 obj[key] = element[key];
             });
-            obj.picture = [obj.picture.value];
+            obj.thumbnail = [obj.thumbnail.value];
             result.push(obj);
         }
     });
@@ -130,6 +130,7 @@ function createCard(imgSrc, title, description) {
     let goal = window.location.href.split("/");
     goal.pop()
     goal.push("contenu.html?monumentName=" + title.replace(/ /g, "_"));
+
     /**
      * URL de la page du monument
      * @type {string}
@@ -167,11 +168,12 @@ function searchAllMonument() {
                 PREFIX dbo: <http://dbpedia.org/ontology/>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-                SELECT ?monumentLabel ?picture ?desc WHERE {
+                SELECT ?monumentLabel ?thumbnail ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
                 ?monument dbo:abstract ?desc .
                 ?monument foaf:depiction ?picture .
+                ?monument dbo:thumbnail ?thumbnail .
                 FILTER (lang(?monumentLabel) = "fr")
                 FILTER (lang(?desc) = "fr") 
                 FILTER regex(?monumentLabel, "${userInput}", "i")
@@ -186,7 +188,19 @@ function searchAllMonument() {
             console.log(data);
             let k = formatResult(data);
             k.forEach( element => {
-                resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
+                let i = 0;
+                let exists = false;
+                while (i < element.picture.length && !exists) {
+                    checkIfImageExists(element.picture[i], (exists) => {
+                        if (exists) {
+                        console.log('Image exists. ')
+                        } else {
+                        console.error('Image does not exists.')
+                        i++;
+                        }
+                    });
+                }
+                resultContainer.innerHTML += createCard(element.picture[i], element.monumentLabel.value, element.desc.value).outerHTML;
             })
             const timeTaken = new Date().getTime() - start;
             statsRecherche.innerHTML = `${k.length} résultats pour "${userInput}" en ${timeTaken}ms`;
@@ -196,6 +210,30 @@ function searchAllMonument() {
             console.error('Error:', error);
         });
 }
+
+/**
+ * Check si une image existe bien à l'URL donnée
+ * @param {URL} url l'URL de l'image
+ * @param {function} callback la fonction à appeler après avoir vérifié si l'image existe
+ */
+function checkIfImageExists(url, callback) {
+    const img = new Image();
+    img.src = url;
+    
+    if (img.complete) {
+      callback(true);
+    } else {
+      img.onload = () => {
+        callback(true);
+      };
+      
+      img.onerror = () => {
+        callback(false);
+      };
+    }
+  }
+
+
 
 // Si l'utilisateur clique sur le bouton de recherche, on lance la recherche
 document.getElementById("searchButton").addEventListener("click", searchAllMonument);
