@@ -2,15 +2,77 @@
 
 folder WhonderWhizbang
 folder scripts
-folder assets
+folder static 
+folder audio
+folder css 
+folder fonts 
+folder img 
+folder js
 
 WhonderWhizbang -- scripts
-WhonderWhizbang -- assets
+WhonderWhizbang -- static
+static -- audio
+static -- css
+static -- fonts
+static -- img
+static -- js
 
-file index.html
+file dbpedia.js
+file recherche.js
+file utils.js
+
+file aroundtheworld_long.mp3
+file aroundtheworld.mp3
+
+file resultats.css
+file styles.css
+
+file Amagro.woff2
+file HeptaSlab.woff2
+file Rubik.woff2
+
+file dice.svg
 file logo.png
 
+file accueil.js
+file favoris.js
+file resultats.js
+file contenu.js
+file barreRecherche.js
+
+file index.html
+file favoris.html
+file resultats.html
+file contenu.html
+
+file favicon.ico
+
 WhonderWhizbang -- index.html
-assets -- logo.png
+WhonderWhizbang -- favoris.html
+WhonderWhizbang -- resultats.html
+WhonderWhizbang -- contenu.html
+
+audio -- aroundtheworld_long.mp3
+audio -- aroundtheworld.mp3
+
+css -- resultats.css
+css -- styles.css
+
+fonts -- Amagro.woff2
+fonts -- HeptaSlab.woff2
+fonts -- Rubik.woff2
+
+img -- dice.svg
+img -- logo.png
+
+js -- accueil.js
+js -- favoris.js
+js -- resultats.js
+js -- contenu.js
+js -- barreRecherche.js
+
+scripts -- dbpedia.js
+scripts -- recherche.js
+scripts -- utils.js
 
 @enduml
