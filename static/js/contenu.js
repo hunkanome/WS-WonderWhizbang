@@ -31,6 +31,11 @@ let titre = document.getElementById("title");
  * @type {HTMLParagraphElement}
  */
 let description = document.getElementById("description");
+/**
+ * Bouton de recherche
+ * @type {HTMLButtonElement}
+ */
+const boutonFavorites = document.getElementById('btnAddFavorite');
 
 /**
  * Parametres de l'url
@@ -108,3 +113,29 @@ function loadMonument(data) {
         }
     });
 }
+
+/**
+ * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
+ * 
+ */
+function addFavorite() {
+    console.log("addFavorite");
+    let favorites = localStorage.getItem("favorites");
+    if (favorites) {
+        favorites = JSON.parse(favorites);
+    } else {
+        favorites = [];
+    }
+    // Si le monument n'est pas déjà dans les favoris, on l'ajoute
+    if (favorites.includes(monumentName)) {
+        alert("Ce monument est déjà dans vos favoris !");
+        return;
+    } else {
+        favorites.push(monumentName);
+        alert("Monument ajouté aux favoris !");
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+// Si l'utilisateur clique sur le bouton de favoris, on appelle la fonction addFavorite
+boutonFavorites.addEventListener("click", addFavorite);
