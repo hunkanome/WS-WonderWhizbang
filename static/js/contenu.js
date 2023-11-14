@@ -32,6 +32,11 @@ let titre = document.getElementById("title");
  */
 let description = document.getElementById("description");
 /**
+ * Carousel du monument
+ * @type {HTMLDivElement}
+ */
+let carousel = document.getElementById("carousel-inner");
+/**
  * Bouton de recherche
  * @type {HTMLButtonElement}
  */
