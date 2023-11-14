@@ -57,10 +57,27 @@ if (monumentName) {
     titre.className = "bg-danger";
 }
 
+
+/**
+ * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
+ */
+
+let favorites = localStorage.getItem("favorites");
+if (favorites) {
+    favorites = JSON.parse(favorites);
+} else {
+    favorites = [];
+}
+let coeur = document.getElementById("coeur");
+
+if (favorites.includes(monumentName)) {
+    coeur.src = "static/img/heart-full.svg";
+}
+
 /**
  * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
  */
-boutonFavorites.addEventListener("click", addFavorite);
+boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 
 /**
  * Envoie une requête SPARQL à DBpedia pour récupérer les informations d'un monument
@@ -69,16 +86,19 @@ boutonFavorites.addEventListener("click", addFavorite);
 function searchMonument() {
     // Define the SPARQL query with the user input
     var query = `
-                SELECT ?monumentLabel ?picture ?desc WHERE {
+                SELECT ?monumentLabel ?picture ?desc ?latitude ?longitude WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
                 ?monument dbo:abstract ?desc .
                 ?monument foaf:depiction ?picture .
+                OPTIONAL {?monument geo:lat ?latitude}.
+                OPTIONAL {?monument geo:long ?longitude}.
                 FILTER (lang(?monumentLabel) = "fr")
                 FILTER (lang(?desc) = "fr") 
                 FILTER regex(?monumentLabel, "${monumentName}", "i")
                 }
                 LIMIT 1
+                
             `;
     console.log(query);
     // Send the query to the SPARQL endpoint
@@ -100,8 +120,12 @@ function loadMonument(data) {
     const monument = data[0];
     img.src = monument.picture.value;
 
+    console.log(monument);
+
     titre.innerHTML = monument.monumentLabel.value;
     description.innerHTML = monument.desc.value;
+
+    createMap([monument.latitude.value, monument.longitude.value]);
 
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
@@ -116,49 +140,45 @@ function loadMonument(data) {
     });
 }
 
-/**
- * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
- * 
+/** 
+ * Ajoute un article aux favoris ou le supprime quand on appuie sur le bouton coeur
  */
-function addFavorite() {
-    console.log("addFavorite");
+function addOrDeleteFavorite() {
     let favorites = localStorage.getItem("favorites");
     if (favorites) {
         favorites = JSON.parse(favorites);
     } else {
         favorites = [];
     }
+
+
+    const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast-favoris"));
+    const texteToast = document.getElementById("texte-toast-favoris");
+
+
     // Si le monument n'est pas déjà dans les favoris, on l'ajoute
     if (favorites.includes(monumentName)) {
-        alert("Ce monument est déjà dans vos favoris !");
-        return;
+        favorites.splice(favorites.indexOf(monumentName), 1);
+        coeur.src = "static/img/heart-empty.svg";
+
+        texteToast.innerText = "Monument supprimé des favoris !";
+        toast.show();
     } else {
         favorites.push(monumentName);
-        alert("Monument ajouté aux favoris !");
+        coeur.src = "static/img/heart-full.svg";
+
+        texteToast.innerText = "Monument ajouté aux favoris !";
+        toast.show();
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
-/**
- * Supprime un article des favoris quand on appuie sur le bouton deleteFavorite
- * @param {string} name
- */
-function deleteFavorite(name) {
-    console.log("deleteFavorite");
-    let favorites = localStorage.getItem("favorites");
-    if (favorites) {
-        favorites = JSON.parse(favorites);
-    } else {
-        favorites = [];
-        return;
-    }
-    // Si le monument est dans les favoris, on le supprime
-    if (favorites.includes(name)) {
-        favorites.slice(favorites.indexOf(name), 1);
-        alert("Monument supprimé des favoris !");
-    } else {
-        alert("Ce monument n'est pas dans vos favoris !");
-        return;
-    }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+function createMap(coords) {
+    var map = L.map('map').setView(coords, 5);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    let marker = L.marker(coords).addTo(map);
+    marker.bindPopup(monumentName).openPopup();
 }

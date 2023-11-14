@@ -15,7 +15,7 @@
 		crossorigin="anonymous"></script>
 
 	<script src="scripts/dbpedia.js"></script>
-	<script src="static/js/favoris.js"></script>
+	<script defer src="static/js/favoris.js"></script>
 	<link rel="stylesheet" href="static/css/styles.css">
 	<link rel="stylesheet" href="static/css/resultats.css">
 </head>
@@ -45,6 +45,14 @@
 	</header>
 
 	<main class="container">
+		<!-- Bouton pour effacer tous les favoris -->
+		<div class="row">
+			<div class="col">
+				<button id="btnClearFavorites" type="button" class="btn btn-danger">Effacer tous les
+					favoris</button>
+			</div>
+		</div>
+		<br />
 		<div class="row">
 			<div class="col">
 				<h6 id="messageField"></h6>
@@ -54,13 +62,6 @@
 
 			<!-- This is where the favorite cards will be displayed -->
 
-		</div>
-		<!-- Bouton pour effacer tous les favoris -->
-		<br />
-		<div class="row">
-			<div class="col">
-				<button id="btnClearFavorites" type="button" class="btn btn-danger">Effacer tous les favoris</button>
-			</div>
 		</div>
 	</main>
 </body>
