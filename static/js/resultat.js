@@ -60,12 +60,12 @@ function formatResult(response) {
         let obj = {};
         const lastIndex = result.length -1;
         if (result.length > 0 && result[lastIndex].monumentLabel.value === element.monumentLabel.value) {
-            result[lastIndex].picture.push(element.picture.value);
+            result[lastIndex].thumbnail.push(element.thumbnail.value);
         } else {
             header.forEach(key => {
                 obj[key] = element[key];
             });
-            obj.picture = [obj.picture.value];
+            obj.thumbnail = [obj.thumbnail.value];
             result.push(obj);
         }
     });
@@ -168,11 +168,12 @@ function searchAllMonument() {
                 PREFIX dbo: <http://dbpedia.org/ontology/>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-                SELECT ?monumentLabel ?picture ?desc WHERE {
+                SELECT ?monumentLabel ?thumbnail ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .
                 ?monument dbo:abstract ?desc .
                 ?monument foaf:depiction ?picture .
+                ?monument dbo:thumbnail ?thumbnail .
                 FILTER (lang(?monumentLabel) = "fr")
                 FILTER (lang(?desc) = "fr") 
                 FILTER regex(?monumentLabel, "${userInput}", "i")
@@ -187,7 +188,7 @@ function searchAllMonument() {
             console.log(data);
             let k = formatResult(data);
             k.forEach( element => {
-                resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
+                resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
             })
             const timeTaken = new Date().getTime() - start;
             statsRecherche.innerHTML = `${k.length} résultats pour "${userInput}" en ${timeTaken}ms`;
