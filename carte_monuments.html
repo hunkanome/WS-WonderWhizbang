@@ -21,8 +21,7 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script defer src="static/js/contenu.js"></script>
-
+    <script defer src="static/js/carte_monuments.js"></script>
 </head>
 
 <body>
@@ -53,40 +52,8 @@
     </header>
 
     <main class="container">
-        <section id="bloc-detail" class="row horizontal">
-            <div class="col-6 ps-3 pt-3">
-                <div class="d-flex align-items-center mb-1">
-                    <a id="wikiLink" class="d-flex text-decoration-none">
-                        <h2 class="d-inline me-2 mb-0">
-                            <span id="title">Titre</span>
-                            <span class="align-self-start">
-                                <img src="static/img/link.svg" alt="Icône lien externe">
-                            </span>
-                        </h2>
-                    </a>
-                    <a id="btnAddFavorite">
-                        <img id="coeur" src="static/img/heart-empty.svg" alt="Icône favori">
-                    </a>
-                </div>
-                <p id="description">Description</p>
-                <p id="year">Année</p>
-                <a id="countryLink">
-                    <p id="country">Pays</p>
-                </a>
-            </div>
-
-            <figure class="col-6 ps-3 pe-0">
-                <img id="picture" class="w-100" src="https://via.placeholder.com/150" alt="Photo du monument">
-                <figcaption id="caption"></figcaption>
-            </figure>
-        </section>
         <section id="bloc-2" class="row">
-            <div id="conteneurCarousel" class="col-6">
-
-            </div>
-            <div class="col-6">
-                <div id="map"></div>
-            </div>
+            <div id="mapWorld" style="height:80vh;"></div>
         </section>
     </main>
     <footer></footer>
