@@ -156,6 +156,7 @@ function hydratePage() {
             } else {
                 statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${countryName}" en ${timespan} ms`;
             }
+        localStorage.removeItem('countryName');
         })
         .catch(error => {
             console.error("Error : ", error);

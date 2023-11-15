@@ -88,17 +88,16 @@ function loadMonument(monument) {
         year.innerHTML = "Année non renseignée";
     }
     
-    if(monument.country){
+    if(monument.country && monument.country != "World"){
         country.innerHTML = monument.country;
+        var lienPay = document.getElementById('countryLink');
+        lienPay.setAttribute('href', "resultats.html");
+        lienPay.addEventListener('click', function() {
+            localStorage.setItem('countryName', monument.country);
+        });
     } else {
         country.innerHTML = "Pays non renseignée";
     }
-    
-    var lienPay = document.getElementById('countryLink');
-    lienPay.setAttribute('href', "resultats.html");
-    lienPay.addEventListener('click', function() {
-        localStorage.setItem('countryName', monument.country);
-    });
 
     if (monument.wikiPage) {
         var icon = document.getElementById('wikiLink');
