@@ -137,17 +137,10 @@ function addCard(card) {
  * @returns {void}
  */
 function hydratePage() {
-    const params = new URLSearchParams(document.location.search);
-    const searchTerm = params.get("search");
-    if (searchTerm === null || searchTerm === "") {
-        alert("Aucun terme de recherche n'a été spécifié");
-        // TODO : afficher une erreur sur la page
-    }
-    const searchInput = document.getElementById("searchInput");
-    searchInput.value = searchTerm;
-
+    const countryName = localStorage.getItem('countryName');
     const startTime = new Date().getTime();
-    searchMonumentsByTerm(searchTerm)
+    if (countryName) {
+        getMonumentsByCountry(countryName)
         .then(monuments => {
             console.log(monuments);
             createMap(monuments);
@@ -159,14 +152,44 @@ function hydratePage() {
             const statsElement = document.getElementById("stats");
             const timespan = new Date().getTime() - startTime;
             if (monuments.length === 0) {
-                statsElement.innerText = `Aucun résultat pour "${searchTerm}"`;
+                statsElement.innerText = `Aucun résultat pour le pays "${countryName}"`;
             } else {
-                statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${searchTerm}" en ${timespan} ms`;
+                statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${countryName}" en ${timespan} ms`;
             }
         })
         .catch(error => {
             console.error("Error : ", error);
         });
+    } else {
+        const params = new URLSearchParams(document.location.search);
+        const searchTerm = params.get("search");
+        if (searchTerm === null || searchTerm === "") {
+            alert("Aucun terme de recherche n'a été spécifié");
+            // TODO : afficher une erreur sur la page
+        }
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = searchTerm;
+        searchMonumentsByTerm(searchTerm)
+            .then(monuments => {
+                console.log(monuments);
+                createMap(monuments);
+                monuments.forEach(monument => {
+                    const card = createCard(monument);
+                    addCard(card);
+                });
+
+                const statsElement = document.getElementById("stats");
+                const timespan = new Date().getTime() - startTime;
+                if (monuments.length === 0) {
+                    statsElement.innerText = `Aucun résultat pour "${searchTerm}"`;
+                } else {
+                    statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${searchTerm}" en ${timespan} ms`;
+                }
+            })
+            .catch(error => {
+                console.error("Error : ", error);
+            });
+    }
 }
 
 // Hydrate the page or prepare the hydration

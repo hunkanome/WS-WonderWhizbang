@@ -88,17 +88,23 @@ async function getMonumentByURI(uri) {
  * @returns {array} monuments
  * 
  */
-async function getMonumentsByCountry(countryUri) {
+async function getMonumentsByCountry(countryName) {
+    console.debug(countryName);
     const query = `
-        SELECT ?uri ?label ?abstract ?thumbnail WHERE {
-            ?uri dbp:location <${countryUri}>;
+        SELECT * WHERE {
+            ?uri
                 a dbo:WorldHeritageSite;
-                rdfs:label ?label.
+                rdfs:label ?label;
+                dbp:locmapin ?locmapin.
             OPTIONAL {?uri dbo:abstract ?abstract}.
             OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+            OPTIONAL {?uri foaf:depiction ?picture}.
+            OPTIONAL {?uri geo:lat ?latitude}.
+            OPTIONAL {?uri geo:long ?longitude}.
          
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
+            FILTER regex(?locmapin, "${countryName}", "i")
         } ORDER BY ?uri
     `;
 
