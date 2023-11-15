@@ -68,11 +68,6 @@ header .input-group input {
     width: fit-content;
 }
 
-#WonderWhizbang:hover {
-    transform: scale(1.025);
-    transition: transform 0.3s ease-in-out;
-}
-
 /* Bouton "Coeur" / ajouter aux favoris */
 #btnAddFavorite img {
     width: 3em;
