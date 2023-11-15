@@ -141,6 +141,10 @@ function sliceMonumentsArray(monuments) {
     return result;
 }
 
+/**
+ * Crée une carte du monde avec des points sur la localisation de chaque monument
+ * @param {Array<JSON> | JSON} monuments Un monument ou un tableau de monuments 
+ */
 function createMap(monuments) {
     // If monuments is not an array, convert it to an array
     if (!Array.isArray(monuments)) {
@@ -181,4 +185,24 @@ function createMap(monuments) {
             console.log(`Pas de position pour le monument : ${monument.label}`);
         }
     });
+}
+
+/**
+ * Fonction Handler qui essaye de résoudre certains problèmes d'images qui ne chargent pas
+ * @param {Error} event 
+ */
+function imageLoadError(event){
+    /**
+     * Image qui n'a pas pue être chargée
+     * @type {HTMLImageElement}
+     */
+    let img = event.target;
+    // Erreur courante : l'extension de l'image est en minuscule alors que sur wikimedia, elle est en majuscule.
+    // On règle ce problème en remplaçant l'extension par une version en majuscule, si l'image n'est pas trouvée.
+    img.src = event.target.src.replace("jpg","JPG");    
+    // si cela ne marche toujours pas, on met l'image "UNESCO" par défaut
+    img.onerror = (evt) => {
+        evt.target.src = "static/img/unesco.png";
+        evt.target.onerror = null;
+    };
 }

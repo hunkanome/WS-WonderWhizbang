@@ -78,6 +78,7 @@ function loadMonument(monument) {
     img.src = "static/img/unesco.png";
     if (monument.pictures && monument.pictures.length > 0){
         img.src = monument.pictures[0];
+        img.onerror = imageLoadError;
     }
 
     titre.innerHTML = monument.label;
@@ -250,6 +251,12 @@ function hydratePage() {
         })
         .catch(error => {
             console.error('Error:', error);
+        }).finally(() => {
+            // Ajout de la fonction imageErrorHandler
+            // Ne marche que quand toute les divs on été ajoutées dans la page HTML
+            Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(img => {
+                img.addEventListener("error", imageLoadError);
+            });
         });
 
     // TODO : mettre à jour le contenu de la page
