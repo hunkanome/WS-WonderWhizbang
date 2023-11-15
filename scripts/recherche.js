@@ -164,12 +164,14 @@ async function getRandomMonument() {
     const count = await getMonumentCount();
     const offset = Math.floor(Math.random() * count);
     const query = `
-        SELECT ?uri ?label ?abstract ?thumbnail WHERE {
+        SELECT * WHERE {
             ?uri a dbo:WorldHeritageSite;
                 rdfs:label ?label.
             OPTIONAL {?uri dbo:abstract ?abstract}.
             OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
-         
+            OPTIONAL {?uri dbp:locmapin ?locmapin}.
+            OPTIONAL {?uri foaf:isPrimaryTopicOf ?wikiPage}.
+            OPTIONAL {?uri dbp:year ?year}.
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
         } ORDER BY ?uri

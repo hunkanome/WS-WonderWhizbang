@@ -146,12 +146,17 @@ function sliceMonumentsArray(monuments) {
  * @param {Array<JSON> | JSON} monuments Un monument ou un tableau de monuments 
  */
 function createMap(monuments) {
+    // Check if monuments is not empty
+    if (monuments.length === 0) {
+        return;
+    }
+
     // If monuments is not an array, convert it to an array
     if (!Array.isArray(monuments)) {
         monuments = [monuments];
     }
 
-    if(monuments.length < 20) {
+    if(0 < monuments.length && monuments.length < 20) {
         // Get geographical center of all monuments
         var totalLat = 0;
         var totalLong = 0;

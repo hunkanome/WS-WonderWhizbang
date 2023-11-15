@@ -32,16 +32,6 @@ let titre = document.getElementById("title");
  */
 let description = document.getElementById("description");
 /**
- * Année du monument
- * @type {HTMLParagraphElement}
- */
-let year = document.getElementById("year");
-/**
- * Pays du monument
- * @type {HTMLParagraphElement}
- */
-let pays = document.getElementById("country");
-/**
  * Conteneur du carousel
  * @type {HTMLDivElement}
  */
@@ -124,7 +114,9 @@ function loadMonument(monument) {
         coeur.src = "static/img/heart-full.svg";
     }
 
-    createMap(monument);
+    if (monument.position && monument.position.latitude && monument.position.longitude){
+        createMap(monument);
+    }
 
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
