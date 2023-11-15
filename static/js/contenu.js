@@ -32,10 +32,10 @@ let titre = document.getElementById("title");
  */
 let description = document.getElementById("description");
 /**
- * Carousel du monument
+ * Conteneur du carousel
  * @type {HTMLDivElement}
  */
-let carousel = document.getElementById("carousel-inner");
+let conteneurCarousel = document.getElementById("conteneurCarousel");
 /**
  * Bouton de recherche
  * @type {HTMLButtonElement}
@@ -49,6 +49,7 @@ let coeur = document.getElementById("coeur");
 
 /**
  * Monument
+ * @type {JSON}
  */
 let monument;
 
@@ -70,15 +71,9 @@ function loadMonument(monument) {
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
-    let active = true;
-    monument.pictures.forEach(image => {
-        if(active) {
-            carousel.innerHTML += "<div class='carousel-item active'><img src=" + image + " class=d-block></div>";
-            active = false;
-        } else {
-            carousel.innerHTML += "<div class=carousel-item><img src=" + image + " class=d-block></div>";
-        }
-    })
+    
+    if (monument.pictures && monument.pictures.length > 0)
+        conteneurCarousel.appendChild(createCarousel(monument.pictures));
 
     /**
      * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
@@ -107,6 +102,70 @@ function loadMonument(monument) {
             img.parentNode.className = "col-3 ps-3 pt-3";
         }
     });
+}
+
+/**
+ * 
+ * @param {Array<string>} pictures Tableau contenant les liens des images
+ * @returns {HTMLDivElement} Le carousel avec les images
+ */
+function createCarousel(pictures){
+    /**
+     * Création du carousel
+     * @type {HTMLDivElement}
+     */
+    const carousel = document.createElement("div");
+    carousel.className = "carousel slide";
+    carousel.id = "carouselImages";
+
+    /**
+     * Création du conteneur des images du carousel
+     * @type {HTMLDivElement}
+     */
+    let carouselInner = document.createElement("div");
+    carouselInner.className = "carousel-inner";
+
+    // Rempmlissage du carousel avec les images
+    let active = true;
+    pictures.forEach(image => {
+
+        /**
+         * Item du carousel
+         * @type {HTMLDivElement}
+         */
+        let carouselItem = document.createElement("div");
+        carouselItem.className = "carousel-item";
+        if(active) {
+            carouselItem.className += " active";
+            active = false;
+        }
+
+        /**
+         * Image du carousel
+         * @type {HTMLImageElement}
+         */
+        let img = document.createElement("img");
+        img.src = image;
+        img.className = "d-block";
+
+        carouselItem.appendChild(img);
+        carouselInner.appendChild(carouselItem);
+    });
+    
+    carousel.appendChild(carouselInner);
+
+    // Ajout des boutons du carousel
+    carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#carouselImages"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselImages"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>`;
+    return carousel;
 }
 
 /** 
