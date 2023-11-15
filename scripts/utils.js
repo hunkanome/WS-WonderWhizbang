@@ -69,6 +69,7 @@ function formatMonument(queryResult) {
     result.thumbnail = getValue(data[0].thumbnail);
     result.imagecaption = getValue(data[0].imagecaption);
     result.pictures = getValuesArray(data, 'picture');
+    result.country = getValue(data[0].locmapin);
 
     result.position = {
         latitude: getFloatValue(data[0].latitude),

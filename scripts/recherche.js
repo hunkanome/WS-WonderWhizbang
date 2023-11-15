@@ -51,7 +51,7 @@ async function getMonumentByURI(uri) {
             OPTIONAL {<${uri}> geo:lat ?latitude}.
             OPTIONAL {<${uri}> geo:long ?longitude}.
             OPTIONAL {<${uri}> dbp:location ?location}.
-            OPTIONAL {<${uri}> dbp:locmapin ?locationAlt}.
+            OPTIONAL {<${uri}> dbp:locmapin ?locmapin}.
             OPTIONAL {<${uri}> foaf:isPrimaryTopicOf ?wikiPage}.
             OPTIONAL {<${uri}> dbp:year ?year}.
             

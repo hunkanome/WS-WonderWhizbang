@@ -88,6 +88,7 @@ header .input-group input {
     transition: transform 0.4s ease-in-out;
 }
 
+/* Animation bouton lien wikipedia */
 #wikiLink:hover {
     transform: scale(1.05);
     transition: transform 0.4s ease-in-out;

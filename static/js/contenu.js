@@ -32,6 +32,16 @@ let titre = document.getElementById("title");
  */
 let description = document.getElementById("description");
 /**
+ * Année du monument
+ * @type {HTMLParagraphElement}
+ */
+let year = document.getElementById("year");
+/**
+ * Pays du monument
+ * @type {HTMLParagraphElement}
+ */
+let pays = document.getElementById("country");
+/**
  * Conteneur du carousel
  * @type {HTMLDivElement}
  */
@@ -72,9 +82,25 @@ function loadMonument(monument) {
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
+    if(monument.year){
+        year.innerHTML = monument.year;
+    } else {
+        year.innerHTML = "Année non renseignée";
+    }
+    
+    if(monument.country){
+        country.innerHTML = monument.country;
+    } else {
+        country.innerHTML = "Pays non renseignée";
+    }
 
-    var icon = document.getElementById('wikiLink');
-    icon.setAttribute('href', monument.wikiPage);
+
+    if (monument.wikiPage) {
+        var icon = document.getElementById('wikiLink');
+        icon.setAttribute('href', monument.wikiPage);
+    } else {
+        console.debug("monument.wikiPage pas défini");
+    }
 
     if (monument.pictures && monument.pictures.length > 0)
         conteneurCarousel.appendChild(createCarousel(monument.pictures));
