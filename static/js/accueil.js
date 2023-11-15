@@ -43,6 +43,7 @@ function loadDefaultImage(event) {
  * @param {object} monument 
  */
 function displayRandomMonument(monument) {
+    console.debug(monument);
     const loadingGif = document.getElementById("loading-gif");
     loadingGif.style.display = "";
 
@@ -55,6 +56,26 @@ function displayRandomMonument(monument) {
 
     const description = document.getElementById("description");
     description.innerText = monument.abstract;
+
+    if(monument.year){
+        year.innerHTML = monument.year;
+    } else {
+        year.innerHTML = "Année non renseignée";
+    }
+    
+    // Remove the country link from previous monument
+    var lienPay = document.getElementById('countryLink');
+    lienPay.removeAttribute('href'); 
+    if(monument.country && monument.country != "World"){
+        country.innerHTML = monument.country;
+        var lienPay = document.getElementById('countryLink');
+        lienPay.setAttribute('href', "resultats.html");
+        lienPay.addEventListener('click', function() {
+            localStorage.setItem('countryName', monument.country);
+        });
+    } else {
+        country.innerHTML = "Pays non renseignée";
+    }
 
     image.addEventListener("load", resizeImage);
     image.addEventListener("error", loadDefaultImage);

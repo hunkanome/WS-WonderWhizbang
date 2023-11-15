@@ -142,6 +142,11 @@ function sliceMonumentsArray(monuments) {
 }
 
 function createMap(monuments) {
+    // Check if monuments is not empty
+    if (monuments.length === 0) {
+        return;
+    }
+
     // If monuments is not an array, convert it to an array
     if (!Array.isArray(monuments)) {
         monuments = [monuments];
@@ -158,6 +163,11 @@ function createMap(monuments) {
             count++;
         }
     });
+
+    //If at least one monument has a position
+    if (count === 0) {
+        return;
+    }
     var centerLat = totalLat / count;
     var centerLong = totalLong / count;
 
