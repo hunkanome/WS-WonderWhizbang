@@ -25,7 +25,11 @@ header img {
     height: 43px;
     width: 50px;
 }
-
+/* Animation logo */
+header img:hover {
+    transform: scale(1.1);
+    transition: transform 0.4s ease-in-out;
+}
 
 header nav a {
     color: black !important;
@@ -52,6 +56,7 @@ header .input-group input[type="submit"] {
     color: white !important;
 }
 
+
 header .input-group input {
     border: 2px solid var(--button) !important;
 }
@@ -63,6 +68,11 @@ header .input-group input {
     width: fit-content;
 }
 
+#WonderWhizbang:hover {
+    transform: scale(1.025);
+    transition: transform 0.3s ease-in-out;
+}
+
 /* Bouton "Coeur" / ajouter aux favoris */
 #btnAddFavorite img {
     width: 3em;
@@ -70,6 +80,12 @@ header .input-group input {
     border-radius: 5em;
     padding: 0.5em 0.4em 0.3em;
 
+}
+
+/* Animation bouton "coeur" */
+#btnAddFavorite:hover #coeur {
+    transform: scale(1.3);
+    transition: transform 0.4s ease-in-out;
 }
 
 /* Description */
@@ -87,6 +103,13 @@ section {
     background-color: var(--button);
     border-radius: 2em;
 }
+
+/* Animation bouton "Bien aléatoire" */
+#random-btn:hover {
+    transform: scale(1.1);
+    transition: transform 0.4s ease-in-out;
+}
+
 
 #random-btn img {
     width: 3em;
