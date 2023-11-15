@@ -223,8 +223,11 @@ function addOrDeleteFavorite() {
         coeur.src = "static/img/heart-empty.svg";
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
-    } else {
+    } else { // Sinon on l'ajoute
         favorites.push(monument.uri);
+        // Trier les favoris par ordre alphabétique
+        favorites.sort();
+        
         coeur.src = "static/img/heart-full.svg";
 
         texteToast.innerText = "Monument ajouté aux favoris !";
