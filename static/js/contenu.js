@@ -89,7 +89,7 @@ function loadMonument(monument) {
         coeur.src = "static/img/heart-full.svg";
     }
 
-    createMap([monument.position.latitude, monument.position.longitude], monument.label);
+    createMap(monument);
 
     img.addEventListener("load", (event) => {
         if (img.clientWidth > img.clientHeight) {
@@ -198,15 +198,6 @@ function addOrDeleteFavorite() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
-function createMap(coords, name) {
-    let map = L.map('map').setView(coords, 5);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-    let marker = L.marker(coords).addTo(map);
-    marker.bindPopup(name).openPopup();
-}
 
 /**
  * Hydrate the page with the statistics and a random monument

@@ -46,10 +46,10 @@ async function getMonumentByURI(uri) {
             OPTIONAL {<${uri}> dbo:thumbnail ?thumbnail}.
             OPTIONAL {<${uri}> dbp:imagecaption ?imagecaption}.
             OPTIONAL {<${uri}> foaf:depiction ?picture}.
-            OPTIONAL {<${uri}> geo:lat ?latitude}.
-            OPTIONAL {<${uri}> geo:long ?longitude}.
             OPTIONAL {<${uri}> foaf:homepage ?homepage}.
             OPTIONAL {<${uri}> dbp:website ?homepageAlt}.
+            OPTIONAL {<${uri}> geo:lat ?latitude}.
+            OPTIONAL {<${uri}> geo:long ?longitude}.
             OPTIONAL {<${uri}> dbp:location ?location}.
             OPTIONAL {<${uri}> dbp:locmapin ?locationAlt}.
             OPTIONAL {<${uri}> foaf:isPrimaryTopicOf ?wikiPage}.
@@ -122,13 +122,15 @@ async function getMonumentsByCountry(countryUri) {
  */
 async function searchMonumentsByTerm(term) {
     const query = `
-        SELECT ?uri ?label ?abstract ?thumbnail ?picture WHERE {
+        SELECT * WHERE {
             ?uri a dbo:WorldHeritageSite;
                 rdfs:label ?label.
+            
             OPTIONAL {?uri dbo:abstract ?abstract}.
             OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
             OPTIONAL {?uri foaf:depiction ?picture}.
-         
+            OPTIONAL {?uri geo:lat ?latitude}.
+            OPTIONAL {?uri geo:long ?longitude}.
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
             FILTER regex(?label, "${term}", "i")

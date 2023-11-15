@@ -118,29 +118,6 @@ function searchAllMonument() {
         });
 }
 
-/**
- * Check si une image existe bien à l'URL donnée
- * @param {URL} url l'URL de l'image
- * @param {function} callback la fonction à appeler après avoir vérifié si l'image existe
- */
-function checkIfImageExists(url, callback) {
-    console.log(url)
-    const img = new Image();
-    img.src = url;
-
-    if (img.complete) {
-        callback(true);
-    } else {
-        img.onload = () => {
-            callback(true);
-        };
-
-        img.onerror = () => {
-            callback(false);
-        };
-    }
-    console.log(callback)
-}
 
 /**
  * Add the card to the page, in the result container
@@ -173,6 +150,7 @@ function hydratePage() {
     searchMonumentsByTerm(searchTerm)
         .then(monuments => {
             console.log(monuments);
+            createMap(monuments);
             monuments.forEach(monument => {
                 const card = createCard(monument);
                 addCard(card);

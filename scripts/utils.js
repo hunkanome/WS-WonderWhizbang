@@ -106,7 +106,7 @@ function formatMonuments(queryResult) {
     monuments.forEach(element => {
         result.push(formatMonument({ results: { bindings: element } }));
     });
-
+    
     return result;
 }
 
@@ -138,4 +138,47 @@ function sliceMonumentsArray(monuments) {
     }
 
     return result;
+}
+
+function createMap(monuments) {
+    
+    // If monuments is not an array, convert it to an array
+    if (!Array.isArray(monuments)) {
+        monuments = [monuments];
+    }
+
+    // Get geographical center of all monuments
+    var totalLat = 0;
+    var totalLong = 0;
+    var count = 0;
+    monuments.forEach(function(monument) {
+        if (monument.position && monument.position.latitude && monument.position.longitude) {
+            totalLat += monument.position.latitude;
+            totalLong += monument.position.longitude;
+            count++;
+        }
+    });
+    var centerLat = totalLat / count;
+    var centerLong = totalLong / count;
+
+    var map = L.map('map').setView([centerLat, centerLong], 5);
+
+    // Use a different tile provider for a different style
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Add a scale
+    L.control.scale().addTo(map);
+
+    // Add the monuments to the map
+    monuments.forEach(function(monument) {
+        if (monument.position && monument.position.latitude && monument.position.longitude) {
+            L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
+            .bindPopup(monument.label);
+        } else {
+            console.log(`Pas de position pour le monument : ${monument.label}`);
+        }
+    });
 }
