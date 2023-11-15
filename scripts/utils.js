@@ -151,21 +151,25 @@ function createMap(monuments) {
         monuments = [monuments];
     }
 
-    // Get geographical center of all monuments
-    var totalLat = 0;
-    var totalLong = 0;
-    var count = 0;
-    monuments.forEach(function(monument) {
-        if (monument.position && monument.position.latitude && monument.position.longitude) {
-            totalLat += monument.position.latitude;
-            totalLong += monument.position.longitude;
-            count++;
-        }
-    });
-    var centerLat = totalLat / count;
-    var centerLong = totalLong / count;
+    if(monuments.length < 20) {
+        // Get geographical center of all monuments
+        var totalLat = 0;
+        var totalLong = 0;
+        var count = 0;
+        monuments.forEach(function(monument) {
+            if (monument.position && monument.position.latitude && monument.position.longitude) {
+                totalLat += monument.position.latitude;
+                totalLong += monument.position.longitude;
+                count++;
+            }
+        });
+        var centerLat = totalLat / count;
+        var centerLong = totalLong / count;
 
-    var map = L.map('map').setView([centerLat, centerLong], 5);
+        var map = L.map('map').setView([centerLat, centerLong], 5);
+    } else {
+        var map = L.map('map').setView([48.856614, 2.3522219], 2);
+    }
 
     // Use a different tile provider for a different style
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -173,18 +177,28 @@ function createMap(monuments) {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // Add a scale
-    L.control.scale().addTo(map);
+    // Add a metric scale
+    L.control.scale({imperial: false}).addTo(map);
 
     // Add the monuments to the map
-    monuments.forEach(function(monument) {
+    if(monuments.length === 1) {
         if (monument.position && monument.position.latitude && monument.position.longitude) {
             L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
             .bindPopup(monument.label);
         } else {
             console.log(`Pas de position pour le monument : ${monument.label}`);
         }
-    });
+    } else {
+        monuments.forEach(function(monument) {
+            if (monument.position && monument.position.latitude && monument.position.longitude) {
+                popUpContent = `<a href="contenu.html?monument=${encodeURIComponent(monument.uri)}">${monument.label}</a>`;
+                L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
+                .bindPopup(popUpContent);
+            } else {
+                console.log(`Pas de position pour le monument : ${monument.label}`);
+            }
+        });
+    }
 }
 
 /**

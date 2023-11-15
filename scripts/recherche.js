@@ -233,7 +233,7 @@ async function getAllMonumentsPosition() {
 
     const result = await requestDBpedia(query)
         .then(data => {
-            return data.results.bindings;
+            return formatMonuments(data);
         })
         .catch(error => {
             console.error('Error:', error);
