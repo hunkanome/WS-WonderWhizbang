@@ -142,7 +142,6 @@ function sliceMonumentsArray(monuments) {
 }
 
 function createMap(monuments) {
-    
     // If monuments is not an array, convert it to an array
     if (!Array.isArray(monuments)) {
         monuments = [monuments];

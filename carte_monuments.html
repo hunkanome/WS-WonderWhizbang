@@ -8,17 +8,20 @@
     <meta name="description" content="Moteur de recherche dédié au patrimoine mondial de l'UNESCO">
     <meta name="keywords" content="UNESCO, patrimoine, culture">
     <meta name="author" content="Hunkanome">
-
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script defer src="scripts/dbpedia.js"></script>
+    <script defer src="scripts/recherche.js"></script>
+    <script defer src="scripts/utils.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <script defer src="scripts/recherche.js"></script>
-    <script src="scripts/dbpedia.js"></script>
-    <script src="scripts/utils.js"></script>
-    <script src="static/js/accueil.js"></script>
-    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script defer src="static/js/carte_monuments.js"></script>
 </head>
 
 <body>
@@ -49,32 +52,18 @@
     </header>
 
     <main class="container">
-        <!-- Random monument -->
-        <section id="bloc-detail" class="row horizontal">
-            <div class="col-6 ps-3 pt-3">
-                <h2 id="title">Titre</h2>
-                <p id="description"> Description</p>
-            </div>
-            <figure class="col-6 ps-3 pe-0">
-                <img id="loading-gif" class="w-100" src="static/img/loading.gif" alt="Chargement">
-                <img id="picture" class="w-100" alt="Photo du monument">
-            </figure>
-        </section>
-
-        <div class="d-flex mb-3">
-            <button id="random-btn" class="px-3 py-2 d-flex align-items-center">
-                <span>Un autre</span>
-                <img class="ps-2" src="static/img/dice.svg" alt="Icône de dé">
-            </button>
-        </div>
-
-        <section>
-            <div>
-                <h2>Stats</h2>
-                <div>Nombres de sites au patrimoine de l'UNESCO : <span id="monumentCount"></span></div>
-            </div>
+        <section id="bloc-2" class="row">
+            <div id="mapWorld" style="height:60vh;"></div>
         </section>
     </main>
+    <footer></footer>
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+        <div id="toast-favoris" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex justify-content-center">
+                <p id="texte-toast-favoris"></p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -214,3 +214,25 @@ function searchMonument() {
         });
 }
 
+async function getAllMonumentsPosition() {
+    const query = `
+        SELECT ?uri ?label ?latitude ?longitude WHERE {
+            ?uri a dbo:WorldHeritageSite;
+                rdfs:label ?label;
+                geo:lat ?latitude;
+                geo:long ?longitude.
+            FILTER (lang(?label) = "fr")
+        }
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return data.results.bindings;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return [];
+        });
+
+    return result;
+}
