@@ -63,7 +63,10 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  * @param {JSON} data 
  */
 function loadMonument(monument) {
-    img.src = monument.pictures[0];
+    img.src = "static/img/unesco.png";
+    if (monument.pictures && monument.pictures.length > 0){
+        img.src = monument.pictures[0];
+    }
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
@@ -137,7 +140,7 @@ function addOrDeleteFavorite() {
 }
 
 function createMap(coords, name) {
-    var map = L.map('map').setView(coords, 5);
+    let map = L.map('map').setView(coords, 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

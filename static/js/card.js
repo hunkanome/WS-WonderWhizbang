@@ -16,7 +16,7 @@ function createCard(monument) {
     imageElement.className = "card-img-top";
     let imageSrc = monument.thumbnail;
     if (imageSrc === undefined || imageSrc === null) {
-        if (monument.pictures.length > 0) {
+        if (monument.pictures && monument.pictures.length > 0) {
             imageSrc = monument.pictures[0];
         } else {
             imageSrc = "static/img/unesco.png";

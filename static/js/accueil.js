@@ -56,7 +56,6 @@ function displayRandomMonument(monument) {
     const description = document.getElementById("description");
     description.innerText = monument.abstract;
 
-    const blocDetail = document.getElementById("bloc-detail");
     image.addEventListener("load", resizeImage);
     image.addEventListener("error", loadDefaultImage);
 }

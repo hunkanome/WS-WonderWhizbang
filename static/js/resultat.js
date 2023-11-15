@@ -65,89 +65,6 @@ function formatResult(response) {
     return result;
 }
 
-// /**
-//  * Prend des informations sur un monument et crée sa carte Bootstrap
-//  * @param {string} imgSrc le lien vers l'image du monument
-//  * @param {string} title le nom du monument
-//  * @param {string} description la description du monument
-//  * @returns {HTMLDivElement} la carte du monument
-//  */
-// function createCard(imgSrc, title, description) {
-//     /**
-//      * Colonne de la grille Bootstrap contenant la carte
-//      * @type {HTMLDivElement}
-//      */
-//     const col = document.createElement("div");
-//     col.className = "col";
-
-//     /**
-//      * Carte du monument
-//      * @type {HTMLDivElement}
-//      */
-//     const card = document.createElement("div");
-//     card.className = "card shadow-sm";
-
-//     /**
-//      * Image du monument
-//      * @type {HTMLImageElement}
-//      */
-//     let img = document.createElement("img");
-//     img.className = "card-img-top";
-//     img.src = imgSrc;
-//     img.alt = title;
-
-//     /**
-//      * Corps de la carte
-//      * @type {HTMLDivElement}
-//      */
-//     let cardBody = document.createElement("div");
-//     cardBody.className = "card-body";
-
-//     /**
-//      * Nom du monument
-//      * @type {HTMLHeadingElement}
-//      */
-//     let cardTitle = document.createElement("h5");
-//     cardTitle.className = "card-title";
-//     cardTitle.innerHTML = title;
-
-//     /** 
-//      * Description du monument
-//      * @type {HTMLParagraphElement}
-//      */
-//     let cardText = document.createElement("p");
-//     cardText.className = "card-text";
-//     cardText.innerHTML = description;
-
-//     let goal = window.location.href.split("/");
-//     goal.pop()
-//     goal.push("contenu.html?monumentName=" + title.replace(/ /g, "_"));
-
-//     /**
-//      * URL de la page du monument
-//      * @type {string}
-//      */
-//     const monumentUrl = goal.join("/");
-
-//     /**
-//      * Lien vers la page du monument
-//      * @type {HTMLAnchorElement}
-//      */
-//     let cardLink = document.createElement("a");
-//     cardLink.className = "stretched-link";
-//     cardLink.target = "_blank";
-//     cardLink.href = monumentUrl;
-
-//     cardBody.appendChild(cardTitle);
-//     cardBody.appendChild(cardText);
-//     card.appendChild(img);
-//     card.appendChild(cardBody);
-//     card.appendChild(cardLink);
-//     col.appendChild(card);
-
-//     return col;
-// }
-
 /**
  * Envoie une requête SPARQL à DBpedia pour obtenir tous les monuments correspondant à la recherche
  */
@@ -270,7 +187,7 @@ function hydratePage() {
             }
         })
         .catch(error => {
-            console.error(error);
+            console.error("Error : ", error);
         });
 }
 
