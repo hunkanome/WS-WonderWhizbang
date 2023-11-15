@@ -64,6 +64,7 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  * @param {JSON} data 
  */
 function loadMonument(monument) {
+    console.debug(monument);
     img.src = "static/img/unesco.png";
     if (monument.pictures && monument.pictures.length > 0){
         img.src = monument.pictures[0];
@@ -71,7 +72,10 @@ function loadMonument(monument) {
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
-    
+
+    var icon = document.getElementById('wikiLink');
+    icon.setAttribute('href', monument.wikiPage);
+
     if (monument.pictures && monument.pictures.length > 0)
         conteneurCarousel.appendChild(createCarousel(monument.pictures));
 
