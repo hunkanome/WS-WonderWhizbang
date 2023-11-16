@@ -64,11 +64,10 @@ function displayRandomMonument(monument) {
     }
     
     // Remove the country link from previous monument
-    var lienPay = document.getElementById('countryLink');
+    let lienPay = document.getElementById('countryLink');
     lienPay.removeAttribute('href'); 
     if(monument.country && monument.country != "World"){
         country.innerHTML = monument.country;
-        var lienPay = document.getElementById('countryLink');
         lienPay.setAttribute('href', "resultats.html");
         lienPay.addEventListener('click', function() {
             localStorage.setItem('countryName', monument.country);

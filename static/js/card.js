@@ -22,7 +22,6 @@ function createCard(monument) {
             imageSrc = "static/img/unesco.png";
         }
     }
-    // TODO : en cas d'erreur au chargement (onload), mettre l'image par défaut UNESCO
     imageElement.src = imageSrc;
     imageElement.onerror = imageLoadError;
     imageElement.alt = monument.label;
