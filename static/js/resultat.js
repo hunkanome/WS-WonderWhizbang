@@ -143,7 +143,7 @@ function hydratePage() {
                 resultContainer.appendChild(card);
             })
             const timespan = new Date().getTime() - startTime;
-            statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${texteRecherche}" en ${timespan} ms}`;
+            statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${texteRecherche}" en ${timespan} ms`;
         })
         .catch(error => {
             console.error("Error : ", error);
