@@ -82,10 +82,9 @@ async function getMonumentByURI(uri) {
 }
 
 /**
- * Search all the monuments in a country
- * 
+ * Recherche tous les monuments d'un pays
  * @param {string} countryUri
- * @returns {array} monuments
+ * @returns {Array.<JSON>} la liste des monuments
  * 
  */
 async function getMonumentsByCountry(countryName) {
@@ -121,10 +120,9 @@ async function getMonumentsByCountry(countryName) {
 }
 
 /**
- * Search all the monuments with the given term in their label
- * 
+ * Recherche tous les monuments dont le nom français contient le terme recherché
  * @param {string} term the term to search
- * @returns {array} monuments
+ * @returns {Array.<JSON>} la liste des monuments
  */
 async function searchMonumentsByTerm(term) {
     const query = `
@@ -153,6 +151,23 @@ async function searchMonumentsByTerm(term) {
         });
 
     return result;
+}
+
+/**
+ * Fonction wrapper pour toutes les fonctions de recherche de plusieurs monuments
+ * @param {string} type Pays ou Nom (la casse est importante)
+ * @param {string} recherche le texte de la recherche 
+ * @returns {Array.<JSON>} la liste des monuments
+ */
+async function getMonuments(type, recherche) {
+    if (type == "Pays") {
+        return await getMonumentsByCountry(recherche).catch(error => {
+            console.error("Error : ", error);
+        });
+    } 
+    return await searchMonumentsByTerm(recherche).catch(error => {
+        console.error("Error : ", error);
+    });
 }
 
 /**
@@ -197,7 +212,7 @@ function searchMonument() {
     // Get the user input from the search bar
     let userInput = document.getElementById('searchInput').value;
     // Define the SPARQL query with the user input
-    var query = `
+    const query = `
                 SELECT ?monumentLabel ?picture ?desc WHERE {
                 ?monument a dbo:WorldHeritageSite .
                 ?monument rdfs:label ?monumentLabel .

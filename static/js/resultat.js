@@ -34,8 +34,13 @@ const champRecherche = document.getElementById('searchInput');
  * Texte de la recherche contenu dans l'URL
  * @type {string}
  */
-let texteRecherche = urlParameters.get('recherche');
+let texteRecherche = urlParameters.get('search');
 
+/**
+ * Type de recherche
+ * @type {string}
+ */
+let texteType = urlParameters.get('type');
 
 /**
  * Transforme réponse en une liste de monuments chacun ayant une liste d'images
@@ -118,18 +123,6 @@ function searchAllMonument() {
         });
 }
 
-
-/**
- * Add the card to the page, in the result container
- * 
- * @param {HTMLElement} card the card to add to the page
- * @returns {void}
- */
-function addCard(card) {
-    const container = document.getElementById("resultContainer");
-    container.appendChild(card);
-}
-
 /**
  * Hydrate the page with the statistics and a random monument
  * Also set the event listeners
@@ -137,61 +130,26 @@ function addCard(card) {
  * @returns {void}
  */
 function hydratePage() {
-    const countryName = localStorage.getItem('countryName');
     const startTime = new Date().getTime();
-    if (countryName) {
-        getMonumentsByCountry(countryName)
+    if (texteRecherche === null || texteRecherche === "") {
+        statsRecherche.innerText = "Aucun terme de recherche n'a été spécifié";
+        return;
+    }
+    getMonuments(texteType, texteRecherche)
         .then(monuments => {
-            console.log(monuments);
             createMap(monuments);
             monuments.forEach(monument => {
                 const card = createCard(monument);
-                addCard(card);
-            });
-
-            const statsElement = document.getElementById("stats");
+                resultContainer.appendChild(card);
+            })
             const timespan = new Date().getTime() - startTime;
-            if (monuments.length === 0) {
-                statsElement.innerText = `Aucun résultat pour le pays "${countryName}"`;
-            } else {
-                statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${countryName}" en ${timespan} ms`;
-            }
-        localStorage.removeItem('countryName');
+            statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${texteRecherche}" en ${timespan} ms}`;
         })
         .catch(error => {
             console.error("Error : ", error);
         });
-    } else {
-        const params = new URLSearchParams(document.location.search);
-        const searchTerm = params.get("search");
-        if (searchTerm === null || searchTerm === "") {
-            alert("Aucun terme de recherche n'a été spécifié");
-            // TODO : afficher une erreur sur la page
-        }
-        const searchInput = document.getElementById("searchInput");
-        searchInput.value = searchTerm;
-        searchMonumentsByTerm(searchTerm)
-            .then(monuments => {
-                console.log(monuments);
-                createMap(monuments);
-                monuments.forEach(monument => {
-                    const card = createCard(monument);
-                    addCard(card);
-                });
-
-                const statsElement = document.getElementById("stats");
-                const timespan = new Date().getTime() - startTime;
-                if (monuments.length === 0) {
-                    statsElement.innerText = `Aucun résultat pour "${searchTerm}"`;
-                } else {
-                    statsElement.innerText = `${monuments.length} résultat${monuments.length > 1 ? "s" : ""} pour "${searchTerm}" en ${timespan} ms`;
-                }
-            })
-            .catch(error => {
-                console.error("Error : ", error);
-            });
-    }
 }
+        
 
 // Hydrate the page or prepare the hydration
 if (document.readyState === "complete") {

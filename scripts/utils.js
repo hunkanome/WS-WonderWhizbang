@@ -147,35 +147,30 @@ function sliceMonumentsArray(monuments) {
  */
 function createMap(monuments) {
     // Check if monuments is not empty
-    if (monuments.length === 0) {
-        return;
-    }
+    if (monuments.length === 0) return;
 
     // If monuments is not an array, convert it to an array
-    if (!Array.isArray(monuments)) {
+    if (!Array.isArray(monuments))
         monuments = [monuments];
-    }
-
-    if(0 < monuments.length && monuments.length < 20) {
+    let map = L.map('map').setView([48.856614, 2.3522219], 2);
+    if(monuments.length > 0 && monuments.length < 20) {
         // Get geographical center of all monuments
-        var totalLat = 0;
-        var totalLong = 0;
-        var count = 0;
-        monuments.forEach(function(monument) {
-            if (monument.position && monument.position.latitude && monument.position.longitude) {
+        let totalLat = 0;
+        let totalLong = 0;
+        let count = 0;
+        monuments
+            .filter( (monument) => { return monument.position?.latitude && monument.position.longitude})
+            .forEach( (monument) => {
                 totalLat += monument.position.latitude;
                 totalLong += monument.position.longitude;
                 count++;
-            }
         });
-        var centerLat = totalLat / count;
-        var centerLong = totalLong / count;
-
-        var map = L.map('map').setView([centerLat, centerLong], 5);
-    } else {
-        var map = L.map('map').setView([48.856614, 2.3522219], 2);
+        if (count != 0){
+            const centerLat = totalLat / count;
+            const centerLong = totalLong / count;
+            map.setView([centerLat, centerLong], 5);
+        }
     }
-
     // Use a different tile provider for a different style
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -186,22 +181,15 @@ function createMap(monuments) {
     L.control.scale({imperial: false}).addTo(map);
 
     // Add the monuments to the map
-    if(monuments.length === 1) {
-        if (monument.position && monument.position.latitude && monument.position.longitude) {
-            L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
-            .bindPopup(monument.label);
-        } else {
-            console.log(`Pas de position pour le monument : ${monument.label}`);
-        }
+    if(monuments.length === 1 && monuments[0].position?.latitude && monuments[0].position.longitude) {
+        L.marker([monument.position.latitude, monument.position.longitude]).addTo(map).bindPopup(monument.label);
     } else {
-        monuments.forEach(function(monument) {
-            if (monument.position && monument.position.latitude && monument.position.longitude) {
-                popUpContent = `<a href="contenu.html?monument=${encodeURIComponent(monument.uri)}">${monument.label}</a>`;
+        monuments
+            .filter((monument) => { return monument.position?.latitude && monument.position.longitude})
+            .forEach((monument) => {
+                const popUpContent = `<a href="contenu.html?monument=${encodeURIComponent(monument.uri)}">${monument.label}</a>`;
                 L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
                 .bindPopup(popUpContent);
-            } else {
-                console.log(`Pas de position pour le monument : ${monument.label}`);
-            }
         });
     }
 }

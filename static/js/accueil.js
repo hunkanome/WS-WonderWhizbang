@@ -63,17 +63,20 @@ function displayRandomMonument(monument) {
         year.innerHTML = "Année non renseignée";
     }
     
+    let locationContainer = document.getElementById('location');
     // Remove the country link from previous monument
-    let lienPay = document.getElementById('countryLink');
-    lienPay.removeAttribute('href'); 
-    if(monument.country && monument.country != "World"){
-        country.innerHTML = monument.country;
-        lienPay.setAttribute('href', "resultats.html");
-        lienPay.addEventListener('click', function() {
-            localStorage.setItem('countryName', monument.country);
+    locationContainer.innerHTML = "";
+    if(monument.country && monument.country != "" && monument.country != "World"){
+        locations = monument.country.split("#");
+        locations.forEach(lieu => {
+            let lienPay = document.createElement('a');
+            lienPay.innerText = lieu;
+            lienPay.className = "badge rounded text-bg-dark";
+            lienPay.href = `resultats.html?search=${lieu}&type=Pays`;
+            locationContainer.appendChild(lienPay);
         });
     } else {
-        country.innerHTML = "Pays non renseignée";
+        locationContainer.innerHTML = "Pays non renseignée";
     }
 
     image.addEventListener("load", resizeImage);

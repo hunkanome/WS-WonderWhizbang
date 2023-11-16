@@ -66,7 +66,7 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 function loadMonument(monument) {
     console.debug(monument);
     img.src = "static/img/unesco.png";
-    if (monument.pictures && monument.pictures.length > 0){
+    if (monument.pictures?.length > 0){
         img.src = monument.pictures[0];
         img.onerror = imageLoadError;
     }
@@ -79,46 +79,42 @@ function loadMonument(monument) {
         year.innerHTML = "Année non renseignée";
     }
     
-    if(monument.country && monument.country != "World"){
-        country.innerHTML = monument.country;
-        var lienPay = document.getElementById('countryLink');
-        lienPay.setAttribute('href', "resultats.html");
-        lienPay.addEventListener('click', function() {
-            localStorage.setItem('countryName', monument.country);
+    let locationContainer = document.getElementById('location');
+    locationContainer.innerHTML = "";
+    if(monument.country && monument.country != "" && monument.country != "World"){
+        const locations = monument.country.split("#");
+        locations.forEach(location => {
+            let lienPay = document.createElement('a');
+            lienPay.href = `resultats.html?search=${location}&type=Pays`;
+            lienPay.innerText = location;
+            lienPay.className = "badge rounded text-bg-dark me-1 text-decoration-none";
+            locationContainer.appendChild(lienPay);
         });
     } else {
-        country.innerHTML = "Pays non renseignée";
+        locationContainer.innerHTML = "Pays non renseignée";
     }
 
     if (monument.wikiPage) {
-        var icon = document.getElementById('wikiLink');
-        icon.setAttribute('href', monument.wikiPage);
-    } else {
-        console.debug("monument.wikiPage pas défini");
+        let icon = document.getElementById('wikiLink');
+        icon.href = monument.wikiPage;
     }
 
-    if (monument.pictures && monument.pictures.length > 0)
+    if (monument.pictures?.length > 0)
         conteneurCarousel.appendChild(createCarousel(monument.pictures));
 
     /**
      * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
      */
     let favorites = localStorage.getItem("favorites");
-    if (favorites) {
-        favorites = JSON.parse(favorites);
-    } else {
-        favorites = [];
-    }
+    favorites = favorites ? JSON.parse(favorites) : [];
 
-    if (favorites.includes(monument.uri)) {
+    if (favorites.includes(monument.uri))
         coeur.src = "static/img/heart-full.svg";
-    }
 
-    if (monument.position && monument.position.latitude && monument.position.longitude){
+    if (monument.position?.latitude && monument.position.longitude)
         createMap(monument);
-    }
 
-    img.addEventListener("load", (event) => {
+    img.addEventListener("load", (_) => {
         if (img.clientWidth > img.clientHeight) {
             blocDetail.className = "row horizontal";
             titre.parentNode.parentNode.parentNode.parentNode.className = "col-6 ps-3 pe-0";
@@ -200,11 +196,7 @@ function createCarousel(pictures){
  */
 function addOrDeleteFavorite() {
     let favorites = localStorage.getItem("favorites");
-    if (favorites) {
-        favorites = JSON.parse(favorites);
-    } else {
-        favorites = [];
-    }
+    favorites = favorites ? JSON.parse(favorites) : [];
 
     const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast-favoris"));
     const texteToast = document.getElementById("texte-toast-favoris");
