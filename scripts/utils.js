@@ -182,7 +182,7 @@ function createMap(monuments) {
 
     // Add the monuments to the map
     if(monuments.length === 1 && monuments[0].position?.latitude && monuments[0].position.longitude) {
-        L.marker([monuments[0].position.latitude, monuments[0].position.longitude]).addTo(map).bindPopup(monument.label);
+        L.marker([monuments[0].position.latitude, monuments[0].position.longitude]).addTo(map).bindPopup(monuments[0].label);
     } else {
         monuments
             .filter((monument) => { return monument.position?.latitude && monument.position.longitude})
