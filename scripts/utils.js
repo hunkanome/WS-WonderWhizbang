@@ -187,9 +187,18 @@ function createMap(monuments) {
         monuments
             .filter((monument) => { return monument.position?.latitude && monument.position.longitude })
             .forEach((monument) => {
-                const popUpContent = `<a href="contenu.html?monument=${encodeURIComponent(monument.uri)}">${monument.label}</a>`;
-                L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
-                    .bindPopup(popUpContent);
+                const imageElement = document.createElement('img');
+                loadImage(imageElement, monument.thumbnail);
+
+                const linkElement = document.createElement('a');
+                linkElement.href = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
+                linkElement.innerText = monument.label;
+
+                const divElement = document.createElement('div');
+                divElement.appendChild(imageElement);
+                divElement.appendChild(linkElement);
+
+                L.marker([monument.position.latitude, monument.position.longitude]).addTo(map).bindPopup(divElement);
             });
     }
 }
