@@ -107,6 +107,7 @@ function formatMonuments(queryResult) {
     monuments.forEach(element => {
         result.push(formatMonument({ results: { bindings: element } }));
     });
+    console.log(result);
 
     return result;
 }
