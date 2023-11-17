@@ -31,18 +31,6 @@ const urlParameters = new URLSearchParams(window.location.search);
 const champRecherche = document.getElementById('searchInput');
 
 /**
- * Texte de la recherche contenu dans l'URL
- * @type {string}
- */
-let texteRecherche = urlParameters.get('search');
-
-/**
- * Type de recherche
- * @type {string}
- */
-let texteType = urlParameters.get('type');
-
-/**
  * Transforme réponse en une liste de monuments chacun ayant une liste d'images
  * @param {Array.<JSON>} response la réponse de la requête SPARQL à DBpedia
  * @returns {Array.<JSON>} la liste des monuments
@@ -79,11 +67,13 @@ function formatResult(response) {
  */
 function hydratePage() {
     const startTime = new Date().getTime();
-    if (texteRecherche === null || texteRecherche === "") {
+    const researchTerm = urlParameters.get('search');
+    if (researchTerm === null || researchTerm === "") {
         statsRecherche.innerText = "Aucun terme de recherche n'a été spécifié";
         return;
     }
-    getMonuments(texteType, texteRecherche)
+    const researchType = urlParameters.get('type');
+    getMonuments(researchType, researchTerm)
         .then(monuments => {
             createMap(monuments);
             monuments.forEach(monument => {
@@ -91,7 +81,7 @@ function hydratePage() {
                 resultContainer.appendChild(card);
             })
             const timespan = new Date().getTime() - startTime;
-            statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${texteRecherche}" en ${timespan} ms`;
+            statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${researchTerm}" en ${timespan} ms`;
         })
         .catch(error => {
             console.error("Error : ", error);

@@ -27,9 +27,11 @@ function hydratePage() {
     let favorites = JSON.parse(localStorage.getItem("favorites"));
     if (favorites) {
         favorites.forEach(element => {
-            getMonumentByURI(element)
+            getLightMonumentByURI(element)
                 .then(monument => {
-                    resultContainer.appendChild(createCard(monument));
+                    if (monument) {
+                        resultContainer.appendChild(createCard(monument));
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);

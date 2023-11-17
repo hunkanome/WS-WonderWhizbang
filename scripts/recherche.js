@@ -81,14 +81,48 @@ async function getMonumentByURI(uri) {
     return result;
 }
 
+async function getLightMonumentByURI(uri) {
+    const query = `
+        SELECT * WHERE {
+            <${uri}> a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            
+            OPTIONAL {<${uri}> dbo:abstract ?abstract}.
+            OPTIONAL {<${uri}> dbo:thumbnail ?thumbnail}.
+            OPTIONAL {<${uri}> foaf:depiction ?picture}.
+            OPTIONAL {<${uri}> geo:lat ?latitude}.
+            OPTIONAL {<${uri}> geo:long ?longitude}.
+            
+            FILTER (lang(?label) = "fr")
+            FILTER (lang(?abstract) = "fr")
+        }
+        `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            if (data.results.bindings.length > 0) {
+                const monument = formatMonument(data);
+                monument.uri = uri;
+                return monument;
+            } else {
+                return null;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return null;
+        });
+
+    return result;
+}
+
 /**
  * Recherche tous les monuments d'un pays
  * @param {string} countryUri
  * @returns {Array.<JSON>} la liste des monuments
  * 
  */
-async function getMonumentsByCountry(countryName) {
-    console.debug(countryName);
+async function getMonumentsByCountry(countryUri) {
     const query = `
         SELECT * WHERE {
             ?uri
@@ -103,7 +137,7 @@ async function getMonumentsByCountry(countryName) {
          
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
-            FILTER regex(?locmapin, "${countryName}", "i")
+            FILTER regex(?locmapin, "${countryUri}", "i")
         } ORDER BY ?uri
     `;
 
@@ -135,6 +169,7 @@ async function searchMonumentsByTerm(term) {
             OPTIONAL {?uri foaf:depiction ?picture}.
             OPTIONAL {?uri geo:lat ?latitude}.
             OPTIONAL {?uri geo:long ?longitude}.
+
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
             FILTER regex(?label, "${term}", "i")
@@ -164,7 +199,7 @@ async function getMonuments(type, recherche) {
         return await getMonumentsByCountry(recherche).catch(error => {
             console.error("Error : ", error);
         });
-    } 
+    }
     return await searchMonumentsByTerm(recherche).catch(error => {
         console.error("Error : ", error);
     });
@@ -185,7 +220,6 @@ async function getRandomMonument() {
             OPTIONAL {?uri dbo:abstract ?abstract}.
             OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
             OPTIONAL {?uri dbp:locmapin ?locmapin}.
-            OPTIONAL {?uri foaf:isPrimaryTopicOf ?wikiPage}.
             OPTIONAL {?uri dbp:year ?year}.
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
@@ -206,37 +240,11 @@ async function getRandomMonument() {
     return result;
 }
 
-
-// Get a monument based on user input
-function searchMonument() {
-    // Get the user input from the search bar
-    let userInput = document.getElementById('searchInput').value;
-    // Define the SPARQL query with the user input
-    const query = `
-                SELECT ?monumentLabel ?picture ?desc WHERE {
-                ?monument a dbo:WorldHeritageSite .
-                ?monument rdfs:label ?monumentLabel .
-                ?monument dbo:abstract ?desc .
-                ?monument foaf:depiction ?picture .
-                FILTER (lang(?monumentLabel) = "fr")
-                FILTER (lang(?desc) = "fr") 
-                FILTER regex(?monumentLabel, "${userInput}", "i")
-                }
-                LIMIT 1
-                #OFFSET ${Math.floor(Math.random() * 1000)}
-            `;
-    //Display in console the query
-    console.log(query);
-    // Send the query to the SPARQL endpoint
-    requestDBpedia(query)
-        .then(data => {
-            loadMonument(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
+/**
+ * Retrive all the monuments with their geographical position
+ * 
+ * @returns {Array.<JSON>} monuments
+ */
 async function getAllMonumentsPosition() {
     const query = `
         SELECT ?uri ?label ?latitude ?longitude WHERE {
