@@ -11,11 +11,9 @@ function resizeImage(event) {
     image.style.display = "";
     if (image.clientWidth > image.clientHeight) {
         blocDetail.className = "row horizontal";
-        titre.parentNode.className = "col-6 ps-3 pe-0";
         image.parentNode.className = "col-6 ps-3 pt-3";
     } else {
         blocDetail.className = "row vertical";
-        titre.parentNode.className = "col-9 ps-3 pe-0";
         image.parentNode.className = "col-3 ps-3 pt-3";
     }
 
@@ -53,20 +51,21 @@ function displayRandomMonument(monument) {
 
     const title = document.getElementById("title");
     title.innerText = monument.label;
+    title.href = `contenu.html?monument=${monument.uri}`;
 
     const description = document.getElementById("description");
     description.innerText = monument.abstract;
 
-    if(monument.year){
+    if (monument.year) {
         year.innerHTML = monument.year;
     } else {
         year.innerHTML = "Année non renseignée";
     }
-    
+
     let locationContainer = document.getElementById('location');
     // Remove the country link from previous monument
     locationContainer.innerHTML = "";
-    if(monument.country && monument.country != "" && monument.country != "World"){
+    if (monument.country && monument.country != "" && monument.country != "World") {
         locations = monument.country.split("#");
         locations.forEach(lieu => {
             let lienPay = document.createElement('a');
@@ -75,8 +74,6 @@ function displayRandomMonument(monument) {
             lienPay.href = `resultats.html?search=${lieu}&type=Pays`;
             locationContainer.appendChild(lienPay);
         });
-    } else {
-        locationContainer.innerHTML = "Pays non renseignée";
     }
 
     image.addEventListener("load", resizeImage);

@@ -66,22 +66,22 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
 function loadMonument(monument) {
     console.debug(monument);
     img.src = "static/img/unesco.png";
-    if (monument.pictures?.length > 0){
+    if (monument.pictures?.length > 0) {
         img.src = monument.pictures[0];
         img.onerror = imageLoadError;
     }
 
     titre.innerHTML = monument.label;
     description.innerHTML = monument.abstract;
-    if(monument.year){
+    if (monument.year) {
         year.innerHTML = monument.year;
     } else {
         year.innerHTML = "Année non renseignée";
     }
-    
+
     let locationContainer = document.getElementById('location');
     locationContainer.innerHTML = "";
-    if(monument.country && monument.country != "" && monument.country != "World"){
+    if (monument.country && monument.country != "" && monument.country != "World") {
         const locations = monument.country.split("#");
         locations.forEach(location => {
             let lienPay = document.createElement('a');
@@ -90,8 +90,6 @@ function loadMonument(monument) {
             lienPay.className = "badge rounded text-bg-dark me-1 text-decoration-none";
             locationContainer.appendChild(lienPay);
         });
-    } else {
-        locationContainer.innerHTML = "Pays non renseignée";
     }
 
     if (monument.wikiPage) {
@@ -132,7 +130,7 @@ function loadMonument(monument) {
  * @param {Array<string>} pictures Tableau contenant les liens des images
  * @returns {HTMLDivElement} Le carousel avec les images
  */
-function createCarousel(pictures){
+function createCarousel(pictures) {
     /**
      * Création du carousel
      * @type {HTMLDivElement}
@@ -158,7 +156,7 @@ function createCarousel(pictures){
          */
         let carouselItem = document.createElement("div");
         carouselItem.className = "carousel-item";
-        if(active) {
+        if (active) {
             carouselItem.className += " active";
             active = false;
         }
@@ -174,7 +172,7 @@ function createCarousel(pictures){
         carouselItem.appendChild(img);
         carouselInner.appendChild(carouselItem);
     });
-    
+
     carousel.appendChild(carouselInner);
 
     // Ajout des boutons du carousel
@@ -211,7 +209,7 @@ function addOrDeleteFavorite() {
         favorites.push(monument.uri);
         // Trier les favoris par ordre alphabétique
         favorites.sort();
-        
+
         coeur.src = "static/img/heart-full.svg";
 
         texteToast.innerText = "Monument ajouté aux favoris !";
