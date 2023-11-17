@@ -227,11 +227,11 @@ function hydratePage() {
     const monumentUri = params.get("monument");
 
     getMonumentByURI(monumentUri)
-        .then(monument => {
-            monument = monument;
-            loadMonument(monument);
+        .then(monumentRes => {
+            monument = monumentRes;
+            loadMonument(monumentRes);
 
-            getRelatedMonuments(monument.uri)
+            getRelatedMonuments(monumentRes.uri)
                 .then(monuments => {
                     const relatedMonumentsContainer = document.getElementById("relatedMonumentsContainer");
                     monuments.forEach(m => {
