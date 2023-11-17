@@ -193,7 +193,7 @@ function createMap(monuments) {
 
                 const linkElement = document.createElement('a');
                 linkElement.href = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
-                linkElement.innerText = monument.label;
+                linkElement.innerText = "\n" + monument.label;
 
                 const divElement = document.createElement('div');
                 divElement.appendChild(imageElement);
