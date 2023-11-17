@@ -25,31 +25,30 @@
 </head>
 
 <body>
-	<header class="container-fluid sticky-top mb-3">
-		<div class="d-flex py-3 row">
-			<div class="col-auto d-flex">
-				<a href="index.html" class="text-decoration-none">
-					<img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
-				</a>
-				<a href="index.html" class="text-decoration-none link-dark">
-					<h1 id="WonderWhizbang" class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
-				</a>
-			</div>
-			<nav class="col-auto d-flex align-items-center pe-0">
-				<a href="favoris.html">Mes favoris</a>
-			</nav>
-			<nav class="col-auto d-flex align-items-center pe-0">
-				<a href="carte_monuments.html">Carte du monde</a>
-			</nav>
-			<div class="col-auto d-flex ms-auto ps-0">
-				<form class="input-group" method="get" action="resultats.html">
-					<input id="searchInput" type="text" name="search" class="form-control"
-						placeholder="Rechercher..." />
-					<input id="searchButton" type="submit" class="btn" value="Rechercher" />
-				</form>
-			</div>
-		</div>
-	</header>
+    <header class="container-fluid d-flex align-items-center sticky-top py-3 mb-3">
+        <a class="text-decoration-none me-lg-2 pe-2 pe-lg-0" href="index.html">
+            <img src="static/img/logo.png" alt="Logo de WonderWhizbang">
+        </a>
+
+        <a class="text-decoration-none d-none d-lg-block text-black" href="index.html">
+            <h1 id="WonderWhizbang" class="me-2 mb-0">WonderWhizbang</h1>
+        </a>
+
+        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="favoris.html">
+            <span class="d-none d-sm-inline">Mes favoris</span>
+            <span class="d-inline d-sm-none">Favoris</span>
+        </a>
+
+        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="carte_monuments.html">
+            <span class="d-none d-sm-inline">Carte du monde</span>
+            <span class="d-inline d-sm-none">Carte</span>
+        </a>
+
+        <form class="input-group ms-auto w-25 flex-shrink-1" id="recherche" method="get" action="resultats.html">
+            <input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher un monument"/>
+            <input id="searchButton" type="submit" class="btn" value="   " />
+        </form>
+    </header>
 
 	<main class="container">
 		<!-- Bouton pour effacer tous les favoris -->

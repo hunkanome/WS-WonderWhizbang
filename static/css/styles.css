@@ -36,17 +36,9 @@ header img:hover {
     transition: transform ease-in-out;
 }
 
-header nav a {
-    color: black !important;
-    text-decoration: none;
-
+header a {
     font-size: 1.5em;
     font-family: 'HeptaSlab', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
-
-    border-left: 2px solid black;
-    padding: 0 0.5em;
-    height: fit-content;
-
 }
 
 header nav a:hover {
@@ -55,9 +47,12 @@ header nav a:hover {
 
 /* Bouton "Rechercher" */
 header .input-group input[type="submit"] {
-    border: 2px solid var(--button) !important;
-    background-color: var(--button) !important;
-    color: white !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../img/search.svg");
+    background-color: white;
+    border: 2px solid white !important;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(303deg) brightness(105%) contrast(101%);
 }
 
 header .input-group input {
@@ -178,9 +173,10 @@ section {
 
 h1 {
     font-family: 'Amagro', ' Georgia', 'Times New Roman', Times, serif !important;
+    font-size: 2rem;
 }
 
-h2 {
+h2, h2 * {
     font-family: 'HeptaSlab', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
     color: black !important;
 }
