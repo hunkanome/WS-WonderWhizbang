@@ -10,6 +10,8 @@
 
 body {
     background-color: var(--background) !important;
+    height: 100vh;
+    width: 100vw;
 }
 
 /* === HEADER === */
@@ -18,6 +20,7 @@ header {
     background-color: var(--header);
     border-bottom: 1px solid lightgray !important;
     filter: drop-shadow(0 2px 1px gray);
+    height: 10vh;
 }
 
 /* Logo */
@@ -26,6 +29,7 @@ header img {
     width: 50px;
     transition-duration: 0.4s;
 }
+
 /* Animation logo */
 header img:hover {
     transform: scale(1.1);
@@ -61,6 +65,10 @@ header .input-group input {
 }
 
 /* === MAIN === */
+
+main {
+    height: 90vh;
+}
 
 /* Titre */
 #bloc-detail h2 {
