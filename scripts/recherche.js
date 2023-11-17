@@ -247,20 +247,44 @@ async function getRandomMonument() {
  */
 async function getAllMonumentsPosition() {
     const query = `
-        SELECT ?uri ?label ?latitude ?longitude ?thumbnail WHERE {
+        SELECT ?uri ?latitude ?longitude WHERE {
             ?uri a dbo:WorldHeritageSite;
-                rdfs:label ?label;
                 geo:lat ?latitude;
                 geo:long ?longitude.
-
-            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
-            FILTER (lang(?label) = "fr")
         }
     `;
 
     const result = await requestDBpedia(query)
         .then(data => {
             return formatMonuments(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return [];
+        });
+
+    return result;
+}
+
+/**
+ * Retrive the label and thumbnail of a monument
+ * 
+ * @param {string} uri uri du monument
+ * @returns {Array.<JSON>} infos
+ */
+async function getShortInfoMonumentByURI(uri) {
+    const query = `
+        SELECT ?label ?thumbnail WHERE {
+            <${uri}> rdfs:label ?label.
+
+            OPTIONAL {<${uri}> dbo:thumbnail ?thumbnail}.
+            FILTER (lang(?label) = "fr")
+        }
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return formatMonument(data);
         })
         .catch(error => {
             console.error('Error:', error);

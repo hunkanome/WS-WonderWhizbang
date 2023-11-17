@@ -187,21 +187,30 @@ function createMap(monuments) {
         monuments
             .filter((monument) => { return monument.position?.latitude && monument.position.longitude })
             .forEach((monument) => {
-                const imageElement = document.createElement('img');
-                loadImage(imageElement, monument.thumbnail);
-                imageElement.style.maxHeight = "100px";
-
-                const linkElement = document.createElement('a');
-                linkElement.href = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
-                linkElement.innerText = "\n" + monument.label;
-
-                const divElement = document.createElement('div');
-                divElement.classList.add("text-center");
-                divElement.appendChild(imageElement);
-                divElement.appendChild(linkElement);
-
-                L.marker([monument.position.latitude, monument.position.longitude]).addTo(map).bindPopup(divElement);
+                let marker = L.marker([monument.position.latitude, monument.position.longitude]);
+                marker.alt = monument.uri;
+                marker.on('click', onClick);
+                marker.addTo(map);
             });
     }
 }
 
+function onClick(event) {
+    getShortInfoMonumentByURI(event.target.alt)
+        .then(monument => {
+            const imageElement = document.createElement('img');
+            loadImage(imageElement, monument.thumbnail);
+            imageElement.style.maxHeight = "100px";
+
+            const linkElement = document.createElement('a');
+            linkElement.href = `contenu.html?monument=${encodeURIComponent(event.target.alt)}`;
+            linkElement.innerText = "\n" + monument.label;
+
+            const divElement = document.createElement('div');
+            divElement.classList.add("text-center");
+            divElement.appendChild(imageElement);
+            divElement.appendChild(linkElement);
+
+            event.target.bindPopup(divElement).openPopup();
+        });
+}
