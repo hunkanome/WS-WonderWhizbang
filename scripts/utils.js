@@ -190,12 +190,14 @@ function createMap(monuments) {
             .forEach((monument) => {
                 const imageElement = document.createElement('img');
                 loadImage(imageElement, monument.thumbnail);
+                imageElement.style.maxHeight = "100px";
 
                 const linkElement = document.createElement('a');
                 linkElement.href = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
                 linkElement.innerText = "\n" + monument.label;
 
                 const divElement = document.createElement('div');
+                divElement.classList.add("text-center");
                 divElement.appendChild(imageElement);
                 divElement.appendChild(linkElement);
 
