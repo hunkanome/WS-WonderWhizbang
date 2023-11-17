@@ -191,22 +191,36 @@ function addOrDeleteFavorite() {
     // Si le monument est dans les favoris, on l'enlève
     if (favorites.includes(monument.uri)) {
         favorites.splice(favorites.indexOf(monument.uri), 1);
-        coeur.src = "static/img/heart-empty.svg";
+        coeur.className = "bi bi-heartbreak-fill mb-0";
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
     } else { // Sinon on l'ajoute
         favorites.push(monument.uri);
         // Trier les favoris par ordre alphabétique
         favorites.sort();
-
-        coeur.src = "static/img/heart-full.svg";
-
+        coeur.className = "bi bi-heart-fill mb-0";
         texteToast.innerText = "Monument ajouté aux favoris !";
         toast.show();
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-
+let btnAddFavorite = document.getElementById("btnAddFavorite");
+btnAddFavorite.addEventListener("mouseenter", () => {
+    if (coeur.className.indexOf("bi-heart-fill") != -1){
+        coeur.classList.replace("bi-heart-fill", "bi-heartbreak-fill");
+    }
+    else{
+        coeur.classList.replace("bi-heart", "bi-heart-fill");
+    }
+});
+btnAddFavorite.addEventListener("mouseleave", () => {
+    if (coeur.className.indexOf("bi-heartbreak-fill") != -1){
+        coeur.classList.replace("bi-heartbreak-fill", "bi-heart-fill");
+    }
+    else{
+        coeur.classList.replace("bi-heart-fill", "bi-heart");
+    }
+});
 
 /**
  * Hydrate the page with the statistics and a random monument

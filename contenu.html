@@ -19,10 +19,11 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="scripts/dbpedia.js"></script>
     <script src="scripts/recherche.js"></script>
     <script src="scripts/utils.js"></script>
-    <script src="static/js/contenu.js"></script>
+    <script defer src="static/js/contenu.js"></script>
     <script src="static/js/image.js"></script>
 
 </head>
@@ -66,9 +67,9 @@
                             </span>
                         </a>
                     </h2>
-                    <a id="btnAddFavorite">
-                        <img id="coeur" src="static/img/heart-empty.svg" alt="Icône favori">
-                    </a>
+                    <button id="btnAddFavorite">
+                        <h2 id="coeur" class="bi bi-heart mb-0"></h2>
+                    </button>
                 </div>
                 <p id="description">Description</p>
                 <p id="year">Année</p>
