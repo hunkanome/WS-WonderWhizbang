@@ -107,7 +107,7 @@ function formatMonuments(queryResult) {
     monuments.forEach(element => {
         result.push(formatMonument({ results: { bindings: element } }));
     });
-    
+
     return result;
 }
 
@@ -153,19 +153,19 @@ function createMap(monuments) {
     if (!Array.isArray(monuments))
         monuments = [monuments];
     let map = L.map('map').setView([48.856614, 2.3522219], 2);
-    if(monuments.length > 0 && monuments.length < 20) {
+    if (monuments.length > 0 && monuments.length < 20) {
         // Get geographical center of all monuments
         let totalLat = 0;
         let totalLong = 0;
         let count = 0;
         monuments
-            .filter( (monument) => { return monument.position?.latitude && monument.position.longitude})
-            .forEach( (monument) => {
+            .filter((monument) => { return monument.position?.latitude && monument.position.longitude })
+            .forEach((monument) => {
                 totalLat += monument.position.latitude;
                 totalLong += monument.position.longitude;
                 count++;
-        });
-        if (count != 0){
+            });
+        if (count != 0) {
             const centerLat = totalLat / count;
             const centerLong = totalLong / count;
             map.setView([centerLat, centerLong], 5);
@@ -178,38 +178,19 @@ function createMap(monuments) {
     }).addTo(map);
 
     // Add a metric scale
-    L.control.scale({imperial: false}).addTo(map);
+    L.control.scale({ imperial: false }).addTo(map);
 
     // Add the monuments to the map
-    if(monuments.length === 1 && monuments[0].position?.latitude && monuments[0].position.longitude) {
+    if (monuments.length === 1 && monuments[0].position?.latitude && monuments[0].position.longitude) {
         L.marker([monuments[0].position.latitude, monuments[0].position.longitude]).addTo(map).bindPopup(monuments[0].label);
     } else {
         monuments
-            .filter((monument) => { return monument.position?.latitude && monument.position.longitude})
+            .filter((monument) => { return monument.position?.latitude && monument.position.longitude })
             .forEach((monument) => {
                 const popUpContent = `<a href="contenu.html?monument=${encodeURIComponent(monument.uri)}">${monument.label}</a>`;
                 L.marker([monument.position.latitude, monument.position.longitude]).addTo(map)
-                .bindPopup(popUpContent);
-        });
+                    .bindPopup(popUpContent);
+            });
     }
 }
 
-/**
- * Fonction Handler qui essaye de résoudre certains problèmes d'images qui ne chargent pas
- * @param {Error} event 
- */
-function imageLoadError(event){
-    /**
-     * Image qui n'a pas pue être chargée
-     * @type {HTMLImageElement}
-     */
-    let img = event.target;
-    // Erreur courante : l'extension de l'image est en minuscule alors que sur wikimedia, elle est en majuscule.
-    // On règle ce problème en remplaçant l'extension par une version en majuscule, si l'image n'est pas trouvée.
-    img.src = event.target.src.replace("jpg","JPG");    
-    // si cela ne marche toujours pas, on met l'image "UNESCO" par défaut
-    img.onerror = (evt) => {
-        evt.target.src = "static/img/unesco.png";
-        evt.target.onerror = null;
-    };
-}

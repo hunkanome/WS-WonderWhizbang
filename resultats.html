@@ -15,45 +15,46 @@
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-	integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
-	</script>
+		integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+		</script>
 	<script defer src="scripts/dbpedia.js"></script>
 	<script defer src="scripts/recherche.js"></script>
 	<script defer src="scripts/utils.js"></script>
 	<script defer src="static/js/card.js"></script>
 	<script defer src="static/js/resultats.js"></script>
+	<script defer src="static/js/image.js"></script>
 	<link rel="stylesheet" href="static/css/styles.css">
 	<link rel="stylesheet" href="static/css/resultats.css">
 </head>
 
 <body onload="getMonumentsByCountry(localStorage.getItem('countryName'));">
-    <header class="container-fluid sticky-top mb-3">
-        <div class="d-flex py-3 row">
-            <div class="col-auto d-flex">
-                <a href="index.html" class="text-decoration-none">
-                    <img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
-                </a>
-                <a href="index.html" class="text-decoration-none link-dark">
-                    <h1 id="WonderWhizbang" class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
-                </a>
-            </div>
-            <nav class="col-auto d-flex align-items-center pe-0">
-                <a href="favoris.html">Mes favoris</a>
-            </nav>
-            <nav class="col-auto d-flex align-items-center pe-0">
-                <a href="carte_monuments.html">Carte du monde</a>
-            </nav>
-            <div class="col-auto d-flex ms-auto ps-0">
-                <form class="input-group" method="get" action="resultats.html">
-                    <input id="searchInput" type="text" name="search" class="form-control"
-                        placeholder="Rechercher..." />
-                    <input id="searchButton" type="submit" class="btn" value="Rechercher" />
-                </form>
-            </div>
-        </div>
-    </header>
+	<header class="container-fluid sticky-top mb-3">
+		<div class="d-flex py-3 row">
+			<div class="col-auto d-flex">
+				<a href="index.html" class="text-decoration-none">
+					<img src="static/img/logo.png" alt="Logo banger de WonderWhizbang">
+				</a>
+				<a href="index.html" class="text-decoration-none link-dark">
+					<h1 id="WonderWhizbang" class="ms-3 mb-0 mt-2">WonderWhizbang</h1>
+				</a>
+			</div>
+			<nav class="col-auto d-flex align-items-center pe-0">
+				<a href="favoris.html">Mes favoris</a>
+			</nav>
+			<nav class="col-auto d-flex align-items-center pe-0">
+				<a href="carte_monuments.html">Carte du monde</a>
+			</nav>
+			<div class="col-auto d-flex ms-auto ps-0">
+				<form class="input-group" method="get" action="resultats.html">
+					<input id="searchInput" type="text" name="search" class="form-control"
+						placeholder="Rechercher..." />
+					<input id="searchButton" type="submit" class="btn" value="Rechercher" />
+				</form>
+			</div>
+		</div>
+	</header>
 
 	<main class="container">
 		<div class="row">
@@ -68,7 +69,7 @@
 		</div>
 		<br>
 		<div id="map" style="width: 100%; height: 400px;">
-		
+
 			<!-- This is where the map will be displayed when someone is searching for monuments. -->
 
 		</div>

@@ -16,23 +16,6 @@ function resizeImage(event) {
         blocDetail.className = "row vertical";
         image.parentNode.className = "col-3 ps-3 pt-3";
     }
-
-    const loadingGif = document.getElementById("loading-gif");
-    loadingGif.style.display = "none";
-}
-
-/**
- * Event listener for setting the default image when the image is not loaded
- * 
- * @param {Event} event 
- */
-function loadDefaultImage(event) {
-    const image = event.target;
-    image.src = "static/img/unesco.png";
-    image.style.display = "";
-
-    const loadingGif = document.getElementById("loading-gif");
-    loadingGif.style.display = "none";
 }
 
 /**
@@ -42,12 +25,11 @@ function loadDefaultImage(event) {
  */
 function displayRandomMonument(monument) {
     console.debug(monument);
-    const loadingGif = document.getElementById("loading-gif");
-    loadingGif.style.display = "";
 
     const image = document.getElementById("picture");
-    image.src = monument.thumbnail;
-    image.style.display = "none";
+    loadImage(image, monument.thumbnail, {
+        onload: resizeImage,
+    });
 
     const title = document.getElementById("title");
     title.innerText = monument.label;
@@ -75,9 +57,6 @@ function displayRandomMonument(monument) {
             locationContainer.appendChild(lienPay);
         });
     }
-
-    image.addEventListener("load", resizeImage);
-    image.addEventListener("error", loadDefaultImage);
 }
 
 /**

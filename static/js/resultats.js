@@ -70,58 +70,6 @@ function formatResult(response) {
     return result;
 }
 
-/**
- * Envoie une requête SPARQL à DBpedia pour obtenir tous les monuments correspondant à la recherche
- */
-function searchAllMonument() {
-    resultContainer.innerHTML = "";
-    // Get the user input from the search bar
-    const userInput = champRecherche.value;
-    // Define the SPARQL query with the user input
-    let query = `
-                SELECT ?monumentLabel ?thumbnail ?picture ?desc WHERE {
-                ?monument a dbo:WorldHeritageSite .
-                ?monument rdfs:label ?monumentLabel .
-                ?monument dbo:abstract ?desc .
-                ?monument foaf:depiction ?picture .
-                ?monument dbo:thumbnail ?thumbnail .
-                FILTER (lang(?monumentLabel) = "fr")
-                FILTER (lang(?desc) = "fr") 
-                FILTER regex(?monumentLabel, "${userInput}", "i")
-                }
-            `;
-
-    const start = new Date().getTime();
-
-    // Effectue la requête SPARQL à DBpedia
-    requestDBpedia(query)
-        .then(data => {
-            statsRecherche.innerHTML = `Recherche de ${userInput} en cours`;
-            let result = formatResult(data);
-            console.log(result);
-            result.forEach(element => {
-                fetch(element.thumbnail[0], { method: "HEAD", mode: "no-cors" })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log('Thumbnail URL is valid');
-                            resultContainer.innerHTML += createCard(element.thumbnail[0], element.monumentLabel.value, element.desc.value).outerHTML;
-                        } else {
-                            console.log('Thumbnail URL is INvalid for : ' + element.monumentLabel.value);
-                            resultContainer.innerHTML += createCard(element.picture[0], element.monumentLabel.value, element.desc.value).outerHTML;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error validating thumbnail URL:', error);
-                    });
-            })
-            const timeTaken = new Date().getTime() - start;
-            statsRecherche.innerHTML = `${result.length} résultat${result.length > 1 ? 's' : ''} pour "${userInput}" en ${timeTaken}ms`;
-        })
-        .catch(error => {
-            statsRecherche.innerHTML = "Une erreur est survenue : " + error;
-            console.error('Error:', error);
-        });
-}
 
 /**
  * Hydrate the page with the statistics and a random monument
@@ -149,7 +97,7 @@ function hydratePage() {
             console.error("Error : ", error);
         });
 }
-        
+
 
 // Hydrate the page or prepare the hydration
 if (document.readyState === "complete") {

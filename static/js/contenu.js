@@ -5,59 +5,19 @@
  * Note : Si le nom contient plusieurs mots séparés par des espaces if faut les remplacer par des tirets du bas / tirets du 8 / underscores
  */
 
-
-/**
- * Entrée contenant le texte de la recherche
- * @type {HTMLInputElement}
- */
-let searchInput = document.getElementById('searchInput');
-/**
- * Container du result
- * @type {HTMLDivElement}
- */
-let blocDetail = document.getElementById("bloc-detail");
-/**
- * Image du monument
- * @type {HTMLImageElement}
- */
-let img = document.getElementById("picture");
-/**
- * Nom du monument
- * @type {HTMLHeadingElement}
- */
-let titre = document.getElementById("title");
-/**
- * Description du monument
- * @type {HTMLParagraphElement}
- */
-let description = document.getElementById("description");
-/**
- * Conteneur du carousel
- * @type {HTMLDivElement}
- */
-let conteneurCarousel = document.getElementById("conteneurCarousel");
-/**
- * Bouton de recherche
- * @type {HTMLButtonElement}
- */
-const boutonFavorites = document.getElementById('btnAddFavorite');
-
-/**
- * Logo coeur
- */
-let coeur = document.getElementById("coeur");
-
 /**
  * Monument
  * @type {JSON}
  */
 let monument;
 
-
 /**
- * Ajoute un article aux favoris quand on appuie sur le bouton addFavorite
+ * Remove the image from the carousel if the image can't be loaded
+ * @param {Event} event 
  */
-boutonFavorites.addEventListener("click", addOrDeleteFavorite);
+function carouselImageLoadError(event) {
+    event.target.parentNode.remove();
+}
 
 /**
  * Affiche les informations d'un monument sur la page
@@ -65,21 +25,30 @@ boutonFavorites.addEventListener("click", addOrDeleteFavorite);
  */
 function loadMonument(monument) {
     console.debug(monument);
-    img.src = "static/img/unesco.png";
-    if (monument.pictures?.length > 0) {
-        img.src = monument.pictures[0];
-        img.onerror = imageLoadError;
-    }
+    const imageElement = document.getElementById("picture");
+    loadImage(imageElement, monument.thumbnail, (_) => {
+        const blocDetail = document.getElementById("bloc-detail");
+        if (imageElement.clientWidth > imageElement.clientHeight) {
+            blocDetail.className = "row horizontal";
+            imageElement.parentNode.className = "col-6 ps-3 pt-3";
+        } else {
+            blocDetail.className = "row vertical";
+            imageElement.parentNode.className = "col-3 ps-3 pt-3";
+        }
+    });
 
-    titre.innerHTML = monument.label;
-    description.innerHTML = monument.abstract;
+    const titreElement = document.getElementById("title");
+    titreElement.innerHTML = monument.label;
+
+    const descriptionElement = document.getElementById("description");
+    descriptionElement.innerHTML = monument.abstract;
     if (monument.year) {
         year.innerHTML = monument.year;
     } else {
         year.innerHTML = "Année non renseignée";
     }
 
-    let locationContainer = document.getElementById('location');
+    const locationContainer = document.getElementById('location');
     locationContainer.innerHTML = "";
     if (monument.country && monument.country != "" && monument.country != "World") {
         const locations = monument.country.split("#");
@@ -93,42 +62,36 @@ function loadMonument(monument) {
     }
 
     if (monument.wikiPage) {
-        let icon = document.getElementById('wikiLink');
-        icon.href = monument.wikiPage;
+        const iconElement = document.getElementById('wikiLink');
+        iconElement.href = monument.wikiPage;
     }
 
-    if (monument.pictures?.length > 0)
-        conteneurCarousel.appendChild(createCarousel(monument.pictures));
-
-    /**
-     * Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
-     */
+    if (monument.pictures?.length > 0) {
+        const conteneurCarousel = document.getElementById("conteneurCarousel");
+        const carousel = createCarousel(monument.pictures)
+        conteneurCarousel.appendChild(carousel);
+    }
+    // Ajoute le coeur vide/plein en fonction de si le monument est dans les favoris ou non
     let favorites = localStorage.getItem("favorites");
     favorites = favorites ? JSON.parse(favorites) : [];
 
-    if (favorites.includes(monument.uri))
-        coeur.src = "static/img/heart-full.svg";
+    if (favorites.includes(monument.uri)) {
+        const coeurElement = document.getElementById("coeur");
+        coeurElement.src = "static/img/heart-full.svg";
+    }
 
-    if (monument.position?.latitude && monument.position.longitude)
+    if (monument.position?.latitude && monument.position.longitude) {
         createMap(monument);
+    }
 
-    img.addEventListener("load", (_) => {
-        if (img.clientWidth > img.clientHeight) {
-            blocDetail.className = "row horizontal";
-            titre.parentNode.parentNode.parentNode.parentNode.className = "col-6 ps-3 pe-0";
-            img.parentNode.className = "col-6 ps-3 pt-3";
-        } else {
-            blocDetail.className = "row vertical";
-            titre.parentNode.parentNode.parentNode.parentNode.className = "col-9 ps-3 pe-0";
-            img.parentNode.className = "col-3 ps-3 pt-3";
-        }
-    });
+    const boutonFavoris = document.getElementById('btnAddFavorite');
+    boutonFavoris.addEventListener("click", addOrDeleteFavorite);
 }
 
 /**
  * 
  * @param {Array<string>} pictures Tableau contenant les liens des images
- * @returns {HTMLDivElement} Le carousel avec les images
+ * @returns {HTMLElement} Le carousel avec les images
  */
 function createCarousel(pictures) {
     /**
@@ -143,18 +106,17 @@ function createCarousel(pictures) {
      * Création du conteneur des images du carousel
      * @type {HTMLDivElement}
      */
-    let carouselInner = document.createElement("div");
+    const carouselInner = document.createElement("div");
     carouselInner.className = "carousel-inner";
 
     // Rempmlissage du carousel avec les images
     let active = true;
     pictures.forEach(image => {
-
         /**
          * Item du carousel
          * @type {HTMLDivElement}
          */
-        let carouselItem = document.createElement("div");
+        const carouselItem = document.createElement("div");
         carouselItem.className = "carousel-item";
         if (active) {
             carouselItem.className += " active";
@@ -165,27 +127,54 @@ function createCarousel(pictures) {
          * Image du carousel
          * @type {HTMLImageElement}
          */
-        let img = document.createElement("img");
-        img.src = image;
-        img.className = "d-block";
+        const imageElement = document.createElement("img");
+        imageElement.src = image;
+        imageElement.className = "d-block";
+        imageElement.addEventListener("error", carouselImageLoadError);
 
-        carouselItem.appendChild(img);
+        carouselItem.appendChild(imageElement);
         carouselInner.appendChild(carouselItem);
     });
 
     carousel.appendChild(carouselInner);
 
     // Ajout des boutons du carousel
-    carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#carouselImages"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselImages"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>`;
+    const prevButton = document.createElement("button");
+    prevButton.className = "carousel-control-prev";
+    prevButton.type = "button";
+    prevButton.dataset.bsTarget = "#carouselImages";
+    prevButton.dataset.bsSlide = "prev";
+
+    const prevIcon = document.createElement("span");
+    prevIcon.className = "carousel-control-prev-icon";
+    prevIcon.setAttribute("aria-hidden", "true");
+
+    const prevText = document.createElement("span");
+    prevText.className = "visually-hidden";
+    prevText.innerText = "Previous";
+
+    prevButton.appendChild(prevIcon);
+    prevButton.appendChild(prevText);
+
+    const nextButton = document.createElement("button");
+    nextButton.className = "carousel-control-next";
+    nextButton.type = "button";
+    nextButton.dataset.bsTarget = "#carouselImages";
+    nextButton.dataset.bsSlide = "next";
+
+    const nextIcon = document.createElement("span");
+    nextIcon.className = "carousel-control-next-icon";
+    nextIcon.setAttribute("aria-hidden", "true");
+
+    const nextText = document.createElement("span");
+    nextText.className = "visually-hidden";
+    nextText.innerText = "Next";
+
+    nextButton.appendChild(nextIcon);
+    nextButton.appendChild(nextText);
+
+    carousel.appendChild(prevButton);
+    carousel.appendChild(nextButton);
     return carousel;
 }
 
@@ -236,16 +225,8 @@ function hydratePage() {
         })
         .catch(error => {
             console.error('Error:', error);
-        }).finally(() => {
-            // Ajout de la fonction imageErrorHandler
-            // Ne marche que quand toute les divs on été ajoutées dans la page HTML
-            Array.prototype.slice.call(document.getElementsByTagName("img")).forEach(img => {
-                img.addEventListener("error", imageLoadError);
-            });
         });
 
-    // TODO : mettre à jour le contenu de la page
-    // TODO : mettre à jour le bouton favoris
 }
 
 

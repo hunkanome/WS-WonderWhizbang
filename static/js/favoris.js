@@ -8,17 +8,12 @@
  * Ligne de la grille Bootstrap contenant les cartes
  * @type {HTMLDivElement}
  */
-let resultContainer = document.getElementById("resultContainer");
 
 /**
  * Message d'erreur
  */
 let messageField = document.getElementById("messageField");
 
-/**
- * Bouton d'effacement des favoris
- */
-let clearButton = document.getElementById("btnClearFavorites");
 
 /**
  * Hydrates the page with information about the favorites
@@ -27,16 +22,16 @@ let clearButton = document.getElementById("btnClearFavorites");
  * @returns {void}
  */
 function hydratePage() {
+    const resultContainer = document.getElementById("resultContainer");
     resultContainer.innerHTML = "";
     let favorites = JSON.parse(localStorage.getItem("favorites"));
     if (favorites) {
         favorites.forEach(element => {
             getMonumentByURI(element)
                 .then(monument => {
-                    resultContainer.innerHTML += createCard(monument).outerHTML;
+                    resultContainer.appendChild(createCard(monument));
                 })
                 .catch(error => {
-                    researchStats.innerHTML = "Une erreur est survenue : " + error;
                     console.error('Error:', error);
                 });
         });
@@ -44,6 +39,16 @@ function hydratePage() {
         console.log("Aucun favori enregistré");
         messageField.innerHTML = "Aucun favori enregistré";
     }
+
+    /**
+     * Bouton d'effacement des favoris
+     */
+    const clearButton = document.getElementById("btnClearFavorites");
+    clearButton.addEventListener("click", () => {
+        localStorage.removeItem("favorites");
+        resultContainer.innerHTML = "";
+        messageField.innerHTML = "Aucun favori enregistré";
+    });
 }
 
 
@@ -55,11 +60,3 @@ if (document.readyState === "complete") {
 }
 
 
-/**
- * Bouton d'effacement des favoris
- */
-clearButton.addEventListener("click", () => {
-    localStorage.removeItem("favorites");
-    resultContainer.innerHTML = "";
-    messageField.innerHTML = "Aucun favori enregistré";
-});

@@ -22,8 +22,9 @@ function createCard(monument) {
             imageSrc = "static/img/unesco.png";
         }
     }
-    imageElement.src = imageSrc;
-    imageElement.onerror = imageLoadError;
+    loadImage(imageElement, imageSrc);
+    // imageElement.src = imageSrc;
+    // imageElement.onerror = imageLoadError;
     imageElement.alt = monument.label;
     cardElement.appendChild(imageElement);
 
