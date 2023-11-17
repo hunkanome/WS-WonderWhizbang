@@ -269,3 +269,37 @@ async function getAllMonumentsPosition() {
 
     return result;
 }
+
+/**
+ * Retrive all the monuments part of the same whole as the given monument
+ * 
+ * @param {string} monumentUri 
+ * @returns {Array.<JSON>} monuments
+ */
+async function getRelatedMonuments(monumentUri) {
+    const query = `
+        SELECT ?uri ?label ?abstract ?thumbnail WHERE {
+            <${monumentUri}> dbp:partOf ?whole.
+            ?uri dbp:partOf ?whole;
+                rdfs:label ?label
+        
+            OPTIONAL {?uri dbo:abstract ?abstract}.
+            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+        
+            FILTER (?uri != <${monumentUri}>)
+            FILTER (lang(?label) = "fr")
+            FILTER (lang(?abstract) = "fr")
+        }
+    `;
+
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return formatMonuments(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return [];
+        });
+
+    return result;
+}

@@ -213,7 +213,7 @@ function coeurSurvol() {
         else
             coeur.classList.replace("bi-heart-fill", "bi-heart");
     });
-} 
+}
 
 
 /**
@@ -227,9 +227,21 @@ function hydratePage() {
     const monumentUri = params.get("monument");
 
     getMonumentByURI(monumentUri)
-        .then(monumentJson => {
-            monument = monumentJson;
-            loadMonument(monumentJson);
+        .then(monument => {
+            monument = monument;
+            loadMonument(monument);
+
+            getRelatedMonuments(monument.uri)
+                .then(monuments => {
+                    const relatedMonumentsContainer = document.getElementById("relatedMonumentsContainer");
+                    monuments.forEach(m => {
+                        const card = createCard(m);
+                        relatedMonumentsContainer.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         })
         .catch(error => {
             console.error('Error:', error);
