@@ -26,7 +26,7 @@ function carouselImageLoadError(event) {
 function loadMonument(monument) {
     console.debug(monument);
     const imageElement = document.getElementById("picture");
-
+    monument.thumbnail = monument.thumbnail ? monument.thumbnail : "static/img/unesco.png";
     loadImage(imageElement, monument.thumbnail, (_) => {
         const description = document.getElementById("description");
 

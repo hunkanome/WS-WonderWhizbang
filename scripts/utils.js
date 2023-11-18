@@ -200,8 +200,7 @@ function onClick(event) {
         .then(monument => {
             const imageElement = document.createElement('img');
             loadImage(imageElement, monument.thumbnail);
-            imageElement.style.maxHeight = "100px";
-
+            imageElement.alt = monument.label;
             const linkElement = document.createElement('a');
             linkElement.href = `contenu.html?monument=${encodeURIComponent(event.target.alt)}`;
             linkElement.innerText = "\n" + monument.label;
