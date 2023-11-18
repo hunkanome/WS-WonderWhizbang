@@ -29,13 +29,13 @@ header {
 header img {
     height: 43px;
     width: 50px;
-    transition-duration: 0.4s;
+    transition-duration: .4s;
 }
 
 /* Animation logo */
 header img:hover {
     transform: scale(1.1);
-    transition: transform ease-in-out;
+    transform-style: ease-in-out;
 }
 
 header a {
