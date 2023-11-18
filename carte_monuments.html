@@ -26,8 +26,8 @@
     <script src="static/js/image.js"></script>
 </head>
 
-<body>
-    <header class="container-fluid d-flex align-items-center sticky-top py-3 mb-3">
+<body class="d-flex flex-column">
+    <header class="d-flex align-items-center sticky-top p-3">
         <a class="text-decoration-none me-lg-2 pe-2 pe-lg-0" href="index.html">
             <img src="static/img/logo.png" alt="Logo de WonderWhizbang">
         </a>
@@ -52,19 +52,9 @@
         </form>
     </header>
 
-    <main class="container">
-        <section id="bloc-2" class="row">
-            <div id="map" style="height:80vh;"></div>
-        </section>
+	<main class="overflow-y-auto pt-3">
+        <div id="map" class="w-100" style="height:80vh;"></div>
     </main>
-    <footer></footer>
-    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
-        <div id="toast-favoris" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-body d-flex justify-content-center">
-                <p id="texte-toast-favoris"></p>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

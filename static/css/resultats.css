@@ -20,8 +20,3 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-main {
-    max-width: unset !important;
-    padding: 0 7vw !important;
-}
