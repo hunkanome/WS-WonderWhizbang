@@ -7,9 +7,7 @@
 async function getMonumentCount() {
     const query = `
         SELECT (count(?site) as ?count) WHERE {
-            ?site a dbo:WorldHeritageSite;
-                rdfs:label ?label.
-            FILTER (lang(?label) = "fr")
+            ?site a dbo:WorldHeritageSite.
         }
     `;
 
