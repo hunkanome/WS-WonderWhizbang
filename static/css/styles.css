@@ -68,54 +68,34 @@ main {
     padding: 0 7vw !important;
 }
 
-/* Titre */
-#bloc-detail h2 {
-    width: fit-content;
-}
-
 /* Bouton "Coeur" / ajouter aux favoris */
 #btnAddFavorite {
-    text-size-adjust: 100%;
-    height: 100%;
     background-color: transparent;
-    width: 3em;
     filter: invert(41%) sepia(95%) saturate(16%) hue-rotate(21deg) brightness(103%) contrast(91%);
-    border-radius: 5em;
-    padding: 0;
-    border: 0;
-}
-
-/* Description */
-#bloc-detail p {
-    border-top: 1px solid black;
-    padding-top: 5px;
 }
 
 section {
     margin-bottom: 1em;
 }
 
-/* Bouton "Bien aléatoire" */
+/* Bouton aléatoire */
 #random-btn {
     background-color: var(--button);
-    border-radius: 2em;
+    color: var(--background);
 }
 
-/* Animation bouton "Bien aléatoire" */
+/* Animation bouton aléatoire */
 #random-btn:hover {
     transform: scale(1.1);
     transition: transform 0.4s ease-in-out;
 }
 
+/* Icône du dé */
 #random-btn img {
-    width: 3em;
+    width: 1.5em;
     filter: invert(99%) sepia(5%) saturate(1143%) hue-rotate(198deg) brightness(118%) contrast(87%);
 }
 
-#random-btn span {
-    font-size: 1.5em;
-    color: var(--background);
-}
 
 /* === BAS DE LA PAGE === */
 

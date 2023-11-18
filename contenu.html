@@ -57,21 +57,19 @@
     </header>
 
 	<main class="container overflow-y-auto pt-3">
-        <section id="bloc-detail" class="row horizontal">
+        <section id="bloc-detail" class="row">
             <div class="col-6 ps-3 pt-3">
-                <div class="d-flex align-items-center mb-1">
-                    <h2 class="d-inline me-2 mb-0">
-                        <a id="wikiLink" class="d-flex text-decoration-none text-dark">
-                            <span id="title">Titre</span>
-                            <span class="align-self-start">
-                                <img src="static/img/link.svg" alt="Icône lien externe">
-                            </span>
-                        </a>
-                    </h2>
-                    <button id="btnAddFavorite">
+                <h2 class="d-flex align-items-center border-bottom border-black pb-2 mb-2">
+                    <a id="wikiLink" class="d-flex text-decoration-none text-dark">
+                        <span id="title">Titre</span>
+                        <span class="align-self-start ms-1">
+                            <img src="static/img/link.svg" alt="Icône lien externe">
+                        </span>
+                    </a>
+                    <a id="btnAddFavorite" class="h-100 ms-auto">
                         <h2 id="coeur" class="bi bi-heart mb-0"></h2>
-                    </button>
-                </div>
+                    </a>
+                </h2>
                 <p id="description">Description</p>
                 <p id="year">Année</p>
                 <p id="location">Pays</p>
@@ -90,7 +88,7 @@
         </section>
 
         <section>
-            <h2>Voir aussi</h2>
+            <h2 class="border-bottom border-black pb-2 mb-2">Voir aussi</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="relatedMonumentsContainer">
 
                 <!-- This is where the cards will be displayed -->

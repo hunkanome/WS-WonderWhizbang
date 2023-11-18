@@ -29,10 +29,8 @@ function loadMonument(monument) {
     loadImage(imageElement, monument.thumbnail, (_) => {
         const blocDetail = document.getElementById("bloc-detail");
         if (imageElement.clientWidth > imageElement.clientHeight) {
-            blocDetail.className = "row horizontal";
             imageElement.parentNode.className = "col-6 ps-3 pt-3";
         } else {
-            blocDetail.className = "row vertical";
             imageElement.parentNode.className = "col-3 ps-3 pt-3";
         }
     });

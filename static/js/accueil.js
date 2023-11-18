@@ -10,10 +10,8 @@ function resizeImage(event) {
 
     image.style.display = "";
     if (image.clientWidth > image.clientHeight) {
-        blocDetail.className = "row horizontal";
         image.parentNode.className = "col-6 ps-3 pt-3";
     } else {
-        blocDetail.className = "row vertical";
         image.parentNode.className = "col-3 ps-3 pt-3";
     }
 }
@@ -33,7 +31,9 @@ function displayRandomMonument(monument) {
 
     const title = document.getElementById("title");
     title.innerText = monument.label;
-    title.href = `contenu.html?monument=${monument.uri}`;
+
+    const articleLink = document.getElementById("article-link");
+    articleLink.href = `contenu.html?monument=${monument.uri}`;
 
     const description = document.getElementById("description");
     description.innerText = monument.abstract;
