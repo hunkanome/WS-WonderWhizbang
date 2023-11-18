@@ -240,6 +240,10 @@ function hydratePage() {
                         const card = createCard(m);
                         relatedMonumentsContainer.appendChild(card);
                     });
+
+                    if (monuments.length > 0) {
+                        relatedMonumentsContainer.parentElement.className = "";
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
