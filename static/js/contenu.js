@@ -26,12 +26,16 @@ function carouselImageLoadError(event) {
 function loadMonument(monument) {
     console.debug(monument);
     const imageElement = document.getElementById("picture");
+
     loadImage(imageElement, monument.thumbnail, (_) => {
-        const blocDetail = document.getElementById("bloc-detail");
+        const description = document.getElementById("description");
+
         if (imageElement.clientWidth > imageElement.clientHeight) {
-            imageElement.parentNode.className = "col-6 ps-3 pt-3";
+            description.parentNode.className = "col-6";
+            imageElement.parentNode.className = "col-6";
         } else {
-            imageElement.parentNode.className = "col-3 ps-3 pt-3";
+            description.parentNode.className = "col-9";
+            imageElement.parentNode.className = "col-3";
         }
     });
 

@@ -5,14 +5,15 @@
  */
 function resizeImage(event) {
     const image = event.target;
-    const blocDetail = document.getElementById("bloc-detail");
-    const titre = document.getElementById("title");
+    const description = document.getElementById("description");
 
     image.style.display = "";
     if (image.clientWidth > image.clientHeight) {
-        image.parentNode.className = "col-6 ps-3 pt-3";
+        description.parentNode.className = "col-6";
+        image.parentNode.className = "col-6";
     } else {
-        image.parentNode.className = "col-3 ps-3 pt-3";
+        description.parentNode.className = "col-9";
+        image.parentNode.className = "col-3";
     }
 }
 
@@ -25,9 +26,7 @@ function displayRandomMonument(monument) {
     console.debug(monument);
 
     const image = document.getElementById("picture");
-    loadImage(image, monument.thumbnail, {
-        onload: resizeImage,
-    });
+    loadImage(image, monument.thumbnail, resizeImage);
 
     const title = document.getElementById("title");
     title.innerText = monument.label;
