@@ -152,7 +152,8 @@ function createMap(monuments) {
     // If monuments is not an array, convert it to an array
     if (!Array.isArray(monuments))
         monuments = [monuments];
-    let map = L.map('map').setView([48.856614, 2.3522219], 2);
+    let map = L.map('map', {worldCopyJump : true, minZoom : 1.5}).setView([48.856614, 2.3522219], 2);
+    map.worldCopyJump = true;
     if (monuments.length > 0 && monuments.length < 20) {
         // Get geographical center of all monuments
         let totalLat = 0;
