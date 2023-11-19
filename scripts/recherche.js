@@ -1,6 +1,6 @@
 
 /**
- * Get the number of World Heritage Sites  subjects in DBPedia
+ * Récupère le nombre de monuments dans DBPedia
  * 
  * @returns {Promise<int|null>} count
  */
@@ -23,7 +23,33 @@ async function getMonumentCount() {
     return result;
 }
 
+/**
+ * Récupère le nombre de monuments ayant un nom et une description en français dans DBPedia
+ * 
+ * @returns {Promise<int|null>} count
+ */
+async function getFrenchPageMonumentCount() {
+    const query = `
+        SELECT (count(?uri) as ?count) WHERE {
+            ?uri a dbo:WorldHeritageSite;
+                rdfs:label ?label.
+            OPTIONAL {?uri dbo:abstract ?abstract}.
+            FILTER (lang(?label) = "fr")
+            FILTER (lang(?abstract) = "fr")
+        }
+    `;
 
+    const result = await requestDBpedia(query)
+        .then(data => {
+            return data.results.bindings[0].count.value;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return null;
+        });
+
+    return result;
+}
 
 /**
  * Get the monument data from the SPARQL endpoint
@@ -40,12 +66,9 @@ async function getMonumentByURI(uri) {
                 rdfs:label ?label.
             
             OPTIONAL {<${uri}> dbo:abstract ?abstract}.
-            OPTIONAL {<${uri}> rdfs:comment ?comment}.
             OPTIONAL {<${uri}> dbo:thumbnail ?thumbnail}.
             OPTIONAL {<${uri}> dbp:imagecaption ?imagecaption}.
             OPTIONAL {<${uri}> foaf:depiction ?picture}.
-            OPTIONAL {<${uri}> foaf:homepage ?homepage}.
-            OPTIONAL {<${uri}> dbp:website ?homepageAlt}.
             OPTIONAL {<${uri}> geo:lat ?latitude}.
             OPTIONAL {<${uri}> geo:long ?longitude}.
             OPTIONAL {<${uri}> dbp:location ?location}.
@@ -56,7 +79,6 @@ async function getMonumentByURI(uri) {
             
             FILTER (lang(?label) = "fr")
             FILTER (lang(?abstract) = "fr")
-            FILTER (lang(?comment) = "fr")
             FILTER (lang(?imagecaption) = "fr")
         }
         `;
@@ -209,7 +231,7 @@ async function getMonuments(type, recherche) {
  * @returns {object|null} monument
  */
 async function getRandomMonument() {
-    const count = await getMonumentCount();
+    const count = await getFrenchPageMonumentCount();
     const offset = Math.floor(Math.random() * count);
     const query = `
         SELECT * WHERE {
