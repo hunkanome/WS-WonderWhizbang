@@ -79,7 +79,6 @@ main {
 /* Bouton "Coeur" / ajouter aux favoris */
 #btnAddFavorite {
     background-color: transparent;
-    filter: invert(41%) sepia(95%) saturate(16%) hue-rotate(21deg) brightness(103%) contrast(91%);
 }
 
 section {

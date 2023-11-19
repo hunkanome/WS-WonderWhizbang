@@ -75,7 +75,7 @@ function loadMonument(monument) {
     coeurSurvol();
 
     if (favorites.includes(monument.uri))
-        coeur.className = "bi bi-heart-fill mb-0";
+        coeur.className = "bi bi-heart-fill mb-0 text-danger";
 
     if (monument.position?.latitude && monument.position.longitude)
         createMap(monument);
@@ -187,14 +187,14 @@ function addOrDeleteFavorite() {
     // Si le monument est dans les favoris, on l'enlève
     if (favorites.includes(monument.uri)) {
         favorites.splice(favorites.indexOf(monument.uri), 1);
-        coeur.className = "bi bi-heart-fill mb-0";
+        coeur.className = "bi bi-heart-fill mb-0 text-secondary";
         texteToast.innerText = "Monument supprimé des favoris !";
         toast.show();
     } else { // Sinon on l'ajoute
         favorites.push(monument.uri);
         // Trier les favoris par ordre alphabétique
         favorites.sort();
-        coeur.className = "bi bi-heartbreak-fill mb-0";
+        coeur.className = "bi bi-heartbreak-fill mb-0 text-danger";
         texteToast.innerText = "Monument ajouté aux favoris !";
         toast.show();
     }
