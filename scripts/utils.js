@@ -65,7 +65,6 @@ function formatMonument(queryResult) {
     result.uri = getValue(data[0].uri);
     result.label = getValue(data[0].label);
     result.abstract = getValue(data[0].abstract);
-    result.comment = getValue(data[0].comment);
     result.thumbnail = getValue(data[0].thumbnail);
     result.imagecaption = getValue(data[0].imagecaption);
     result.pictures = getValuesArray(data, 'picture');
@@ -77,11 +76,6 @@ function formatMonument(queryResult) {
     };
     if (result.position.latitude === null || result.position.longitude === null) {
         result.position = null;
-    }
-
-    result.homepage = getValue(data[0].homepage);
-    if (result.homepage === null) {
-        result.homepage = getValue(data[0].homepageAlt);
     }
 
     result.locations = getValuesArray(data, 'location');
