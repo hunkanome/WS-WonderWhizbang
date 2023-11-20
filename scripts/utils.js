@@ -183,28 +183,28 @@ function createMap(monuments) {
             .filter((monument) => { return monument.position?.latitude && monument.position.longitude })
             .forEach((monument) => {
                 let marker = L.marker([monument.position.latitude, monument.position.longitude]);
-                marker.alt = monument.uri;
-                marker.on('click', onClick);
+                marker.monument = monument;
+                marker.on('click', showMarkerPopup);
                 marker.addTo(map);
             });
     }
 }
 
-function onClick(event) {
-    getShortInfoMonumentByURI(event.target.alt)
-        .then(monument => {
-            const imageElement = document.createElement('img');
-            loadImage(imageElement, monument.thumbnail);
-            imageElement.alt = monument.label;
-            const linkElement = document.createElement('a');
-            linkElement.href = `contenu.html?monument=${encodeURIComponent(event.target.alt)}`;
-            linkElement.innerText = "\n" + monument.label;
+function showMarkerPopup(event) {
+    const monument = event.target.monument;
 
-            const divElement = document.createElement('div');
-            divElement.classList.add("text-center");
-            divElement.appendChild(imageElement);
-            divElement.appendChild(linkElement);
+    const imageElement = document.createElement('img');
+    loadImage(imageElement, monument.thumbnail);
+    imageElement.alt = monument.label;
 
-            event.target.bindPopup(divElement).openPopup();
-        });
+    const linkElement = document.createElement('a');
+    linkElement.href = `contenu.html?monument=${encodeURIComponent(monument.uri)}`;
+    linkElement.innerText = "\n" + monument.label;
+
+    const divElement = document.createElement('div');
+    divElement.classList.add("text-center");
+    divElement.appendChild(imageElement);
+    divElement.appendChild(linkElement);
+
+    event.target.bindPopup(divElement).openPopup();
 }

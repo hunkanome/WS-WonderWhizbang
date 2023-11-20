@@ -267,11 +267,12 @@ async function getRandomMonument() {
  */
 async function getAllMonumentsPosition() {
     const query = `
-        SELECT ?uri ?latitude ?longitude WHERE {
+        SELECT ?uri ?latitude ?longitude ?thumbnail ?label WHERE {
             ?uri a dbo:WorldHeritageSite;
                 rdfs:label ?label;
                 geo:lat ?latitude;
                 geo:long ?longitude.
+            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
             OPTIONAL {?uri dbo:abstract ?abstract}.
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
