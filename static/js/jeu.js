@@ -173,20 +173,14 @@ function changerClasseElement(element, textInput, distance){
                 element.innerText = element.getAttribute("reponse");
                 break;
             case 1:
-                element.className = element.className.replaceAll("text-dark", "text-danger");
-                element.className = element.className.replaceAll("text-white", "text-danger");
+                element.className = element.className.replaceAll("text-dark", "text-danger").replaceAll("text-white", "text-danger");
                 break;
             case 2:
-                element.className = element.className.replaceAll("text-dark", "text-warning");
-                element.className = element.className.replaceAll("text-white", "text-warning");
+                element.className = element.className.replaceAll("text-dark", "text-warning").replaceAll("text-white", "text-warning");
                 break;
         }
-        if(distance == 1 || distance == 2){
-            if (dist2 <= dist1)
-                element.innerText = textInput;
-            if (element.innerText.includes("_"))
-                element.innerText = textInput;
-        }
+        if((distance == 1 || distance == 2) && (dist2 < dist1 || element.innerText.includes("_")))
+            element.innerText = textInput;
     }
 }
 
