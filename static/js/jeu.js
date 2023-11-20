@@ -146,35 +146,32 @@ function changerClasseElement(element, textInput, distance){
     if (element.className.includes("bg-success"))
         element.className = "text-dark d-inline me-1 mb-1";
     else if (element.className.includes("warning"))
-        element.className = element.className.replaceAll("warning", "dark");
+        element.className = element.className.replaceAll("text-warning", "text-white");
     else if (element.className.includes("danger"))
-        element.className = element.className.replaceAll("danger", "dark");
+        element.className = element.className.replaceAll("text-danger", "text-white");
 
     // Set new colors
     if (element.className.includes("bg")){
-        if (distance == 0) {
-            element.className = element.className = "text-white bg-success badge rounded me-1 mb-1";
-            element.innerText = element.getAttribute("reponse");
-        } else if (distance <= 1) {
-            element.className = element.className.replaceAll("text-dark", "text-danger");
-            let dist1 = distanceDamerauLevenshtein(element.getAttribute("reponse"), element.innerText);
-            let dist2 = distanceDamerauLevenshtein(element.getAttribute("reponse"), textInput);
-            if (dist2 <= dist1)
-                element.innerText = textInput;
-            if (element.innerText.includes("_")) {
-                    element.innerText = textInput;
-                }
-        } else if (distance <= 2) {
-            element.className = element.className.replaceAll("text-dark", "text-warning");
-            let dist1 = distanceDamerauLevenshtein(element.getAttribute("reponse"), element.innerText);
-            let dist2 = distanceDamerauLevenshtein(element.getAttribute("reponse"), textInput);
-            if (dist2 <= dist1)
-                element.innerText = textInput;
-            if (element.innerText.includes("_")) {
-                element.innerText = textInput;
-            }
+        let dist1 = distanceDamerauLevenshtein(element.getAttribute("reponse"), element.innerText);
+        let dist2 = distanceDamerauLevenshtein(element.getAttribute("reponse"), textInput);
+        switch (distance) {
+            case 0:
+                element.className = element.className = "text-white bg-success badge rounded me-1 mb-1";
+                element.innerText = element.getAttribute("reponse");
+                break;
+            case 1:
+                element.className = element.className.replaceAll("text-dark", "text-danger");
+                break;
+            case 2:
+                element.className = element.className.replaceAll("text-dark", "text-warning");
+                break;
         }
-
+        if(distance == 1 || distance == 2){
+            if (dist2 <= dist1)
+                element.innerText = textInput;
+            if (element.innerText.includes("_"))
+                element.innerText = textInput;
+        }
     }
 }
 
