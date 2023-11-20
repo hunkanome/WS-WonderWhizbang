@@ -44,19 +44,27 @@ function loadMonument(monument) {
 
     const descriptionElement = document.getElementById("description");
     descriptionElement.innerHTML = monument.abstract;
-    year = monument.year ? monument.year : "Année non renseignée";
+    const yearElement = document.getElementById("year");
+    if (monument.year) {
+        yearElement.innerText = `Inscrit en ${monument.year} à l'UNESCO`;
+    } else {
+        yearElement.remove();
+    }
 
     const locationContainer = document.getElementById('location');
     locationContainer.innerHTML = "";
     if (monument.country && monument.country != "" && monument.country != "World") {
+        locationContainer.innerText = "Localisation: ";
         const locations = monument.country.split("#");
         locations.forEach(location => {
-            let lienPay = document.createElement('a');
-            lienPay.href = `resultats.html?search=${location}&type=Pays`;
-            lienPay.innerText = location;
-            lienPay.className = "badge rounded text-bg-dark me-1 text-decoration-none";
-            locationContainer.appendChild(lienPay);
+            const lienPays = document.createElement('a');
+            lienPays.href = `resultats.html?search=${location}&type=Pays`;
+            lienPays.innerText = location;
+            lienPays.className = "badge rounded text-bg-dark me-1 text-decoration-none";
+            locationContainer.appendChild(lienPays);
         });
+    } else {
+        locationContainer.remove();
     }
 
     if (monument.wikiPage) {

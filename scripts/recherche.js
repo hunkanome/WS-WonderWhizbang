@@ -158,7 +158,7 @@ async function getMonumentsByCountry(countryUri) {
             FILTER (lang(?abstract) = "fr")
             FILTER (lang(?label) = "fr")
             FILTER regex(?locmapin, "${countryUri}", "i")
-        } ORDER BY ?uri
+        } ORDER BY ?label
     `;
 
     const result = await requestDBpedia(query)
