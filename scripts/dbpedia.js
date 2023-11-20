@@ -57,7 +57,15 @@ async function requestDBpedia(query) {
         try {
             localStorage.setItem(query, JSON.stringify(cacheData));
         } catch (error) {
-            console.error('local storage full');
+            console.error('local storage full, emptying it');
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                const data = JSON.parse(value);
+                if (data.timestamp < Date.now() - cacheDuration) {
+                    localStorage.removeItem(key);
+                }
+            }
         }
     }
 
