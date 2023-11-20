@@ -46,11 +46,61 @@ async function requestDBpedia(query) {
     const response = await fetch(url);
     const data = await response.json();
 
-    const cacheData = {
-        timestamp: Date.now(),
-        content: data
-    };
-    localStorage.setItem(query, JSON.stringify(cacheData));
+    // if the data is bigger than 5Mo, don't cache it
+    if (sizeOfObject(data) > 5 * 1024 * 1024) {
+        console.log('data too big for caching');
+    } else {
+        const cacheData = {
+            timestamp: Date.now(),
+            content: data
+        };
+        try {
+            localStorage.setItem(query, JSON.stringify(cacheData));
+        } catch (error) {
+            console.error('local storage full');
+        }
+    }
 
     return data;
+}
+
+/**
+ * Calculate the size of an object in bytes
+ * 
+ * Code from https://stackoverflow.com/a/11900218/18898936
+ * 
+ * @param {object} object 
+ * @returns {number} size in bytes
+ */
+function sizeOfObject(object) {
+
+    var objectList = [];
+    var stack = [object];
+    var bytes = 0;
+
+    while (stack.length) {
+        var value = stack.pop();
+
+        if (typeof value === 'boolean') {
+            bytes += 4;
+        }
+        else if (typeof value === 'string') {
+            bytes += value.length * 2;
+        }
+        else if (typeof value === 'number') {
+            bytes += 8;
+        }
+        else if
+            (
+            typeof value === 'object'
+            && objectList.indexOf(value) === -1
+        ) {
+            objectList.push(value);
+
+            for (var i in value) {
+                stack.push(value[i]);
+            }
+        }
+    }
+    return bytes;
 }
