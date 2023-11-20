@@ -1,5 +1,5 @@
 # WS-WonderWhizbang
-Un moteur de recherche spécialisé dans le patrimoine historique mondial.
+Un moteur de recherche spécialisé dans le patrimoine mondial de l'UNESCO.
 
 Vous pouvez accéder à la version en direct du projet [ici](https://hunkanome.github.io/WS-WonderWhizbang).
 
