@@ -27,14 +27,16 @@ function insertHiddenText(balise, texte) {
     texteSepare.forEach(word => {
         if (word.length > 0) {
             let mot = document.createElement('span');
-            mot.innerText = word;
             // if word not in nonAlphaNumericCharacters
             mot.className = "me-1 mb-1 text-dark";
             if (!nonAlphaNumericCharacters.includes(word)){
+                // Replace the word by the same number of underscores
+                mot.innerText = "_".repeat(word.length);
                 mot.className += " bg-dark badge rounded";
                 mot.setAttribute("reponse", word);
             } else {
                 mot.className += " d-inline";
+                mot.innerText = word;
             }
             balise.appendChild(mot);
         }
@@ -99,7 +101,7 @@ function changeRandomHiddenMonument() {
 
 /* fonction qui donne la distance de Damerau-Levenshtein entre deux chaines de caractères passée en entrée*/
 
-let DEBUG_DLD = false;
+let DEBUG_DLD = true;
 
 /**
  * @description Fonction qui donne la distance de Damerau-Levenshtein entre deux chaines de caractères passée en entrée
@@ -142,7 +144,7 @@ function distanceDamerauLevenshtein(chaine1, chaine2) {
 function changerClasseElement(element, distance){
     // Reset default colors
     if (element.className.includes("bg-success"))
-        element.className = "text-dark d-inline me-1";
+        element.className = "text-dark d-inline me-1 mb-1";
     else if (element.className.includes("warning"))
         element.className = element.className.replaceAll("warning", "dark");
     else if (element.className.includes("danger"))
@@ -150,9 +152,10 @@ function changerClasseElement(element, distance){
 
     // Set new colors
     if (element.className.includes("bg")){
-        if (distance == 0)
-            element.className = element.className = "text-dark bg-success badge rounded me-1";
-        else if (distance <= 1)
+        if (distance == 0) {
+            element.className = element.className = "text-dark bg-success badge rounded me-1 mb-1";
+            element.innerText = element.getAttribute("reponse");
+        } else if (distance <= 1)
             element.className = element.className.replaceAll("dark", "danger");
         else if (distance <= 2)
             element.className = element.className.replaceAll("dark", "warning");
@@ -169,17 +172,23 @@ function uncoverWords() {
     if (word.length === 0) return;
     console.log(word);
     title.childNodes.forEach(element => {
-        const texteElement = element.innerText.toLocaleLowerCase();
-        const texteInput = word.toLocaleLowerCase();
-        const distance = distanceDamerauLevenshtein(texteElement, texteInput);
-        changerClasseElement(element, distance);
+        let reponse = element.getAttribute("reponse");
+        if(reponse){
+            const texteElement = reponse.toLocaleLowerCase();
+            const texteInput = word.toLocaleLowerCase();
+            const distance = distanceDamerauLevenshtein(texteElement, texteInput);
+            changerClasseElement(element, distance);
+        }
     });
 
     description.childNodes.forEach(element => {
-        const texteElement = element.innerText.toLocaleLowerCase();
-        const texteInput = word.toLocaleLowerCase();
-        const distance = distanceDamerauLevenshtein(texteElement, texteInput);
-        changerClasseElement(element, distance);
+        let reponse = element.getAttribute("reponse");
+        if(reponse){
+            const texteElement = reponse.toLocaleLowerCase();
+            const texteInput = word.toLocaleLowerCase();
+            const distance = distanceDamerauLevenshtein(texteElement, texteInput);
+            changerClasseElement(element, distance);
+        }
     });
 }
 
