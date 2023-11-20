@@ -31,11 +31,11 @@ function loadMonument(monument) {
         const description = document.getElementById("description");
 
         if (imageElement.clientWidth > imageElement.clientHeight) {
-            description.parentNode.className = "col-6";
-            imageElement.parentNode.className = "col-6";
+            description.parentNode.className = "col-12 col-md-6";
+            imageElement.parentNode.className = "col-12 col-md-6";
         } else {
-            description.parentNode.className = "col-9";
-            imageElement.parentNode.className = "col-3";
+            description.parentNode.className = "col-12 col-sm-6 col-md-9";
+            imageElement.parentNode.className = "col-12 col-sm-6 col-md-3";
         }
     });
 

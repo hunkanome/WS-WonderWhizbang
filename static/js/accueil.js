@@ -9,11 +9,11 @@ function resizeImage(event) {
 
     image.style.display = "";
     if (image.clientWidth > image.clientHeight) {
-        description.parentNode.className = "col-6";
-        image.parentNode.className = "col-6";
+        description.parentNode.className = "col-12 col-md-6";
+        image.parentNode.className = "col-12 col-md-6";
     } else {
-        description.parentNode.className = "col-9";
-        image.parentNode.className = "col-3";
+        description.parentNode.className = "col-12 col-sm-6 col-md-9";
+        image.parentNode.className = "col-12 col-sm-6 col-md-3";
     }
 }
 
