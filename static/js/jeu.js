@@ -6,6 +6,11 @@
 let nbTentatives = 0;
 
 /**
+ * 
+ */
+let isAlreadyWin = false;
+
+/**
  * Event listener for resizing the image when loaded
  * 
  * @param {Event} event 
@@ -52,7 +57,7 @@ function insertHiddenText(balise, texte) {
 
 function displayRandomHiddenMonument(monument) {
     nbTentatives = 0;
-    console.log(monument);
+    isAlreadyWin = false;
     const image = document.getElementById("picture");
     loadImage(image, monument.thumbnail, resizeImage);
 
@@ -169,9 +174,11 @@ function changerClasseElement(element, textInput, distance){
                 break;
             case 1:
                 element.className = element.className.replaceAll("text-dark", "text-danger");
+                element.className = element.className.replaceAll("text-white", "text-danger");
                 break;
             case 2:
                 element.className = element.className.replaceAll("text-dark", "text-warning");
+                element.className = element.className.replaceAll("text-white", "text-warning");
                 break;
         }
         if(distance == 1 || distance == 2){
@@ -188,6 +195,7 @@ function checkWin() {
         return !element.className.includes("bg-dark");
     });
     if (!win) return;
+    isAlreadyWin = true;
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
     const alert = document.createElement('div');
     alert.className = "alert alert-success alert-dismissible fade show";
@@ -205,7 +213,6 @@ function uncoverWords() {
     wordInput.value = "";
     word = word.trim();
     if (word.length === 0) return;
-    console.log(word);
     title.childNodes.forEach(element => {
         let reponse = element.getAttribute("reponse");
         if(reponse){
@@ -225,7 +232,7 @@ function uncoverWords() {
             changerClasseElement(element, texteInput, distance);
         }
     });
-    checkWin();
+    if (!isAlreadyWin) checkWin();
 }
 
 /**
