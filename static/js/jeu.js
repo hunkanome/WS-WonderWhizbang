@@ -1,3 +1,10 @@
+
+/**
+ * Compte le nombre de tentatives
+ * @type {number}
+ */
+let nbTentatives = 0;
+
 /**
  * Event listener for resizing the image when loaded
  * 
@@ -44,6 +51,7 @@ function insertHiddenText(balise, texte) {
 }
 
 function displayRandomHiddenMonument(monument) {
+    nbTentatives = 0;
     console.log(monument);
     const image = document.getElementById("picture");
     loadImage(image, monument.thumbnail, resizeImage);
@@ -175,7 +183,21 @@ function changerClasseElement(element, textInput, distance){
     }
 }
 
+function checkWin() {
+    let win = Array.from(title.childNodes).every(element => {
+        return !element.className.includes("bg-dark");
+    });
+    if (!win) return;
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+    const alert = document.createElement('div');
+    alert.className = "alert alert-success alert-dismissible fade show";
+    alert.setAttribute("role", "alert");
+    alert.innerText = `Vous avez gagné en ${nbTentatives} tentatives !`;	
+    alertPlaceholder.appendChild(alert);
+}
+
 function uncoverWords() {
+    nbTentatives++;
     /**
      * @type {string}
      */
@@ -203,6 +225,7 @@ function uncoverWords() {
             changerClasseElement(element, texteInput, distance);
         }
     });
+    checkWin();
 }
 
 /**
