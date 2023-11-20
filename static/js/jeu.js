@@ -56,8 +56,6 @@ function insertHiddenText(balise, texte) {
 }
 
 function displayRandomHiddenMonument(monument) {
-    nbTentatives = 0;
-    isAlreadyWin = false;
     const image = document.getElementById("picture");
     loadImage(image, monument.thumbnail, resizeImage);
 
@@ -104,6 +102,9 @@ function displayRandomHiddenMonument(monument) {
 function changeRandomHiddenMonument() {
     getRandomMonument()
         .then(data => {
+            nbTentatives = 0;
+            isAlreadyWin = false;
+            document.getElementById('liveAlertPlaceholder').innerHTML = "";
             displayRandomHiddenMonument(data);
         })
         .catch(error => {
@@ -111,10 +112,6 @@ function changeRandomHiddenMonument() {
             alert("Une erreur est survenue lors de la récupération du monument aléatoire");
         });
 }
-
-/* fonction qui donne la distance de Damerau-Levenshtein entre deux chaines de caractères passée en entrée*/
-
-let DEBUG_DLD = false;
 
 /**
  * @description Fonction qui donne la distance de Damerau-Levenshtein entre deux chaines de caractères passée en entrée
@@ -124,8 +121,6 @@ let DEBUG_DLD = false;
  * @see {@link https://fr.wikipedia.org/wiki/Distance_de_Damerau-Levenshtein}
  */
 function distanceDamerauLevenshtein(chaine1, chaine2) {
-    if (DEBUG_DLD)
-        console.log("distanceDamerauLevenshtein(" + chaine1 + ", " + chaine2 + ")");
     let distance = 0;
     let d = [];
     for (let i = 0; i <= chaine1.length; i++) {
@@ -154,23 +149,33 @@ function distanceDamerauLevenshtein(chaine1, chaine2) {
     return d[chaine1.length][chaine2.length];
 };
 
-function changerClasseElement(element, textInput, distance){
-    // Reset default colors
-    if (element.className.includes("bg-success"))
+/**
+ * Fonction qui change la classe d'un élément en fonction de la distance de Damerau-Levenshtein entre la réponse et le texte de l'élément
+ * @param {HTMLElement} element
+ * @param {string} textInput
+ */
+function changerClasseElement(element, textInput){
+    const reponse = element.getAttribute("reponse");
+    // If the element has already been found make it look like normal text
+    if (element.innerText == reponse){
         element.className = "text-dark d-inline me-1 mb-1";
-    else if (element.className.includes("warning"))
+        element.removeAttribute("reponse");
+        return;
+    }
+    // Reset text color
+    if (element.className.includes("warning"))
         element.className = element.className.replaceAll("text-warning", "text-white");
     else if (element.className.includes("danger"))
         element.className = element.className.replaceAll("text-danger", "text-white");
 
-    // Set new colors
-    if (element.className.includes("bg")){
-        let dist1 = distanceDamerauLevenshtein(element.getAttribute("reponse"), element.innerText);
-        let dist2 = distanceDamerauLevenshtein(element.getAttribute("reponse"), textInput);
+    const distance = distanceDamerauLevenshtein(reponse.toLocaleLowerCase(), textInput.toLocaleLowerCase());
+    const distanceOld = distanceDamerauLevenshtein(element.getAttribute("reponse"), element.innerText);
+
+    if ((distance <= distanceOld || element.innerText.includes("_")) && distance <= 2){
+        element.innerText = distance == 0 ? reponse : textInput;
         switch (distance) {
             case 0:
                 element.className = element.className = "text-white bg-success badge rounded me-1 mb-1";
-                element.innerText = element.getAttribute("reponse");
                 break;
             case 1:
                 element.className = element.className.replaceAll("text-dark", "text-danger").replaceAll("text-white", "text-danger");
@@ -179,9 +184,13 @@ function changerClasseElement(element, textInput, distance){
                 element.className = element.className.replaceAll("text-dark", "text-warning").replaceAll("text-white", "text-warning");
                 break;
         }
-        if((distance == 1 || distance == 2) && (dist2 < dist1 || element.innerText.includes("_")))
-            element.innerText = textInput;
     }
+}
+
+function changeClassChildNodes(parentElement, textInput){
+    Array.from(parentElement.childNodes)
+        .filter(elem => { return elem.hasAttribute("reponse") })
+        .forEach(element => { changerClasseElement(element, textInput); });
 }
 
 function checkWin() {
@@ -207,25 +216,8 @@ function uncoverWords() {
     wordInput.value = "";
     word = word.trim();
     if (word.length === 0) return;
-    title.childNodes.forEach(element => {
-        let reponse = element.getAttribute("reponse");
-        if(reponse){
-            const texteElement = reponse.toLocaleLowerCase();
-            const texteInput = word.toLocaleLowerCase();
-            const distance = distanceDamerauLevenshtein(texteElement, texteInput);
-            changerClasseElement(element, texteInput, distance);
-        }
-    });
-
-    description.childNodes.forEach(element => {
-        let reponse = element.getAttribute("reponse");
-        if(reponse){
-            const texteElement = reponse.toLocaleLowerCase();
-            const texteInput = word.toLocaleLowerCase();
-            const distance = distanceDamerauLevenshtein(texteElement, texteInput);
-            changerClasseElement(element, texteInput, distance);
-        }
-    });
+    changeClassChildNodes(title, word);
+    changeClassChildNodes(description, word);
     if (!isAlreadyWin) checkWin();
 }
 
