@@ -208,22 +208,6 @@ async function searchMonumentsByTerm(term) {
     return result;
 }
 
-/**
- * Fonction wrapper pour toutes les fonctions de recherche de plusieurs monuments
- * @param {string} type Pays ou Nom (la casse est importante)
- * @param {string} recherche le texte de la recherche 
- * @returns {Array.<JSON>} la liste des monuments
- */
-async function getMonuments(type, recherche) {
-    if (type == "Pays") {
-        return await getMonumentsByCountry(recherche).catch(error => {
-            console.error("Error : ", error);
-        });
-    }
-    return await searchMonumentsByTerm(recherche).catch(error => {
-        console.error("Error : ", error);
-    });
-}
 
 /**
  * Retrieve a random monument from DBpedia

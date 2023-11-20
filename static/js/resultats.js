@@ -73,7 +73,19 @@ function hydratePage() {
         return;
     }
     const researchType = urlParameters.get('type');
-    getMonuments(researchType, researchTerm)
+    let monumentsPromise;
+    if (researchType === "") {
+        statsRecherche.innerText = "Aucun type de recherche n'a été spécifié";
+        return;
+    } else if (researchType === "Pays") {
+        monumentsPromise = getMonumentsByCountry(researchTerm);
+    } else {
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = researchTerm;
+        monumentsPromise = searchMonumentsByTerm(researchTerm);
+    }
+
+    monumentsPromise
         .then(monuments => {
             createMap(monuments);
             monuments.forEach(monument => {
