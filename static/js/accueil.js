@@ -5,10 +5,13 @@
  */
 function resizeImage(event) {
     const image = event.target;
-    const description = document.getElementById("description");
-
+    const description = document.getElementById("description");  
+    
     image.style.display = "";
-    if (image.clientWidth > image.clientHeight) {
+    if (image.src.toLowerCase().includes("static/img/unesco.png")) {
+        description.parentNode.className = "col-12";
+        image.parentNode.className = "d-none";
+    } else if (image.clientWidth > image.clientHeight) {
         description.parentNode.className = "col-12 col-md-6";
         image.parentNode.className = "col-12 col-md-6";
     } else {

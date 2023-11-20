@@ -30,7 +30,10 @@ function loadMonument(monument) {
     loadImage(imageElement, monument.thumbnail, (_) => {
         const description = document.getElementById("description");
 
-        if (imageElement.clientWidth > imageElement.clientHeight) {
+        if (image.src.toLowerCase().includes("static/img/unesco.png")) {
+            description.parentNode.className = "col-12";
+            image.parentNode.className = "d-none";
+        } else if (imageElement.clientWidth > imageElement.clientHeight) {
             description.parentNode.className = "col-12 col-md-6";
             imageElement.parentNode.className = "col-12 col-md-6";
         } else {
