@@ -29,10 +29,11 @@ function loadMonument(monument) {
     monument.thumbnail = monument.thumbnail ? monument.thumbnail : "static/img/unesco.png";
     loadImage(imageElement, monument.thumbnail, (_) => {
         const description = document.getElementById("description");
+        const imageSrc = imageElement.src;
 
-        if (image.src.toLowerCase().includes("static/img/unesco.png")) {
+        if (imageSrc.toLowerCase().includes("static/img/unesco.png")) {
             description.parentNode.className = "col-12";
-            image.parentNode.className = "d-none";
+            imageElement.parentNode.className = "d-none";
         } else if (imageElement.clientWidth > imageElement.clientHeight) {
             description.parentNode.className = "col-12 col-md-6";
             imageElement.parentNode.className = "col-12 col-md-6";
