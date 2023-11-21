@@ -236,6 +236,15 @@ function hydratePage() {
     const params = new URLSearchParams(document.location.search);
     const monumentUri = params.get("monument");
 
+    // If no monument uri is provided, display an error message and return
+    if (monumentUri === null || monumentUri === "") {
+        console.error("No monument uri provided");
+        const imageElement = document.getElementById("picture");
+        imageElement.src = "static/img/unesco.png";
+        alert("Aucun monument n'a été fourni");
+        return;
+    }
+
     getMonumentByURI(monumentUri)
         .then(monumentRes => {
             monument = monumentRes;
