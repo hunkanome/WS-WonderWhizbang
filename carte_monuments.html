@@ -22,6 +22,7 @@
     <script src="scripts/dbpedia.js"></script>
     <script src="scripts/recherche.js"></script>
     <script src="scripts/utils.js"></script>
+    <script src="scripts/map.js"></script>
     <script src="static/js/carte_monuments.js"></script>
     <script src="static/js/image.js"></script>
 </head>
@@ -41,7 +42,8 @@
             <span class="d-inline d-md-none">Favoris</span>
         </a>
 
-        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="carte_monuments.html">
+        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2"
+            href="carte_monuments.html">
             <span class="d-none d-md-inline">Carte du monde</span>
             <span class="d-inline d-md-none">Carte</span>
         </a>
@@ -53,11 +55,11 @@
 
         <form class="input-group ms-auto w-25 flex-shrink-1" id="recherche" method="get" action="resultats.html">
             <input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher un monument">
-            <input id="searchButton" type="submit" class="btn" value="   " >
+            <input id="searchButton" type="submit" class="btn" value="   ">
         </form>
     </header>
 
-	<main class="overflow-y-auto pt-3">
+    <main class="overflow-y-auto pt-3">
         <div id="map" class="w-100" style="height:80vh;"></div>
     </main>
 </body>

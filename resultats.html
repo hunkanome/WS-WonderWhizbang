@@ -19,9 +19,11 @@
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
 		</script>
+
 	<script defer src="scripts/dbpedia.js"></script>
 	<script defer src="scripts/recherche.js"></script>
 	<script defer src="scripts/utils.js"></script>
+	<script defer src="scripts/map.js"></script>
 	<script defer src="static/js/card.js"></script>
 	<script defer src="static/js/resultats.js"></script>
 	<script defer src="static/js/image.js"></script>
@@ -30,35 +32,36 @@
 </head>
 
 <body class="d-flex flex-column">
-    <header class="d-flex align-items-center sticky-top p-3">
-        <a class="text-decoration-none me-lg-2 pe-2 pe-lg-0" href="index.html">
-            <img src="static/img/logo.png" alt="Logo de WonderWhizbang">
-        </a>
+	<header class="d-flex align-items-center sticky-top p-3">
+		<a class="text-decoration-none me-lg-2 pe-2 pe-lg-0" href="index.html">
+			<img src="static/img/logo.png" alt="Logo de WonderWhizbang">
+		</a>
 
-        <a class="text-decoration-none d-none d-xl-block text-black" href="index.html">
-            <h1 id="WonderWhizbang" class="me-2 mb-0">WonderWhizbang</h1>
-        </a>
+		<a class="text-decoration-none d-none d-xl-block text-black" href="index.html">
+			<h1 id="WonderWhizbang" class="me-2 mb-0">WonderWhizbang</h1>
+		</a>
 
-        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="favoris.html">
-            <span class="d-none d-md-inline">Mes favoris</span>
-            <span class="d-inline d-md-none">Favoris</span>
-        </a>
+		<a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="favoris.html">
+			<span class="d-none d-md-inline">Mes favoris</span>
+			<span class="d-inline d-md-none">Favoris</span>
+		</a>
 
-        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="carte_monuments.html">
-            <span class="d-none d-md-inline">Carte du monde</span>
-            <span class="d-inline d-md-none">Carte</span>
-        </a>
+		<a class="text-decoration-none border-start text-black text-nowrap border-black px-2"
+			href="carte_monuments.html">
+			<span class="d-none d-md-inline">Carte du monde</span>
+			<span class="d-inline d-md-none">Carte</span>
+		</a>
 
-        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="jeu.html">
-            <span class="d-none d-md-inline">Pédant'IF</span>
-            <span class="d-inline d-md-none">P'IF</span>
-        </a>
+		<a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="jeu.html">
+			<span class="d-none d-md-inline">Pédant'IF</span>
+			<span class="d-inline d-md-none">P'IF</span>
+		</a>
 
-        <form class="input-group ms-auto w-25 flex-shrink-1" id="recherche" method="get" action="resultats.html">
-            <input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher un monument">
-            <input id="searchButton" type="submit" class="btn" value="   " >
-        </form>
-    </header>
+		<form class="input-group ms-auto w-25 flex-shrink-1" id="recherche" method="get" action="resultats.html">
+			<input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher un monument">
+			<input id="searchButton" type="submit" class="btn" value="   ">
+		</form>
+	</header>
 
 	<main class="container overflow-y-auto pt-3">
 		<div class="row">

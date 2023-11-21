@@ -89,7 +89,7 @@ function loadMonument(monument) {
         coeur.className = "bi bi-heart-fill mb-0 text-danger";
 
     if (monument.position?.latitude && monument.position.longitude)
-        createMap(monument);
+        createMap([monument]);
 
     const boutonFavoris = document.getElementById('btnAddFavorite');
     boutonFavoris.addEventListener("click", addOrDeleteFavorite);
