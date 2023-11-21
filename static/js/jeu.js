@@ -28,7 +28,7 @@ function resizeImage(event) {
         image.parentNode.className = "col-12 col-md-6";
     } else {
         description.parentNode.className = "col-12 col-sm-6 col-md-9";
-        image.parentNode.className = "col-12 col-sm-6 col-md-9";
+        image.parentNode.className = "col-12 col-sm-6 col-md-3";
     }
 }
 
