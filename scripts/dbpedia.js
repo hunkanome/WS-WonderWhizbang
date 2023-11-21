@@ -58,14 +58,7 @@ async function requestDBpedia(query) {
             localStorage.setItem(query, JSON.stringify(cacheData));
         } catch (error) {
             console.error('local storage full, emptying it');
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                const value = localStorage.getItem(key);
-                const data = JSON.parse(value);
-                if (data.timestamp < Date.now() - cacheDuration) {
-                    localStorage.removeItem(key);
-                }
-            }
+            cleanCache();
         }
     }
 
@@ -111,4 +104,26 @@ function sizeOfObject(object) {
         }
     }
     return bytes;
+}
+
+/**
+ * Clean the cache of the local storage.
+ * 
+ * All the data with a timestamp older than the cache duration is removed.
+ */
+function cleanCache() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+
+        if (key in ['favorites']) {
+            continue;
+        }
+
+        const value = localStorage.getItem(key);
+        const data = JSON.parse(value);
+        if (data.timestamp < Date.now() - cacheDuration) {
+            console.log('removing', key);
+            localStorage.removeItem(key);
+        }
+    }
 }
