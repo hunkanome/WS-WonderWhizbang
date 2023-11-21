@@ -38,7 +38,8 @@
             <span class="d-inline d-md-none">Favoris</span>
         </a>
 
-        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2" href="carte_monuments.html">
+        <a class="text-decoration-none border-start text-black text-nowrap border-black px-2"
+            href="carte_monuments.html">
             <span class="d-none d-md-inline">Carte du monde</span>
             <span class="d-inline d-md-none">Carte</span>
         </a>
@@ -50,11 +51,11 @@
 
         <form class="input-group ms-auto w-25 flex-shrink-1" id="recherche" method="get" action="resultats.html">
             <input id="searchInput" type="text" name="search" class="form-control" placeholder="Rechercher un monument">
-            <input id="searchButton" type="submit" class="btn" value="   " >
+            <input id="searchButton" type="submit" class="btn" value="   ">
         </form>
     </header>
 
-	<main class="container overflow-y-auto pt-3">
+    <main class="container overflow-y-auto pt-3">
         <!-- Random monument -->
         <section>
             <div class="row">
@@ -68,14 +69,7 @@
         </section>
         <section id="bloc-detail" class="row">
             <div class="col-6">
-                <h2 class="border-bottom border-black pb-2 mb-2">
-                    <a id="article-link" class="d-flex text-decoration-none text-dark">
-                        <span id="title"></span>
-                        <span class="align-self-start ms-1">
-                            <img src="static/img/arrow.svg" alt="Icône lien article">
-                        </span>
-                    </a>
-                </h2>
+                <h2 id="title" class="border-bottom border-black pb-2 mb-2"> Titre </h2>
                 <p id="description" class="d-flex flex-wrap"></p>
                 <p id="year"></p>
                 <p id="location"></p>
@@ -86,10 +80,15 @@
         </section>
 
         <div class="d-flex mb-3">
-            <button id="random-btn" class="d-flex align-items-center rounded px-2 fs-4">
+            <a id="random-btn" class="bouton-noir d-flex align-items-center rounded text-decoration-none  px-2 fs-4">
                 <span>Un autre</span>
                 <img class="ps-2" src="static/img/dice.svg" alt="Icône de dé">
-            </button>
+            </a>
+            <a id="article-link"
+                class="bouton-noir d-flex align-items-center rounded text-decoration-none px-2 ms-2 fs-4">
+                <span>Solution</span>
+                <img class="ps-2" src="static/img/bulb.svg" alt="Icône d'ampoule">
+            </a>
         </div>
     </main>
 </body>

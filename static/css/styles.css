@@ -12,7 +12,8 @@ body {
     background-color: var(--background) !important;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
@@ -86,20 +87,21 @@ section {
 }
 
 /* Bouton aléatoire */
-#random-btn {
+.bouton-noir {
     background-color: var(--button);
     color: var(--background);
     transition-duration: .2s;
 }
 
 /* Animation bouton aléatoire */
-#random-btn:hover {
+.bouton-noir:hover {
     filter: drop-shadow(0 0px 10px black);
     transform: translateY(-0.2em);
+    cursor: pointer;
 }
 
 /* Icône du dé */
-#random-btn img {
+.bouton-noir img {
     width: 1.5em;
     filter: invert(99%) sepia(5%) saturate(1143%) hue-rotate(198deg) brightness(118%) contrast(87%);
 }
@@ -152,7 +154,8 @@ h1 {
     font-size: 2rem;
 }
 
-h2, h2 * {
+h2,
+h2 * {
     font-family: 'HeptaSlab', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
     color: black !important;
 }
