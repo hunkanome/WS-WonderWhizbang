@@ -45,6 +45,7 @@ function hydratePage() {
     const startTime = new Date().getTime();
     const urlParameters = new URLSearchParams(window.location.search);
     const researchTerm = urlParameters.get('search');
+    const statsRecherche = document.getElementById("stats");
     if (researchTerm === null || researchTerm === "") {
         statsRecherche.innerText = "Aucun terme de recherche n'a été spécifié";
         return;
