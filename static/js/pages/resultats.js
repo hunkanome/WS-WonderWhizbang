@@ -6,30 +6,6 @@
  * Note : Si le texte de la recherche contient plusieurs mots séparés par des espaces if faut les remplacer par des tirets du bas / tirets du 8 / underscores
  */
 
-
-/**
- * Ligne de la grille Bootstrap contenant les cartes
- * @type {HTMLDivElement}
- */
-const resultContainer = document.getElementById("resultContainer");
-
-/**
- * Élément contenant des statistiques sur la recherche
- */
-const statsRecherche = document.getElementById("stats");
-
-/**
- * Parametres de l'url
- * @type {URLSearchParams}
- */
-const urlParameters = new URLSearchParams(window.location.search);
-
-/** 
- * Entrée contenant le texte de la recherche
- * @type {HTMLInputElement}
-*/
-const champRecherche = document.getElementById('searchInput');
-
 /**
  * Transforme réponse en une liste de monuments chacun ayant une liste d'images
  * @param {Array.<JSON>} response la réponse de la requête SPARQL à DBpedia
@@ -67,6 +43,7 @@ function formatResult(response) {
  */
 function hydratePage() {
     const startTime = new Date().getTime();
+    const urlParameters = new URLSearchParams(window.location.search);
     const researchTerm = urlParameters.get('search');
     if (researchTerm === null || researchTerm === "") {
         statsRecherche.innerText = "Aucun terme de recherche n'a été spécifié";
@@ -90,9 +67,11 @@ function hydratePage() {
             createMap(monuments);
             monuments.forEach(monument => {
                 const card = createCard(monument);
+                const resultContainer = document.getElementById("resultContainer");
                 resultContainer.appendChild(card);
             })
             const timespan = new Date().getTime() - startTime;
+            const statsRecherche = document.getElementById("stats");
             statsRecherche.innerText = `${monuments.length > 0 ? monuments.length : "Aucun"} résultat${monuments.length > 1 ? "s" : ""} pour "${researchTerm}" en ${timespan} ms`;
         })
         .catch(error => {

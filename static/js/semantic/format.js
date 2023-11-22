@@ -1,7 +1,3 @@
-function formatResult(data) {
-    return data.results.bindings;
-}
-
 /**
  * Retrieve the value of the property if it exists
  * 

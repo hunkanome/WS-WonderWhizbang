@@ -5,17 +5,6 @@
 
 
 /**
- * Ligne de la grille Bootstrap contenant les cartes
- * @type {HTMLDivElement}
- */
-
-/**
- * Message d'erreur
- */
-let messageField = document.getElementById("messageField");
-
-
-/**
  * Hydrates the page with information about the favorites
  * Also set the event listeners
  * 
@@ -39,6 +28,7 @@ function hydratePage() {
         });
     } else {
         console.log("Aucun favori enregistré");
+        const messageField = document.getElementById("messageField");
         messageField.innerHTML = "Aucun favori enregistré";
     }
 
