@@ -1,29 +1,48 @@
-WhonderWhizbang/
-|-- scripts/
-|   |-- dbpedia.js
-|   |-- recherche.js
-|   |-- utils.js
-|-- static/
-|   |-- audio/
-|   |   |-- aroundtheworld_long.mp3
-|   |   |-- aroundtheworld.mp3
-|   |-- css/
-|   |   |-- resultats.css
-|   |   |-- styles.css
-|   |-- fonts/
-|   |   |-- Amagro.woff2
-|   |   |-- HeptaSlab.woff2
-|   |   |-- Rubik.woff2
-|   |-- img/
-|   |   |-- dice.svg
-|   |   |-- logo.png
-|   |-- js/
-|   |   |-- accueil.js
-|   |   |-- favoris.js
-|   |   |-- resultats.js
-|   |   |-- contenu.js
-|-- index.html
-|-- favoris.html
-|-- resultats.html
-|-- contenu.html
-|-- favicon.ico
+│   carte_monuments.html
+│   contenu.html
+│   favicon.ico
+│   favoris.html
+│   index.html
+│   jeu.html
+│   resultats.html
+│   
+└───static
+    ├───css
+    │       resultats.css
+    │       styles.css
+    │
+    ├───fonts
+    │       Amagro.woff2
+    │       HeptaSlab.woff2
+    │       Rubik.woff2
+    │
+    ├───img
+    │       arrow.svg
+    │       bulb.svg
+    │       dice.svg
+    │       heart-empty.svg
+    │       heart-full.svg
+    │       link.svg
+    │       loading.gif
+    │       logo.png
+    │       search.svg
+    │       unesco.png
+    │
+    └───js
+        ├───components
+        │       card.js
+        │       image.js
+        │       map.js
+        │
+        ├───pages
+        │       accueil.js
+        │       carte_monuments.js
+        │       contenu.js
+        │       favoris.js
+        │       jeu.js
+        │       resultats.js
+        │
+        └───semantic
+                dbpedia.js
+                format.js
+                research.js
