@@ -284,17 +284,46 @@ async function getAllMonumentsPosition() {
 async function getRelatedMonuments(monumentUri) {
     const query = `
         SELECT ?uri ?label ?abstract ?thumbnail WHERE {
-            <${monumentUri}> dbp:partOf ?whole.
-            ?uri dbp:partOf ?whole;
-                rdfs:label ?label
-        
-            OPTIONAL {?uri dbo:abstract ?abstract}.
-            OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
-        
-            FILTER (?uri != <${monumentUri}>)
-            FILTER (lang(?label) = "fr")
-            FILTER (lang(?abstract) = "fr")
-        }
+            {
+                <${monumentUri}> dbp:partOf ?whole.
+                ?uri dbp:partOf ?whole;
+                    rdfs:label ?label;
+                    rdf:type dbo:WorldHeritageSite.
+            
+                OPTIONAL {?uri dbo:abstract ?abstract}.
+                OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+            
+                FILTER (?uri != <${monumentUri}>)
+                FILTER (lang(?label) = "fr")
+                FILTER (lang(?abstract) = "fr")
+            }
+            UNION
+            {
+                <${monumentUri}> dbp:partOf ?uri.
+                ?uri rdfs:label ?label;
+                    rdf:type dbo:WorldHeritageSite.
+            
+                OPTIONAL {?uri dbo:abstract ?abstract}.
+                OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+            
+                FILTER (?uri != <${monumentUri}>)
+                FILTER (lang(?label) = "fr")
+                FILTER (lang(?abstract) = "fr")
+            }
+            UNION
+            {
+                ?uri dbp:partOf <${monumentUri}>;
+                    rdfs:label ?label;
+                    rdf:type dbo:WorldHeritageSite.
+            
+                OPTIONAL {?uri dbo:abstract ?abstract}.
+                OPTIONAL {?uri dbo:thumbnail ?thumbnail}.
+            
+                FILTER (?uri != <${monumentUri}>)
+                FILTER (lang(?label) = "fr")
+                FILTER (lang(?abstract) = "fr")
+            }
+        } ORDER BY ?label
     `;
 
     const result = await requestDBpedia(query)

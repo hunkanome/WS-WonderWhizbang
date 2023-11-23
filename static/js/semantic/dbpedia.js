@@ -18,6 +18,8 @@ const cacheDuration = 1000 * 60 * 5; // 5 minutes
  *   });
  *  */
 async function requestDBpedia(query) {
+    console.debug(query);
+
     const cachedResult = localStorage.getItem(query);
     if (cachedResult && Date.now() - JSON.parse(cachedResult).timestamp < cacheDuration) {
         console.log('cached result');
