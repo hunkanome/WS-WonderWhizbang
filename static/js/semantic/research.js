@@ -276,34 +276,6 @@ async function getAllMonumentsPosition() {
 }
 
 /**
- * Retrive the label and thumbnail of a monument
- * 
- * @param {string} uri uri du monument
- * @returns {Array.<JSON>} infos
- */
-async function getShortInfoMonumentByURI(uri) {
-    const query = `
-        SELECT ?label ?thumbnail WHERE {
-            <${uri}> rdfs:label ?label.
-
-            OPTIONAL {<${uri}> dbo:thumbnail ?thumbnail}.
-            FILTER (lang(?label) = "fr")
-        }
-    `;
-
-    const result = await requestDBpedia(query)
-        .then(data => {
-            return formatMonument(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            return [];
-        });
-
-    return result;
-}
-
-/**
  * Retrive all the monuments part of the same whole as the given monument
  * 
  * @param {string} monumentUri 
