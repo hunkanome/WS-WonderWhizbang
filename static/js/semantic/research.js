@@ -145,8 +145,7 @@ async function getLightMonumentByURI(uri) {
 async function getMonumentsByCountry(countryUri) {
     const query = `
         SELECT * WHERE {
-            ?uri
-                a dbo:WorldHeritageSite;
+            ?uri a dbo:WorldHeritageSite;
                 rdfs:label ?label;
                 dbp:locmapin ?locmapin.
             OPTIONAL {?uri dbo:abstract ?abstract}.
